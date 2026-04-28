@@ -1,0 +1,77 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/jost/jost-black.ttf",
+      "sha1": "9a2651629a589c28901bb88ce771d0957eeeb9ec"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-blackitalic.ttf",
+      "sha1": "5913bdda5e84aef1dfa779451dfab3d19291cd1b"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-bold.ttf",
+      "sha1": "d112ee0361cb58be91c38161b0a8e43ff2cff827"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-bolditalic.ttf",
+      "sha1": "badfc75016c8d3bd7999a688e75d220bf643932b"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-extrabold.ttf",
+      "sha1": "ba30f1e14477d3c4a23ef04e236129280dffdae6"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-extrabolditalic.ttf",
+      "sha1": "15a46be268cf3586c013b3bd400462677484562a"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-extralight.ttf",
+      "sha1": "df8c6da9dfe69c2bbb409eb373a65928933deacf"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-extralightitalic.ttf",
+      "sha1": "4e9a438506810942b9df1808aaf1473fdd29eb08"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-italic.ttf",
+      "sha1": "a945463fa91132a6a7774dd7c1f09d8ea2fe5f46"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-light.ttf",
+      "sha1": "e532c62121640abb1b764f6ec54f7549a10e19f4"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-lightitalic.ttf",
+      "sha1": "e8ad9d960be9bbd1ab85d9d5debebb8e1879d60e"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-medium.ttf",
+      "sha1": "4a4abef46a165bc7468d240f70fdb948f12e97f7"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-mediumitalic.ttf",
+      "sha1": "11e7f3dc31bc3897e3ebd46edd6a5a3097e37258"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-regular.ttf",
+      "sha1": "63de8f35a2b969d64b1e4012d26a38e8be1e01ae"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-semibold.ttf",
+      "sha1": "821b29df9460d499d2862b0b9d809ab295997c87"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-semibolditalic.ttf",
+      "sha1": "b217b503b92db1acd34be7685095df969c36a6d7"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-thin.ttf",
+      "sha1": "6111a940b6dcdfe8a4f8d2f692d8921c52228eb8"
+    },
+    {
+      "path": "src/assets/fonts/jost/jost-thinitalic.ttf",
+      "sha1": "b3944bbd0685c567f5a8827c06678ff66d5f4440"
+    }
+  ]
+}
