@@ -53,12 +53,12 @@ export default function BootLoadingScreen({navigation}) {
 						<Icon name="diamond" size={28} color={"white"}/>
 					</View>
 				</View>
-				<AppText style={styles.brandText} weight="semibold" size="4xl">BonApp</AppText>
-				<AppText style={styles.sloganText} weight="light" size="xl">THE FINANCIAL ATELIER</AppText>
+				<AppText style={styles.brandText} font="semibold" size="4xl">BonApp</AppText>
+				<AppText style={styles.sloganText} font="light" size="xl">THE FINANCIAL ATELIER</AppText>
 			</View>
 			<View>
 				<Animated.View style={[styles.progressBar, progressStyle]} />
-				<AppText style={[styles.sloganText, {marginTop: 40, opacity:0.5}]} size="xs" weight="semibold">SECURE ACCESS</AppText>
+				<AppText style={[styles.sloganText, {marginTop: 40, opacity:0.5}]} size="xs" font="semibold">SECURE ACCESS</AppText>
 				<View style={{flexDirection:"row", justifyContent:"center",alignContent:"center", marginTop:8, opacity:0.4}}>
 					<Icon name="lock" size={10} color={"white"}/>
 					<AppText style={{marginLeft:8}} size="2xs">ENCRYPTED END-TO-END</AppText>
