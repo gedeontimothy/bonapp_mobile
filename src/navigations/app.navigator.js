@@ -7,14 +7,14 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
 	return (
 		<Stack.Navigator
-			initialRouteName="Welcome"
+			initialRouteName="guest.welcome"
 			screenOptions={{ headerShown: true }}
 		>
 
 			{/* ----- Guest ----- */}
 			<Stack.Group>
 				<Stack.Screen
-					name="Welcome"
+					name="guest.welcome"
 					component={screens.guest.WelcomeScreen}
 					options={{ headerShown: false }}
 				/>
