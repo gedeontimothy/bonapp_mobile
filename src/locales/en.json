@@ -1,0 +1,15 @@
+{
+	"welcome" : "Welcome !",
+	"errors" : {
+		"base" : "Error"
+	},
+	"lang" : {
+		"base": "Language",
+		"en" : "English",
+		"fr" : "French - Français",
+		"errors" : {
+			"already" : "Language \"{{language}}\" is already defined.",
+			"not-available" : "Language \"{{language}}\" is not supported."
+		}
+	}
+}
