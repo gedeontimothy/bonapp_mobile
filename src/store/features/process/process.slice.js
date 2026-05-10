@@ -4,14 +4,14 @@ import { is_number, is_string } from '../../../utils/check';
 const initialState = {
 	processes : {
 		lang : {},
-		setting : {},
+		settings : {},
 	},
 	countProcessesOnPending : {
 		lang : {
 			global : 0,
 			action : {},
 		},
-		setting : {
+		settings : {
 			global : 0,
 			action : {},
 		},
