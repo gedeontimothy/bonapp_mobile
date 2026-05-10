@@ -20,5 +20,26 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>jost-black.ttf</string>
+		<string>jost-blackitalic.ttf</string>
+		<string>jost-bold.ttf</string>
+		<string>jost-bolditalic.ttf</string>
+		<string>jost-extrabold.ttf</string>
+		<string>jost-extrabolditalic.ttf</string>
+		<string>jost-extralight.ttf</string>
+		<string>jost-extralightitalic.ttf</string>
+		<string>jost-italic.ttf</string>
+		<string>jost-light.ttf</string>
+		<string>jost-lightitalic.ttf</string>
+		<string>jost-medium.ttf</string>
+		<string>jost-mediumitalic.ttf</string>
+		<string>jost-regular.ttf</string>
+		<string>jost-semibold.ttf</string>
+		<string>jost-semibolditalic.ttf</string>
+		<string>jost-thin.ttf</string>
+		<string>jost-thinitalic.ttf</string>
+	</array>
 </dict>
 </plist>
