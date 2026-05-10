@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	View,
 	Text,
 	StyleSheet,
 	StatusBar,
 	Platform,
+	AccessibilityInfo,
 } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, withRepeat } from 'react-native-reanimated';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
@@ -16,6 +17,8 @@ import spacing from '../theme/spacing';
 import AppText from '../components/AppText';
 
 export default function BootLoadingScreen({navigation}) {
+
+	const [animate, setAnimate] = useState(false);
 
 	const progress = useSharedValue(5);
 
@@ -39,10 +42,15 @@ export default function BootLoadingScreen({navigation}) {
 		StatusBar.setBackgroundColor(color.primary);
 		changeNavigationBarColor(color.primary, true);
 
-		setTimeout(() => {
-			startInfiniteAnimation(60);
-		}, 200);
+		const checkReduceMotion = async () => setAnimate(!(await AccessibilityInfo.isReduceMotionEnabled()));
+
+		checkReduceMotion();
 	}, []);
+	
+	useEffect(() => {
+		if(animate)
+			startInfiniteAnimation(60);
+	}, [animate, startInfiniteAnimation]);
 
 	return (
 		<View style={styles.container}>
@@ -60,8 +68,8 @@ export default function BootLoadingScreen({navigation}) {
 				<Animated.View style={[styles.progressBar, progressStyle]} />
 				<AppText style={[styles.sloganText, {marginTop: 40, opacity:0.5}]} size="xs" font="semibold">SECURE ACCESS</AppText>
 				<View style={{flexDirection:"row", justifyContent:"center",alignContent:"center", marginTop:8, opacity:0.4}}>
-					<Icon name="lock" size={10} color={"white"}/>
-					<AppText style={{marginLeft:8}} size="2xs">ENCRYPTED END-TO-END</AppText>
+					<Icon name="lock" size={10} color="white"/>
+					<AppText color="white" style={{marginLeft:8}} size="2xs">ENCRYPTED END-TO-END</AppText>
 				</View>
 			</View>
 		</View>
