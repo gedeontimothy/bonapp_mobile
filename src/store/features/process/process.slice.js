@@ -34,23 +34,24 @@ export const processSlice = createSlice({
 		 * @param {string} action.payload.actionType - Type of action
 		 * @param {string} action.payload.processSliceName - Category of the process (e.g., "lang")
 		 * @param {string} action.payload.processState - Initial process state (default value = "pending")
-		 * @param {string} action.payload.progress
-		 * @param {string} action.payload.error
+		 * @param {string} action.payload.progress - Process progression (default value = null)
+		 * @param {string} action.payload.error - Error message (default value = null)
+		 * @param {string} action.payload.requestId - Request ID (default value = null)
 		 */
 		addProcess(state, action){
-			const {code, actionType, processSliceName, processState, progress, error} = action.payload;
-			const state_ = processState ?? "pending";
+			const {code, actionType, processSliceName, processState = "pending", progress = null, error = null, requestId = null} = action.payload;
 
-			if(state.processes?.[processSliceName]){
+			if(is_string(code) && state.processes?.[processSliceName] && !(state.processes[processSliceName]?.[code])){
 
 				state.processes[processSliceName][code] = {
 					actionType,
-					processState : state_,
-					progress: progress ?? null,
-					error : error ?? null,
+					processState,
+					progress: progress,
+					error : error,
+					requestId,
 				};
 
-				if(state_ === 'pending')
+				if(processState === 'pending')
 					processSlice.caseReducers.increaseCountProcessPending(
 						state,
 						{payload: {
@@ -143,7 +144,7 @@ export const processSlice = createSlice({
 		 * @param {string} action.payload.processSliceName
 		 * @param {string} action.payload.code
 		 */
-		isPendingProcessState(state, action){
+		markPendingProcessState(state, action){
 			const { processSliceName, code } = action.payload;
 			if(state.processes?.[processSliceName]?.[code] && state.processes[processSliceName][code].processState !== 'pending'){
 				processSlice.caseReducers.setProcessState(state, {payload: {
@@ -159,14 +160,18 @@ export const processSlice = createSlice({
 		 *
 		 * @param {object} state
 		 * @param {object} action
+		 * @param {string} action.payload.processSliceName
+		 * @param {string} action.payload.code
+		 * @param {string} action.payload.error
 		 */
-		isRejectedProcessState(state, action){
-			const { processSliceName, code } = action.payload;
+		markRejectedProcessState(state, action){
+			const { processSliceName, code, error = null } = action.payload;
 			if(state.processes?.[processSliceName]?.[code] && state.processes[processSliceName][code].processState !== 'rejected'){
 				processSlice.caseReducers.setProcessState(state, {payload: {
 					processSliceName,
 					code,
-					processState: "rejected"
+					processState: "rejected",
+					error : error ?? state.processes[processSliceName][code].error
 				}});
 			}
 		},
@@ -176,8 +181,10 @@ export const processSlice = createSlice({
 		 *
 		 * @param {object} state
 		 * @param {object} action
+		 * @param {string} action.payload.processSliceName
+		 * @param {string} action.payload.code
 		 */
-		isFulfilledProcessState(state, action){
+		markFulfilledProcessState(state, action){
 			const { processSliceName, code } = action.payload;
 			if(state.processes?.[processSliceName]?.[code] && state.processes[processSliceName][code].processState !== 'fulfilled'){
 				processSlice.caseReducers.setProcessState(state, {payload: {
@@ -276,7 +283,9 @@ export const builProcessThunks = processSliceName => ({
 	setProcess : buildThunk(setProcess, {processSliceName}),
 	setProcessState : buildThunk(setProcessState, {processSliceName}),
 	removeProcess : buildThunk(removeProcess, {processSliceName}),
-	isFulfilledProcessState: buildThunk(isFulfilledProcessState, {processSliceName}),
+	markPendingProcessState: buildThunk(markPendingProcessState, {processSliceName}),
+	markRejectedProcessState: buildThunk(markRejectedProcessState, {processSliceName}),
+	markFulfilledProcessState: buildThunk(markFulfilledProcessState, {processSliceName}),
 })
 
 export const {
@@ -284,9 +293,9 @@ export const {
 	setProcess,
 	setProcessState,
 
-	isPendingProcessState,
-	isRejectedProcessState,
-	isFulfilledProcessState,
+	markPendingProcessState,
+	markRejectedProcessState,
+	markFulfilledProcessState,
 
 	increaseCountProcessPending,
 	decreaseCountProcessPending,
