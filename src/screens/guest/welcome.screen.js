@@ -15,6 +15,8 @@ import { availableLanguages, countPendingLangProcessByActionType, currentLanguag
 
 import color from '../../theme/color';
 
+import { useTheme } from '../../hooks/theme';
+
 import AppText from '../../components/AppText';
 import { Fonts } from '../../theme/fonts';
 
@@ -23,15 +25,17 @@ export default function WelcomeScreen({navigation}) {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const store = useStore();
-
+	
 	const current_language = useSelector(currentLanguage);
 	const languages = useSelector(availableLanguages);
+
+	const {changeTheme/* , currentTheme : current_theme */, colorScheme, currentTheme : current_theme, themes} = useTheme();
 
 	const handleLang = async (lang, ...e) => {
 		const countChangeLanguageProcess = countPendingLangProcessByActionType("lang/changeLanguage")(store.getState());
 
 		if(countChangeLanguageProcess > 0){
-			ToastAndroid.show("On changing language, wait please...", ToastAndroid.LONG);
+			ToastAndroid.show(i18next.t("lang.warning.on-changing"), ToastAndroid.LONG);
 		}
 		else{
 			ToastAndroid.show("Change to \"" + t("lang." + lang) + "\" language", ToastAndroid.LONG);
@@ -58,6 +62,12 @@ export default function WelcomeScreen({navigation}) {
 		if(itemValue != current_language) handleLang(itemValue)
 	}
 
+	const handleSelectChangeTheme = (itemValue, itemIndex) => {
+		if(itemValue != current_theme) {
+			changeTheme(itemValue)
+		}
+	}
+
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -69,10 +79,35 @@ export default function WelcomeScreen({navigation}) {
 						selectedValue={current_language}
 						onValueChange={handleSelectChangeLanguage}
 						style={styles.picker}
+						dropdownIconColor={color["secondary-light-400"]}
 					>
 						{languages.map(lang => {
 							return (
 								<Picker.Item style={styles.pickerItem} key={lang} label={t("lang." + lang)} value={lang} />
+							)
+						})}
+					</Picker>
+				</View>
+			</View>
+			<View style={styles.langContainer}>
+				<AppText scaled={true} size="xl" color="black">{t("theme.base")}</AppText>
+				<View style={styles.pickerWrapper}>
+					<Picker
+						selectedValue={current_theme}
+						onValueChange={handleSelectChangeTheme}
+						style={styles.picker}
+						dropdownIconColor={color["secondary-light-400"]}
+					>
+						{themes.map(theme => {
+							return (
+								<Picker.Item
+									style={styles.pickerItem}
+									key={theme}
+									label={t("theme." + theme) + (theme == 'system' 
+										? " (" + t("theme." + colorScheme) + ")"
+										: ""
+									)}
+									value={theme} />
 							)
 						})}
 					</Picker>
@@ -106,6 +141,6 @@ const styles = StyleSheet.create({
 	},
 	pickerItem: { 
 		fontFamily: Fonts.regular, 
-		color: "black",
+		// color: "black",
 	},
 });

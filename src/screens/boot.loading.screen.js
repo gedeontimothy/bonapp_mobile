@@ -50,7 +50,7 @@ export default function BootLoadingScreen({navigation}) {
 	useEffect(() => {
 		if(animate)
 			startInfiniteAnimation(60);
-	}, [animate, startInfiniteAnimation]);
+	}, [animate]);
 
 	return (
 		<View style={styles.container}>
@@ -83,6 +83,10 @@ const styles = StyleSheet.create({
 		alignContent: "center",
 		backgroundColor: color.primary,
 		paddingVertical: 32,
+		position: "absolute",
+		width: "100%",
+		height: "100%",
+		zIndex: 100,
 	},
 	brand: {
 		flexDirection:"row",

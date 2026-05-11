@@ -10,6 +10,22 @@
 		"errors" : {
 			"already" : "Language \"{{language}}\" is already defined.",
 			"not-available" : "Language \"{{language}}\" is not supported."
+		},
+		"warning" : {
+			"on-changing" : "On changing language, wait please..."
+		}
+	},
+	"theme" : {
+		"base" : "Theme",
+		"dark" : "Dark Theme",
+		"light" : "Light Theme",
+		"system" : "System Theme",
+		"errors" : {
+			"already" : "Theme \"{{theme}}\" is already defined.",
+			"not-available" : "Theme \"{{theme}}\" is not supported."
+		},
+		"warning" : {
+			"on-changing" : "On changing theme, wait please..."
 		}
 	}
 }
