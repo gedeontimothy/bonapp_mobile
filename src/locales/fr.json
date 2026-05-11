@@ -18,8 +18,11 @@
 	"theme" : {
 		"base" : "Thème",
 		"dark" : "Thème Sombre",
-		"light" : "Light Theme",
+		"dark-short" : "Sombre",
+		"light" : "Thème Clair",
+		"light-short" : "Clair",
 		"system" : "Thème du système",
+		"system-short" : "Système",
 		"errors" : {
 			"already" : "Le thème \"{{language}}\" est déjà définie.",
 			"not-available" : "Le thème \"{{language}}\" n'est pas prise en charge."

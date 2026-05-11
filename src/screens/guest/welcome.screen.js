@@ -2,16 +2,9 @@ import {
 	View,
 	StyleSheet,
 	SafeAreaView,
-	ToastAndroid,
-	Alert,
 } from 'react-native';
-import { useDispatch, useSelector, useStore } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import uuid from 'react-native-uuid'
 import {Picker} from '@react-native-picker/picker';
-
-import { changeLanguage, removeLangProcess } from '../../store/features/lang/lang.slice';
-import { availableLanguages, countPendingLangProcessByActionType, currentLanguage, getLangProcess } from '../../store/features/lang/lang.selector';
 
 import color from '../../theme/color';
 
@@ -19,47 +12,31 @@ import { useTheme } from '../../hooks/theme';
 
 import AppText from '../../components/AppText';
 import { Fonts } from '../../theme/fonts';
+import { useLanguage } from '../../hooks/lang';
 
 export default function WelcomeScreen({navigation}) {
 
 	const { t } = useTranslation();
-	const dispatch = useDispatch();
-	const store = useStore();
-	
-	const current_language = useSelector(currentLanguage);
-	const languages = useSelector(availableLanguages);
 
-	const {changeTheme/* , currentTheme : current_theme */, colorScheme, currentTheme : current_theme, themes} = useTheme();
+	const {
+		changeTheme,
+		changeThemeLoading,
+		colorScheme,
+		currentTheme : current_theme,
+		themes
+	} = useTheme();
 
-	const handleLang = async (lang, ...e) => {
-		const countChangeLanguageProcess = countPendingLangProcessByActionType("lang/changeLanguage")(store.getState());
-
-		if(countChangeLanguageProcess > 0){
-			ToastAndroid.show(i18next.t("lang.warning.on-changing"), ToastAndroid.LONG);
-		}
-		else{
-			ToastAndroid.show("Change to \"" + t("lang." + lang) + "\" language", ToastAndroid.LONG);
-
-			const code = uuid.v4();
-
-			await dispatch(changeLanguage({
-				language: lang,
-				process: {code}
-			}))
-
-			const process = getLangProcess(code)(store.getState())
-
-			if(process.error)
-				Alert.alert(t("errors.base"), process.error);
-			else
-				ToastAndroid.show("Language changed to \"" + t("lang." + lang) + "\"", ToastAndroid.SHORT);
-
-			dispatch(removeLangProcess({code}));
-		}
-	}
+	const {
+		changeLanguage,
+		changeLanguageLoading,
+		currentLanguage : current_language,
+		languages
+	} = useLanguage();
 
 	const handleSelectChangeLanguage = (itemValue, itemIndex) => {
-		if(itemValue != current_language) handleLang(itemValue)
+		if(itemValue != current_language) {
+			changeLanguage(itemValue)
+		}
 	}
 
 	const handleSelectChangeTheme = (itemValue, itemIndex) => {
@@ -76,6 +53,7 @@ export default function WelcomeScreen({navigation}) {
 				<AppText scaled={true} size="xl" color="black">{t("lang.base")}</AppText>
 				<View style={styles.pickerWrapper}>
 					<Picker
+						enabled={!changeLanguageLoading}
 						selectedValue={current_language}
 						onValueChange={handleSelectChangeLanguage}
 						style={styles.picker}
@@ -83,7 +61,12 @@ export default function WelcomeScreen({navigation}) {
 					>
 						{languages.map(lang => {
 							return (
-								<Picker.Item style={styles.pickerItem} key={lang} label={t("lang." + lang)} value={lang} />
+								<Picker.Item
+									style={styles.pickerItem}
+									key={lang}
+									label={t("lang." + lang)}
+									value={lang}
+								/>
 							)
 						})}
 					</Picker>
@@ -93,6 +76,7 @@ export default function WelcomeScreen({navigation}) {
 				<AppText scaled={true} size="xl" color="black">{t("theme.base")}</AppText>
 				<View style={styles.pickerWrapper}>
 					<Picker
+						enabled={!changeThemeLoading}
 						selectedValue={current_theme}
 						onValueChange={handleSelectChangeTheme}
 						style={styles.picker}
@@ -107,7 +91,8 @@ export default function WelcomeScreen({navigation}) {
 										? " (" + t("theme." + colorScheme) + ")"
 										: ""
 									)}
-									value={theme} />
+									value={theme}
+								/>
 							)
 						})}
 					</Picker>
