@@ -29,7 +29,7 @@ export default function WelcomeScreen({navigation}) {
 	const current_language = useSelector(currentLanguage);
 	const languages = useSelector(availableLanguages);
 
-	const {changeTheme/* , currentTheme : current_theme */, currentThemeSelected : current_theme_selected, themes} = useTheme();
+	const {changeTheme/* , currentTheme : current_theme */, currentTheme : current_theme, themes} = useTheme();
 
 	const handleLang = async (lang, ...e) => {
 		const countChangeLanguageProcess = countPendingLangProcessByActionType("lang/changeLanguage")(store.getState());
@@ -63,7 +63,7 @@ export default function WelcomeScreen({navigation}) {
 	}
 
 	const handleSelectChangeTheme = (itemValue, itemIndex) => {
-		if(itemValue != current_theme_selected) {
+		if(itemValue != current_theme) {
 			changeTheme(itemValue)
 		}
 	}
@@ -93,7 +93,7 @@ export default function WelcomeScreen({navigation}) {
 				<AppText scaled={true} size="xl" color="black">{t("theme.base")}</AppText>
 				<View style={styles.pickerWrapper}>
 					<Picker
-						selectedValue={current_theme_selected}
+						selectedValue={current_theme}
 						onValueChange={handleSelectChangeTheme}
 						style={styles.picker}
 						dropdownIconColor={color["secondary-light-400"]}

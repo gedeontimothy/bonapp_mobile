@@ -17,15 +17,15 @@ import { changeTheme as changeThemeAction } from "../store/features/settings/set
  * @returns {{
  *   changeTheme: (theme: string) => Promise<void>,
  *   changeThemeLoading: boolean,
+ *   activeTheme: string,
  *   currentTheme: string,
- *   currentThemeSelected: string,
  *   themes: Array<any>
  * }}
  */
 export const useTheme = () => {
 	const dispatch = useDispatch();
 	
-	const currentThemeSelected = useSelector(currentThemeSelector);
+	const currentTheme = useSelector(currentThemeSelector);
 	const themes = useSelector(availableThemes);
 	const store = useStore();
 
@@ -33,7 +33,7 @@ export const useTheme = () => {
 
 	const [requestChangeThemeCode, setRequestChangeThemeCode] = useState(null);
 	const [changeThemeLoading, setChangeThemeLoading] = useState(false);
-	const [currentTheme, setCurrentTheme] = useState("light");
+	const [activeTheme, setActiveTheme] = useState("light");
 
 	/**
 	 * Change theme.
@@ -68,15 +68,15 @@ export const useTheme = () => {
 	}, [requestChangeThemeCode])
 
 	useEffect(() => {
-		setCurrentTheme(currentThemeSelected == 'system' ? colorScheme : currentThemeSelected);
-	}, [currentThemeSelected])
+		setActiveTheme(currentTheme == 'system' ? colorScheme : currentTheme);
+	}, [currentTheme])
 
 	return {
 		changeTheme,
 		changeThemeLoading,
 
+		activeTheme,
 		currentTheme,
-		currentThemeSelected,
 		themes,
 	};
 }
