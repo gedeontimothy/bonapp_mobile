@@ -9,6 +9,7 @@ import { initI18n } from '../config/i18n';
 
 import BootLoadingScreen from '../screens/boot.loading.screen'
 import { initLang } from '../store/features/lang/lang.slice';
+import { activeLang } from '../store/features/lang/lang.selector';
 
 import ThemeProvider from './theme.provider';
 
@@ -21,9 +22,9 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 		const call = async () => {
 			await accessibilityEventListenerThunk(dispatch);
 
-			await initI18n(store.getState().lang.currentLanguage);
-
 			await dispatch(initLang());
+			
+			await initI18n(activeLang(store.getState()));
 
 			stopLoading();
 		}
