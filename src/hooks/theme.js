@@ -19,7 +19,8 @@ import { changeTheme as changeThemeAction } from "../store/features/settings/set
  *   changeThemeLoading: boolean,
  *   activeTheme: string,
  *   currentTheme: string,
- *   themes: Array<any>
+ *   themes: Array<any>,
+ *   colorScheme: string
  * }}
  */
 export const useTheme = () => {
@@ -78,5 +79,6 @@ export const useTheme = () => {
 		activeTheme,
 		currentTheme,
 		themes,
+		colorScheme,
 	};
 }

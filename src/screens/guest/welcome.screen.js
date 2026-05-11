@@ -29,7 +29,7 @@ export default function WelcomeScreen({navigation}) {
 	const current_language = useSelector(currentLanguage);
 	const languages = useSelector(availableLanguages);
 
-	const {changeTheme/* , currentTheme : current_theme */, currentTheme : current_theme, themes} = useTheme();
+	const {changeTheme/* , currentTheme : current_theme */, colorScheme, currentTheme : current_theme, themes} = useTheme();
 
 	const handleLang = async (lang, ...e) => {
 		const countChangeLanguageProcess = countPendingLangProcessByActionType("lang/changeLanguage")(store.getState());
@@ -100,7 +100,14 @@ export default function WelcomeScreen({navigation}) {
 					>
 						{themes.map(theme => {
 							return (
-								<Picker.Item style={styles.pickerItem} key={theme} label={t("theme." + theme)} value={theme} />
+								<Picker.Item
+									style={styles.pickerItem}
+									key={theme}
+									label={t("theme." + theme) + (theme == 'system' 
+										? " (" + t("theme." + colorScheme) + ")"
+										: ""
+									)}
+									value={theme} />
 							)
 						})}
 					</Picker>
