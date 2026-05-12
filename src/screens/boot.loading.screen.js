@@ -40,6 +40,7 @@ export default function BootLoadingScreen({navigation}) {
 
 	useEffect(() => {
 		StatusBar.setBackgroundColor(color.primary);
+		StatusBar.setBarStyle("light-content");
 		changeNavigationBarColor(color.primary, true);
 
 		const checkReduceMotion = async () => setAnimate(!(await AccessibilityInfo.isReduceMotionEnabled()));
