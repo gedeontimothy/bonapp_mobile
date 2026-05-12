@@ -18,8 +18,11 @@
 	"theme" : {
 		"base" : "Theme",
 		"dark" : "Dark Theme",
+		"dark-short" : "Dark",
 		"light" : "Light Theme",
+		"light-short" : "Light",
 		"system" : "System Theme",
+		"system-short" : "System",
 		"errors" : {
 			"already" : "Theme \"{{theme}}\" is already defined.",
 			"not-available" : "Theme \"{{theme}}\" is not supported."

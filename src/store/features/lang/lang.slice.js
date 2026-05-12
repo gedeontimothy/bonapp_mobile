@@ -7,6 +7,7 @@ import { builProcessThunks } from '../process/process.slice';
 
 import { is_string } from '../../../utils/check';
 import { createStorageAsyncThunk } from '../../../hooks';
+import { getLocales } from 'react-native-localize';
 
 const initialState = {
 	currentLanguage: "en",
@@ -65,15 +66,23 @@ export const initLang = createStorageAsyncThunk(
 			return rejectWithValue(error.message);
 		}
 
-		const langs = availableLanguages(getState())
+		const osLanguage = getLocales()?.[0]?.languageCode;
 
-		if(is_string(data['store.lang.current.language']?.['currentLanguage']) && !langs.includes(data['store.lang.current.language']['currentLanguage'])){
+		const langs = availableLanguages(getState());
+
+		let lang = data?.['store.lang.current.language']?.['currentLanguage'];
+
+		if(is_string(lang) && !langs.includes(lang)){
 			return rejectWithValue(i18next.t(
 				"lang.errors.not-available",
-				{language: i18next.t("lang." + data['store.lang.current.language'])}
+				{language: i18next.t("lang." + lang)}
 			))
 		}
-		return data?.['store.lang.current.language']?.['currentLanguage'];
+		// console.log("-->", osLanguagçe, lang)
+		if(!is_string(lang) && langs.includes(osLanguage))
+			lang = osLanguage;
+
+		return lang;
 	},
 	false
 );

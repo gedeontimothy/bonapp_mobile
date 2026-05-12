@@ -5,6 +5,7 @@ import { store } from '../store';
 
 import en from '../locales/en.json';
 import fr from '../locales/fr.json';
+import { activeLang } from '../store/features/lang/lang.selector';
 
 let initialized = false;
 
@@ -29,7 +30,7 @@ export async function initI18n(language) {
 		});
 		
 		store.subscribe(() => {
-			const currentLanguage = store.getState().lang.currentLanguage;
+			const currentLanguage = activeLang(store.getState());
 			i18n.changeLanguage(currentLanguage);
 		});
 

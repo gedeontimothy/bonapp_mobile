@@ -1,4 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { getLocales } from "react-native-localize";
+
 import { buildProcessSelectors, getProcess, getProcesses, getProcessesByActionType } from "../process/process.selector";
 
 /**
@@ -16,6 +18,22 @@ export const currentLanguage = (state) => state.lang.currentLanguage;
  * @returns {string[]}
  */
 export const availableLanguages = (state) => state.lang.availableLanguages;
+
+/**
+ * Retrieves the active language
+ *
+ * @param {object} state - The Redux state
+ * @returns {string}
+ */
+export const activeLang = createSelector(
+	[availableLanguages, currentLanguage],
+	(langs, current) => {
+		const osLanguage = getLocales()?.[0]?.languageCode;
+		return langs.includes(osLanguage) && current == 'system'
+			? osLanguage
+			: current
+	}
+)
 
 /**
  * Returns the list of available languages excluding the current language
