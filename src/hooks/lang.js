@@ -7,6 +7,21 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import { changeLanguage as changeLanguageAction } from "../store/features/lang/lang.slice";
 import { availableLanguages, currentLanguage as currentLanguageSelector, getLangProcess } from "../store/features/lang/lang.selector";
 
+/**
+ * Custom hook for theme management.
+ *
+ * Provides the current theme, available themes,
+ * loading state, and a function to change the theme.
+ *
+ * @returns {{
+ *   changeLanguage: (theme: string) => Promise<void>,
+ *   changeLanguageLoading: boolean,
+ *   activeLanguage: string,
+ *   currentLanguage: string,
+ *   languages: Array<any>,
+ *   osLanguage: string
+ * }}
+ */
 export const useLanguage = () => {
 	const dispatch = useDispatch();
 	
@@ -18,8 +33,14 @@ export const useLanguage = () => {
 
 	const [requestChangeLangCode, setRequestChangeLangCode] = useState(null);
 	const [changeLanguageLoading, setChangeLanguageLoading] = useState(false);
-	const [activeLang, setActiveLang] = useState("en");
+	const [activeLanguage, setActiveLanguage] = useState("en");
 
+	/**
+	 * Change language.
+	 *
+	 * @param {string} theme
+	 * @return {Promise<void>}
+	 */
 	const changeLanguage = async (lang) => {
 		if(requestChangeLangCode !== null)
 			ToastAndroid.show(i18next.t("lang.warning.on-changing"), ToastAndroid.LONG);
@@ -47,14 +68,14 @@ export const useLanguage = () => {
 	}, [requestChangeLangCode])
 
 	useEffect(() => {
-		setActiveLang(languages.includes(osLanguage) && currentLanguage == 'system' ? osLanguage : currentLanguage);
+		setActiveLanguage(languages.includes(osLanguage) && currentLanguage == 'system' ? osLanguage : currentLanguage);
 	}, [currentLanguage])
 
 	return {
 		changeLanguage,
 		changeLanguageLoading,
 
-		activeLang,
+		activeLanguage,
 		currentLanguage,
 		languages,
 		osLanguage,
