@@ -16,6 +16,8 @@ const spacing = {
 	}
 };
 
-export const scaledFontSize = (font_size_key) => (spacing.fontSize[font_size_key] ?? spacing.fontSize.base) * PixelRatio.getFontScale();
+export const pixelRatio = () => PixelRatio.getFontScale();
+
+export const scaledFontSize = (font_size_key) => (spacing.fontSize[font_size_key] ?? spacing.fontSize.base) * pixelRatio();
 
 export default spacing;

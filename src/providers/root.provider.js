@@ -55,7 +55,6 @@ export default ({children}) => {
 
 	return (
 		<Provider store={store}>
-			{loading ? <BootLoadingScreen/> : null}
 			<Boot
 				positionProvider={1}
 				providersCount={providersCount}
@@ -69,6 +68,7 @@ export default ({children}) => {
 					{children}
 				</ThemeProvider>
 			</Boot>
+			{loading ? <BootLoadingScreen/> : null}
 		</Provider>
 	)
 }
