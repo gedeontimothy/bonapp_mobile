@@ -10,13 +10,21 @@ import { buildProcessSelectors } from "../process/process.selector";
 export const currentTheme = (state) => state.settings.theme.current;
 
 /**
+ * Retrieves color scheme
+ *
+ * @param {object} state - The Redux state
+ * @returns {string}
+ */
+export const colorScheme = (state) => state.settings.theme.colorScheme;
+
+/**
  * Retrieves the active theme
  *
  * @param {object} state - The Redux state
  * @returns {string}
  */
 export const activeTheme = createSelector(
-	[currentTheme, (state) => state.settings.theme.colorScheme],
+	[currentTheme, colorScheme],
 	(current_theme, color_scheme) => current_theme == 'system' && color_scheme 
 		? color_scheme
 		: current_theme

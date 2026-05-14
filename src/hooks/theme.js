@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import uuid from 'react-native-uuid'
 import { useDispatch, useSelector, useStore } from "react-redux";
 import i18next from "i18next";
-import { useColorScheme } from 'react-native';
 
-import { availableThemes, countPendingSettingProcessByActionType, currentTheme as currentThemeSelector, getSettingProcess } from "../store/features/settings/settings.selector";
+import { availableThemes, countPendingSettingProcessByActionType, currentTheme as currentThemeSelector, getSettingProcess, activeTheme as activeThemeSelector, colorScheme as colorSchemeSelector } from "../store/features/settings/settings.selector";
 import { changeTheme as changeThemeAction } from "../store/features/settings/settings.slice";
 
 /**
@@ -30,11 +29,11 @@ export const useTheme = () => {
 	const themes = useSelector(availableThemes);
 	const store = useStore();
 
-	const colorScheme = useColorScheme();
+	const colorScheme = useSelector(colorSchemeSelector);
 
 	const [requestChangeThemeCode, setRequestChangeThemeCode] = useState(null);
 	const [changeThemeLoading, setChangeThemeLoading] = useState(false);
-	const [activeTheme, setActiveTheme] = useState("light");
+	const activeTheme = useSelector(activeThemeSelector);
 
 	/**
 	 * Change theme.
@@ -69,10 +68,6 @@ export const useTheme = () => {
 	useEffect(() => {
 		setChangeThemeLoading(requestChangeThemeCode != null)
 	}, [requestChangeThemeCode])
-
-	useEffect(() => {
-		setActiveTheme(currentTheme == 'system' ? colorScheme : currentTheme);
-	}, [currentTheme])
 
 	return {
 		changeTheme,
