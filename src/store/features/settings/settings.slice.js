@@ -52,6 +52,7 @@ export const settingsSlice = createSlice({
 		 * @param {object} action.payload - animate value
 		 */
 		setColorScheme(state, action){
+			console.log("dd", action.payload)
 			state.theme.colorScheme = action.payload;
 		},
 	},
@@ -189,6 +190,6 @@ export const {
 	markFulfilledProcessState: markFulfilledSettingProcessState,
 } = builProcessThunks("settings");
 
-export const { setAnimate } = settingsSlice.actions;
+export const { setAnimate, setCurrentTheme, setColorScheme } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

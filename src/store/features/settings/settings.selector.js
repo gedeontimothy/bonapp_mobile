@@ -15,12 +15,12 @@ export const currentTheme = (state) => state.settings.theme.current;
  * @param {object} state - The Redux state
  * @returns {string}
  */
-export const activeTheme = (state) => {
-	return state.settings.theme.current == 'system' && state.settings.theme.colorScheme 
-		? state.settings.theme.colorScheme
-		: state.settings.theme.current
-	;
-}
+export const activeTheme = createSelector(
+	[currentTheme, (state) => state.settings.theme.colorScheme],
+	(current_theme, color_scheme) => current_theme == 'system' && color_scheme 
+		? color_scheme
+		: current_theme
+);
 
 /**
  * Returns the list of available themes
