@@ -1,3 +1,4 @@
+import { useColorScheme } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,11 +13,13 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 
 	const current_theme = useSelector(currentTheme);
 
+	const colorScheme = useColorScheme()
+
 	useEffect(() => {
 
 		const call = async () => {
 
-			await dispatch(initSettingTheme());
+			await dispatch(initSettingTheme({colorScheme}));
 
 			stopLoading();
 
