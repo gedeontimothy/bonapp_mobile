@@ -42,13 +42,13 @@ export const useTheme = () => {
 	 * @param {string} theme
 	 * @return {Promise<void>}
 	 */
-	const changeTheme = async (theme) => {
+	const changeTheme = async (theme, processCode) => {
 		const count_setting_process = countPendingSettingProcessByActionType("settings/changeTheme")(store.getState());
 
 		if(count_setting_process > 0)
 			ToastAndroid.show(i18next.t("theme.warning.on-changing"), ToastAndroid.LONG);
 		else{
-			const code = uuid.v4();
+			const code = processCode ?? uuid.v4();
 
 			setRequestChangeThemeCode(code);
 
