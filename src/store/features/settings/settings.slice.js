@@ -9,7 +9,7 @@ import { builProcessThunks } from '../process/process.slice';
 const initialState = {
 	animate : true,
 	theme : {
-		current: "light",
+		current: "system",
 		colorScheme: "light",
 		availableThemes: ["light", "dark", "system"],
 	},
