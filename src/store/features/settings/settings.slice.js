@@ -52,7 +52,6 @@ export const settingsSlice = createSlice({
 		 * @param {object} action.payload - animate value
 		 */
 		setColorScheme(state, action){
-			console.log("dd", action.payload)
 			state.theme.colorScheme = action.payload;
 		},
 	},
