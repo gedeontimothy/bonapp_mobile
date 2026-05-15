@@ -1,6 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { buildProcessSelectors } from "../process/process.selector";
-import { useColorScheme } from "react-native";
 
 /**
  * Retrieves the current theme select
@@ -11,14 +10,25 @@ import { useColorScheme } from "react-native";
 export const currentTheme = (state) => state.settings.theme.current;
 
 /**
+ * Retrieves color scheme
+ *
+ * @param {object} state - The Redux state
+ * @returns {string}
+ */
+export const colorScheme = (state) => state.settings.theme.colorScheme;
+
+/**
  * Retrieves the active theme
  *
  * @param {object} state - The Redux state
  * @returns {string}
  */
-export const activeTheme = (state) => {
-	return state.settings.theme.current == 'system' ? useColorScheme() : state.settings.theme.current;
-}
+export const activeTheme = createSelector(
+	[currentTheme, colorScheme],
+	(current_theme, color_scheme) => current_theme == 'system' && color_scheme 
+		? color_scheme
+		: current_theme
+);
 
 /**
  * Returns the list of available themes

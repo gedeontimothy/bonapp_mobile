@@ -20,7 +20,7 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 
 	useEffect(() => {
 		const call = async () => {
-			await accessibilityEventListenerThunk(dispatch);
+			accessibilityEventListenerThunk(dispatch);
 
 			await dispatch(initLang());
 			
@@ -73,7 +73,7 @@ export default ({children}) => {
 	)
 }
 
-async function accessibilityEventListenerThunk(dispatch) {
+function accessibilityEventListenerThunk(dispatch) {
 
 	AccessibilityInfo.addEventListener(
 		'reduceMotionChanged',

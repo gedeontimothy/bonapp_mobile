@@ -79,7 +79,7 @@ export const processSlice = createSlice({
 					state.processes[processSliceName][code],
 					Object.fromEntries(Object
 						.entries(action.payload)
-						.filter(([k, v]) => k != 'code')
+						.filter(([k, v]) => k != 'code' && k != "processState")
 					)
 				);
 
@@ -242,10 +242,11 @@ export const processSlice = createSlice({
 		removeProcess(state, action){
 			const { processSliceName, code } = action.payload;
 			const process = state.processes[processSliceName]?.[code];
+			const processState = process.processState
 			if(process) {
 				delete state.processes[processSliceName][code];
 
-				processSlice.caseReducers.decreaseCountProcessPending(
+				if(processState == 'pending') processSlice.caseReducers.decreaseCountProcessPending(
 					state,
 					{payload: {
 						processSliceName,

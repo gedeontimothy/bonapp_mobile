@@ -9,7 +9,8 @@ import { builProcessThunks } from '../process/process.slice';
 const initialState = {
 	animate : true,
 	theme : {
-		current: "light",
+		current: "system",
+		colorScheme: "light",
 		availableThemes: ["light", "dark", "system"],
 	},
 };
@@ -42,12 +43,27 @@ export const settingsSlice = createSlice({
 		setCurrentTheme(state, action){
 			state.theme.current = action.payload;
 		},
+
+		/**
+		 * Set color scheme.
+		 *
+		 * @param {object} state
+		 * @param {object} action
+		 * @param {object} action.payload - animate value
+		 */
+		setColorScheme(state, action){
+			state.theme.colorScheme = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(initSettingTheme.fulfilled, (state, action) => {
-				if(is_string(action.payload)){
-					settingsSlice.caseReducers.setCurrentTheme(state, {payload: action.payload});
+				if(is_string(action.payload?.currentTheme)){
+					settingsSlice.caseReducers.setCurrentTheme(state, {payload: action.payload.currentTheme});
+				}
+
+				if(is_string(action.payload?.colorScheme)){
+					settingsSlice.caseReducers.setColorScheme(state, {payload: action.payload.colorScheme});
 				}
 			})
 		;
@@ -70,7 +86,7 @@ export const settingsSlice = createSlice({
 export const initSettingTheme = createStorageAsyncThunk(
 	'settings/initSettingTheme',
 	['store.settings.theme'],
-	async (action, data, {rejectWithValue, getState}, error) => {
+	async ({colorScheme}, data, {rejectWithValue, getState}, error) => {
 		if(error !== false){
 			return rejectWithValue(error.message);
 		}
@@ -84,7 +100,7 @@ export const initSettingTheme = createStorageAsyncThunk(
 			))
 		}
 
-		return data?.['store.settings.theme'];
+		return {colorScheme, currentTheme : data?.['store.settings.theme']};
 	},
 );
 
@@ -173,6 +189,6 @@ export const {
 	markFulfilledProcessState: markFulfilledSettingProcessState,
 } = builProcessThunks("settings");
 
-export const { setAnimate } = settingsSlice.actions;
+export const { setAnimate, setCurrentTheme, setColorScheme } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
