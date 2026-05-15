@@ -5,7 +5,7 @@ import changeNavigationBarColor from "react-native-navigation-bar-color";
 
 import { activeTheme as activeThemeSelector, themeColor as themeColorSelector } from "../store/features/settings/settings.selector";
 
-export default function BarLayout({children}){
+export default function BarLayout({children, barColor = null}){
 	
 	const activeTheme = useSelector(activeThemeSelector);
 
@@ -13,12 +13,12 @@ export default function BarLayout({children}){
 
 	useEffect(() => {
 		
-		StatusBar.setBackgroundColor(themeColor["surface"]);
+		StatusBar.setBackgroundColor(barColor ? (themeColor[barColor] ?? barColor) : themeColor["surface"]);
 		
 		StatusBar.setBarStyle(activeTheme == "light" ? "dark-content" : "light-content");
 		
 		changeNavigationBarColor(
-			themeColor["surface"],
+			barColor ? (themeColor[barColor] ?? barColor) : themeColor["surface"],
 			activeTheme == "light"
 		);
 
