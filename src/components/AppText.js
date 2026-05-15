@@ -14,17 +14,18 @@ import baseColor from '../theme/color';
  * scaled?: boolean,
  * size?: '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl',
  * font?: 'black' | 'blackitalic' | 'bold' | 'bolditalic' | 'extrabold' | 'extrabolditalic' | 'extralight' | 'extralightitalic' | 'italic' | 'light' | 'lightitalic' | 'medium' | 'mediumitalic' | 'regular' | 'semibold' | 'semibolditalic' | 'thin' | 'thinitalic',
- * style?: any
+ * style?: any,
+ * themeColors?: object
  * }} props
  *
  * @returns {JSX.Element}
  */
-export default function AppText({children, color, scaled = false, size, font, style, ...props}){
+export default function AppText({children, color, scaled = false, size, font, style, themeColors, ...props}){
 	return (
 		<Text
 			style={[
 				{
-					color: baseColor[color] ?? color,
+					color: themeColors && themeColors[color] ? themeColors[color] : (baseColor[color] ?? color),
 					fontFamily: Fonts[font] ?? Fonts.regular,
 					fontSize: scaled ? scaledFontSize(size) : (spacing.fontSize[size] ?? spacing.fontSize.base),
 				},

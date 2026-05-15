@@ -26,10 +26,15 @@ export const Dropdown = ({
 	buttonTextProps = {},
 
 	iconColor = "white",
+	iconSize = null,
 
-	disabled,
+	disabled = false,
 	
 	style = {},
+
+	buttonProps = {},
+
+	onPress = null,
 
 	...props
 }) => {
@@ -51,8 +56,8 @@ export const Dropdown = ({
 	return (
 		<>
 			<Button
+				{...buttonProps}
 				style={style}
-				onPress={open}
 				textProps={{
 					font: "medium",
 					...buttonTextProps,
@@ -66,17 +71,19 @@ export const Dropdown = ({
 					buttonRitghtContent ||
 					<Octicons
 						name="chevron-down"
-						size={spacing.fontSize["base"] * pixelRatioLocal}
+						size={(iconSize ?? spacing.fontSize["base"]) * pixelRatioLocal}
 						color={iconColor}
 					/>
 				}
+				onPress={onPress ? (...args) => onPress(open, ...args) : open}
 				disabled={disabled}
 			>{label}</Button>
 			<Picker
-				style={{display: "none"}}
+				style={{display: "none", opacity:0}}
 				ref={pickerRef}
 				selectedValue={currentValue}
 				onValueChange={onValueChange}
+				enabled={!disabled}
 				{...props}
 			>
 				{data.map((item, index) => {
