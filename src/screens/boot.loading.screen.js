@@ -62,15 +62,15 @@ export default function BootLoadingScreen({navigation}) {
 						<Icon name="diamond" size={28} color={"white"}/>
 					</View>
 				</View>
-				<AppText style={styles.brandText} font="semibold" size="4xl">BonApp</AppText>
-				<AppText style={styles.sloganText} font="light" size="xl">THE FINANCIAL ATELIER</AppText>
+				<AppText style={styles.brandText} font="semibold" size="5xl">BonApp</AppText>
+				<AppText style={styles.sloganText} font="regular" size="lg">THE FINANCIAL ATELIER</AppText>
 			</View>
 			<View>
 				<Animated.View style={[styles.progressBar, progressStyle]} />
-				<AppText style={[styles.sloganText, {marginTop: 40, opacity:0.5}]} size="xs" font="semibold">SECURE ACCESS</AppText>
+				<AppText style={[styles.sloganText, {color: "rgba(255,255,255,.4)", marginTop: 40}]} font="medium" size="xs">SECURE ACCESS</AppText>
 				<View style={{flexDirection:"row", justifyContent:"center",alignContent:"center", marginTop:8, opacity:0.4}}>
 					<Icon name="lock" size={10} color="white"/>
-					<AppText color="white" style={{marginLeft:8}} size="2xs">ENCRYPTED END-TO-END</AppText>
+					<AppText color="white" style={{marginLeft:8,}} size="2xs">ENCRYPTED END-TO-END</AppText>
 				</View>
 			</View>
 		</View>
@@ -96,11 +96,11 @@ const styles = StyleSheet.create({
 		alignContent: "center"
 	},
 	logo: {
-		backgroundColor: color['primary-light-500'],
+		backgroundColor: "rgba(255,255,255,.1)",
 		padding: 24,
 		borderRadius: 16,
-		borderWidth: 2,
-		borderColor: color["primary-light-400"],
+		borderWidth: 1,
+		borderColor: "rgba(255,255,255,.2)",
 	},
 	brandText: {
 		color: "white",
@@ -108,9 +108,8 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 	sloganText: {
-		color: "white",
+		color: "rgba(255,255,255,.6)",
 		textAlign: "center",
-		opacity: 0.8
 	},
 	progressBar: {
 		height: 2,
