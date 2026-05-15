@@ -11,6 +11,7 @@ import { Button } from "../../components/Button";
 export const ThemeToggle = ({
 	iconColor,
 	style,
+	onPress,
 	...props
 }) => {
 	const {
@@ -18,6 +19,7 @@ export const ThemeToggle = ({
 		changeThemeLoading,
 		changeTheme,
 		themes,
+		activeTheme
 	} = useTheme();
 
 	const pixelRatio = pixelRatioSpacing();
@@ -42,22 +44,29 @@ export const ThemeToggle = ({
 		/>,
 	};
 
-	const switchTheme = () => {
-
+	const nextTheme = () => {
 		const max = themes.length - 1;
 
 		const currentIndex = themes.findIndex((theme) => theme == currentTheme);
 
-		const nextIndex = currentIndex == max ? 0 : (currentIndex + 1);
+		return currentIndex == max ? 0 : (currentIndex + 1);
+	}
 
-		changeTheme(themes[nextIndex]);
+	const switchTheme = () => {
+
+		changeTheme(themes[nextTheme()]);
 
 	}
 
 	return (
 		<Button
 			{...props}
-			onPress={switchTheme}
+			onPress={onPress ? (...args) => onPress({
+				nextTheme: nextTheme(),
+				currentTheme,
+				activeTheme,
+				switchTheme
+			}, ...args) : switchTheme}
 			style={[
 				{width: iconSize + 10, height: iconSize + 10},
 				styles.button,
