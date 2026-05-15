@@ -1,22 +1,24 @@
 import { StatusBar } from "react-native";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
-import { activeTheme as activeThemeSelector, currentTheme } from "../store/features/settings/settings.selector";
 import changeNavigationBarColor from "react-native-navigation-bar-color";
+
+import { activeTheme as activeThemeSelector, themeColor as themeColorSelector } from "../store/features/settings/settings.selector";
 
 export default function BarLayout({children}){
 	
 	const activeTheme = useSelector(activeThemeSelector);
 
+	const themeColor = useSelector(themeColorSelector)
+
 	useEffect(() => {
 		
-		StatusBar.setBackgroundColor(activeTheme == "light" ? "white" : "black");
+		StatusBar.setBackgroundColor(themeColor["surface"]);
 		
 		StatusBar.setBarStyle(activeTheme == "light" ? "dark-content" : "light-content");
 		
 		changeNavigationBarColor(
-			activeTheme == "light" ? "white" : "black",
+			themeColor["surface"],
 			activeTheme == "light"
 		);
 
