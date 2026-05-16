@@ -1,3 +1,10 @@
 {
-	
+	"guest" : {
+		"welcome" : {
+			"captionSlogan": "L'Excellence Financière",
+			"captionTitle": "Bienvenue dans l'Atelier Financier.",
+			"captionDescription": "Gérez vos bons de sortie de caisse avec une précision absolue. Une solution dédiée au suivi rigoureux de vos flux et retraits d'argent.",
+			"startButton": "Commencer l'aventure"
+		}
+	}
 }

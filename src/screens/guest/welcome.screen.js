@@ -19,8 +19,11 @@ import BarLayout from '../../layouts/bar.layout';
 import {Button} from '../../components/Button';
 import { ThemeToggle } from '../../partials/theme/ThemeToggle';
 import { LanguagePicker } from '../../partials/lang/LanguagePicker';
+import { useTranslation } from 'react-i18next';
 
 export default function WelcomeScreen({navigation}) {
+
+	const { t } = useTranslation();
 
 	const pixelRatio = pixelRatioSpacing()
 
@@ -53,9 +56,9 @@ export default function WelcomeScreen({navigation}) {
 							font='medium'
 							color="primary"
 							size="3xl"
-						>BONAPP</AppTextScaled>
+						>BonApp</AppTextScaled>
 					</View>
-					<ThemeToggle style={{marginRight: 30}} iconColor={themeColor["on-surface-variant"]}/>
+					<ThemeToggle iconColor={themeColor["on-surface-variant"]}/>
 				</View>
 
 
@@ -68,19 +71,19 @@ export default function WelcomeScreen({navigation}) {
 							font='medium'
 							color="primary"
 							size="sm"
-						>L'EXCELENCE FINANCIÈRE</AppTextScaled>
+						>{t("guest.welcome.captionSlogan")}</AppTextScaled>
 						<AppTextScaled
 							style={[styles.captionTitle, {lineHeight: (4 + spacing.fontSize["6xl"]) * pixelRatio}]}
 							font='semibold'
 							color="on-background"
 							size="6xl"
-						>Bienvenue dans l'Atelier Financier.</AppTextScaled>
+						>{t("guest.welcome.captionTitle")}</AppTextScaled>
 						<AppTextScaled
 							style={styles.captionDescription}
 							font='light'
 							color="on-surface-variant"
 							size="2xl"
-						>Gérez vos bons de sortie de caisse avec une précision absolue. Une solution dédiée au suivi rigoureux de vos flux et retraits d'argent.</AppTextScaled>
+						>{t("guest.welcome.captionDescription")}</AppTextScaled>
 					</View>
 					<Button
 						backgroundColor={themeColor['primary-container']}
@@ -94,7 +97,7 @@ export default function WelcomeScreen({navigation}) {
 						rightContent={
 							<Icon name="arrow-right-circle" size={spacing.fontSize["xl"] * pixelRatio} color="white"/>
 						}
-					>Commencer l'aventure</Button>
+					>{t("guest.welcome.startButton")}</Button>
 				</View>
 
 
@@ -103,10 +106,10 @@ export default function WelcomeScreen({navigation}) {
 				<View style={styles.footContainer}>
 					<View style={[styles.line, {backgroundColor: themeColor["outline-variant"]}]}/>
 					<View style={styles.terms}>
-						<AppTextScaled size="sm" style={{marginRight: 28}} color='on-surface-variant' font='medium'>CONFIDENTIALITÉ</AppTextScaled>
-						<AppTextScaled color='on-surface-variant' font='medium'>CONDITIONS</AppTextScaled>
+						<AppTextScaled size="sm" style={{marginRight: 28, textTransform: "uppercase"}} color='on-surface-variant' font='medium'>{t("common:terms.condition")}</AppTextScaled>
+						<AppTextScaled style={{textTransform: "uppercase"}} color='on-surface-variant' font='medium'>{t("common:terms.confidentiality")}</AppTextScaled>
 					</View>
-					<AppTextScaled size="sm" style={styles.copyright} color='on-surface-variant' font='medium'>© 2024 BONAPP ATELIER</AppTextScaled>
+					<AppTextScaled size="sm" style={styles.copyright} color='on-surface-variant' font='medium'>{t("common:copyright")}</AppTextScaled>
 					<View style={{marginTop: 16, flexDirection: "row", justifyContent: "center"}}>
 						<LanguagePicker
 							iconColor={themeColor["on-surface-variant"]}
@@ -119,7 +122,7 @@ export default function WelcomeScreen({navigation}) {
 							}}
 							buttonProps={{borderRadius: 14,}}
 							buttonTextProps={{
-								style: {color: themeColor["on-surface-variant"]},
+								style: {color: themeColor["on-surface-variant"], textTransform: "uppercase"},
 								size: "sm"
 							}}
 						/>
@@ -153,6 +156,7 @@ const styles = StyleSheet.create({
 		},
 		brandText: {
 			letterSpacing: 3,
+			textTransform: "uppercase",
 		},
 		logo: {
 			marginRight: 8,
@@ -169,6 +173,7 @@ const styles = StyleSheet.create({
 		captionSlogan: {
 			opacity: .7,
 			letterSpacing: 3,
+			textTransform: "uppercase",
 		},
 		captionTitle: {
 			marginTop: 16,
@@ -187,9 +192,12 @@ const styles = StyleSheet.create({
 			paddingBottom: 24,
 		},
 		terms: {
+			width:"100%",
+			flexWrap: "wrap",
 			opacity: .5,
 			flexDirection: "row",
 			alignSelf: "center",
+			justifyContent:"center",
 			marginBottom: 16,
 		},
 		copyright: {

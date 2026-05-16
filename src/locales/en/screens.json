@@ -1,3 +1,10 @@
 {
-	
+	"guest" : {
+		"welcome" : {
+			"captionSlogan": "Financial Excellence",
+			"captionTitle": "Welcome to the Financial Workshop.",
+			"captionDescription": "Manage your cash receipts with absolute precision. A solution dedicated to rigorous monitoring of your money flows and withdrawals.",
+			"startButton": "Start the adventure"
+		}
+	}
 }
