@@ -5,7 +5,7 @@ import { Provider, useDispatch } from 'react-redux';
 import {store} from '../store'
 import { setAnimate } from '../store/features/settings/settings.slice';
 
-import { initI18n } from '../config/i18n';
+import { initI18n } from '../i18n';
 
 import BootLoadingScreen from '../screens/boot.loading.screen'
 import { initLang } from '../store/features/lang/lang.slice';
@@ -23,7 +23,7 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 			accessibilityEventListenerThunk(dispatch);
 
 			await dispatch(initLang());
-			
+
 			await initI18n(activeLang(store.getState()));
 
 			stopLoading();

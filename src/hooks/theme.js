@@ -45,7 +45,7 @@ export const useTheme = () => {
 		const count_setting_process = countPendingSettingProcessByActionType("settings/changeTheme")(store.getState());
 
 		if(count_setting_process > 0)
-			ToastAndroid.show(i18next.t("theme.warning.on-changing"), ToastAndroid.LONG);
+			ToastAndroid.show(i18next.t("theme:warning.changing"), ToastAndroid.LONG);
 		else{
 			const code = processCode ?? uuid.v4();
 
@@ -59,7 +59,7 @@ export const useTheme = () => {
 			const process = getSettingProcess(code)(store.getState())
 
 			if(process.error)
-				Alert.alert(t("errors.base"), process.error);
+				Alert.alert(i18next.t("errors:base"), process.error);
 
 			setRequestChangeThemeCode(null)
 		}
