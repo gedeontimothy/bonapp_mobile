@@ -1,0 +1,21 @@
+{
+	"base": "Theme",
+
+	"dark": "Dark Theme",
+	"darkShort": "Dark",
+
+	"light": "Light Theme",
+	"lightShort": "Light",
+
+	"system": "System Theme",
+	"systemShort": "System",
+
+	"errors": {
+		"already": "Theme \"{{theme}}\" is already defined.",
+		"notAvailable": "Theme \"{{theme}}\" is not supported."
+	},
+
+	"warnings": {
+		"changing": "On changing theme, wait please..."
+	}
+}

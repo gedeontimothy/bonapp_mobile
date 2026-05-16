@@ -3,9 +3,9 @@ import {initReactI18next} from 'react-i18next';
 
 import { store } from '../store';
 
-import en from '../locales/en.json';
-import fr from '../locales/fr.json';
 import { activeLang } from '../store/features/lang/lang.selector';
+
+import resources from '../locales';
 
 let initialized = false;
 
@@ -15,12 +15,24 @@ export async function initI18n(language) {
 	await i18n
 		.use(initReactI18next)
 		.init({
-			resources: {
-				en: {translation: en},
-				fr: {translation: fr},
-			},
+			compatibilityJSON: 'v3',
+
+			resources,
+
 			lng: language,
 			fallbackLng: 'en',
+
+			defaultNS: 'screens',
+			ns: [
+				'common',
+				'errors',
+
+				'screens',
+
+				'lang',
+				'theme',
+			],
+
 			interpolation: {
 				escapeValue: false,
 			},
@@ -29,10 +41,10 @@ export async function initI18n(language) {
 			},
 		});
 		
-		store.subscribe(() => {
-			const currentLanguage = activeLang(store.getState());
-			i18n.changeLanguage(currentLanguage);
-		});
+	store.subscribe(() => {
+		const currentLanguage = activeLang(store.getState());
+		i18n.changeLanguage(currentLanguage);
+	});
 
 	initialized = true;
 }

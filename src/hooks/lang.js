@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import uuid from 'react-native-uuid'
 import { getLocales } from "react-native-localize";
 import { useDispatch, useSelector, useStore } from "react-redux";
+import i18next from "i18next";
 
 import { changeLanguage as changeLanguageAction } from "../store/features/lang/lang.slice";
 import { availableLanguages, currentLanguage as currentLanguageSelector, getLangProcess } from "../store/features/lang/lang.selector";
@@ -43,7 +44,7 @@ export const useLanguage = () => {
 	 */
 	const changeLanguage = async (lang) => {
 		if(requestChangeLangCode !== null)
-			ToastAndroid.show(i18next.t("lang.warning.on-changing"), ToastAndroid.LONG);
+			ToastAndroid.show(i18next.t("lang:warning.changing"), ToastAndroid.LONG);
 		else{
 			const code = uuid.v4();
 
@@ -57,7 +58,7 @@ export const useLanguage = () => {
 			const process = getLangProcess(code)(store.getState())
 
 			if(process.error)
-				Alert.alert(t("errors.base"), process.error);
+				Alert.alert(i18next.t("errors:base"), process.error);
 
 			setRequestChangeLangCode(null)
 		}

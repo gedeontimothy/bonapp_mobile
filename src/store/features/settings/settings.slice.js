@@ -95,8 +95,8 @@ export const initSettingTheme = createStorageAsyncThunk(
 
 		if(is_string(data?.['store.settings.theme']) && !themes.includes(data['store.settings.theme'])){
 			return rejectWithValue(i18next.t(
-				"theme.errors.not-available",
-				{theme: i18next.t("theme." + data['store.settings.theme'])}
+				"theme:errors.notAvailable",
+				{theme: i18next.t("theme:" + data['store.settings.theme'])}
 			))
 		}
 
@@ -129,12 +129,12 @@ export const changeTheme = createAsyncThunk(
 			
 			const error = isCurrentTheme(theme)(getState()) 
 				? i18next.t(
-					"theme.errors.already",
-					{theme: i18next.t("theme." + theme)}
+					"theme:errors.already",
+					{theme: i18next.t("theme:" + theme)}
 				) : (!themes.includes(theme)
 					? i18next.t(
-						"theme.errors.not-available",
-						{theme: i18next.t("theme." + theme)}
+						"theme:errors.notAvailable",
+						{theme: i18next.t("theme:" + theme)}
 					) : null
 				)
 			;

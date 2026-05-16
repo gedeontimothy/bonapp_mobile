@@ -1,0 +1,17 @@
+{
+	"base": "Langue",
+
+	"languages": {
+		"en": "Anglais - English",
+		"fr": "Français"
+	},
+
+	"errors": {
+		"already": "La langue \"{{language}}\" est déjà définie.",
+		"notAvailable": "La langue \"{{language}}\" n'est pas prise en charge."
+	},
+
+	"warnings": {
+		"changing": "Changement de langue en cours..."
+	}
+}

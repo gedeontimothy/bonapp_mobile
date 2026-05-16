@@ -74,8 +74,8 @@ export const initLang = createStorageAsyncThunk(
 
 		if(is_string(lang) && !langs.includes(lang)){
 			return rejectWithValue(i18next.t(
-				"lang.errors.not-available",
-				{language: i18next.t("lang." + lang)}
+				"lang:errors.notAvailable",
+				{language: i18next.t("lang:languages." + lang)}
 			))
 		}
 		// console.log("-->", osLanguagçe, lang)
@@ -110,9 +110,9 @@ export const changeLanguage = createAsyncThunk(
 			const langs = otherAvailableLanguages(getState())
 			
 			const error = isCurrentLanguage(language)(getState()) 
-				? i18next.t("lang.errors.already", {language: i18next.t("lang." + language)}) 
+				? i18next.t("lang:errors.already", {language: i18next.t("lang:languages." + language)}) 
 				: (!langs.includes(language)
-					? i18next.t("lang.errors.not-available", {language: i18next.t("lang." + language)})
+					? i18next.t("lang:errors.notAvailable", {language: i18next.t("lang:languages." + language)})
 					: null
 				)
 			;

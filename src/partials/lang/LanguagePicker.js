@@ -17,7 +17,7 @@ export const LanguagePicker = ({
 	buttonTextProps = {}
 }) => {
 
-	const { t } = useTranslation();
+	const { t } = useTranslation('lang');
 
 	const pixelRatio = pixelRatioSpacing()
 
@@ -46,7 +46,7 @@ export const LanguagePicker = ({
 			]}
 			currentValue={current_language}
 			keyResolver={item => item}
-			labelResolver={(lang) => t("lang." + lang)}
+			labelResolver={(lang) => t("languages." + lang)}
 			onValueChange={handleSelectChangeLanguage}
 			data={languages}
 			buttonTextProps={{

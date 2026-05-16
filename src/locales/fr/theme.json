@@ -1,0 +1,21 @@
+{
+	"base": "Thème",
+
+	"dark": "Thème Sombre",
+	"darkShort": "Sombre",
+
+	"light": "Thème Clair",
+	"lightShort": "Clair",
+
+	"system": "Thème du système",
+	"systemShort": "Système",
+
+	"errors": {
+		"already": "Le thème \"{{language}}\" est déjà définie.",
+		"notAvailable": "Le thème \"{{language}}\" n'est pas prise en charge."
+	},
+
+	"warnings": {
+		"changing": "Changement de thème en cours..."
+	}
+}
