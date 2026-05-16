@@ -1,3 +1,8 @@
 {
-	"welcome": "Welcome !"
+	"welcome": "Welcome !",
+	"terms": {
+		"condition" : "Conditions",
+		"confidentiality" : "Confidentiality"
+	},
+	"copyright": "© 2024 BONAPP WORKSHOP"
 }
