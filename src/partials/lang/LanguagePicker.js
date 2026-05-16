@@ -12,6 +12,8 @@ import color from "../../theme/color";
 export const LanguagePicker = ({
 	style,
 	iconColor,
+	iconSize = null,
+	buttonProps = {},
 	buttonTextProps = {}
 }) => {
 
@@ -37,7 +39,6 @@ export const LanguagePicker = ({
 			style={[
 				{
 					backgroundColor: "transparent",
-					borderRadius: 20,
 					borderWidth: 1.5,
 					borderColor: color["primary-light-100"],
 				},
@@ -60,13 +61,18 @@ export const LanguagePicker = ({
 			buttonLeftContent={
 				<Icon
 					name="globe"
-					size={spacing.fontSize.base * pixelRatio}
+					size={(iconSize ?? spacing.fontSize.base) * pixelRatio}
 					color={iconColor || color["neutral-dark-200"]}
 				/>
 			}
 			disabled={changeLanguageLoading}
 			iconColor={iconColor || color["neutral-dark-200"]}
+			iconSize={iconSize}
 			pixelRatio={pixelRatio}
+			buttonProps={{
+				borderRadius: 20,
+				...buttonProps
+			}}
 		/>
 	)
 }

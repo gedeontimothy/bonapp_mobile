@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { buildProcessSelectors } from "../process/process.selector";
+import color from "../../../theme/color";
 
 /**
  * Retrieves the current theme select
@@ -28,6 +29,16 @@ export const activeTheme = createSelector(
 	(current_theme, color_scheme) => current_theme == 'system' && color_scheme 
 		? color_scheme
 		: current_theme
+);
+
+/**
+ * Returns color theme selected
+ *
+ * @var {object}
+ */
+export const themeColor = createSelector(
+	[activeTheme],
+	(theme) => color[theme]
 );
 
 /**
