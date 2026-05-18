@@ -4,5 +4,12 @@
 		"condition" : "Conditions",
 		"confidentiality" : "Confidentialité"
 	},
-	"copyright": "© 2024 BONAPP ATELIER"
+	"copyright": "© 2024 BONAPP ATELIER",
+
+	"labels" : {
+		"username" : "Nom d'utilisateur",
+		"lastname" : "Nom",
+		"firstname" : "Prénom",
+		"pin": "Code de sécurité (PIN)"
+	}
 }
