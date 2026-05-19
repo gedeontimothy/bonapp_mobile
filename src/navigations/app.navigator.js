@@ -11,6 +11,13 @@ export default function AppNavigator() {
 			screenOptions={{ headerShown: true }}
 		>
 
+			{/* ----- Auth ----- */}
+			<Stack.Screen
+				name="auth.register"
+				component={screens.auth.RegisterScreen}
+				options={{ headerShown: false }}
+			/>
+
 			{/* ----- Guest ----- */}
 			<Stack.Group>
 				<Stack.Screen

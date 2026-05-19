@@ -33,6 +33,10 @@ export default function WelcomeScreen({navigation}) {
 
 	const {activeTheme} = useTheme();
 
+	const handleStartButton = (e) => {
+		navigation.navigate('auth.register');
+	};
+
 	return (
 		<SafeAreaView style={[
 			{backgroundColor: themeColor["surface"]},
@@ -86,6 +90,7 @@ export default function WelcomeScreen({navigation}) {
 						>{t("guest.welcome.captionDescription")}</AppTextScaled>
 					</View>
 					<Button
+						onPress={handleStartButton}
 						backgroundColor={themeColor['primary-container']}
 						style={styles.button}
 						textProps={{
