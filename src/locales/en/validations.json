@@ -1,25 +1,25 @@
 {
 	"between" : {
-		"file": "The {{attribute}} field must be between {{min}} and {{max}} kilobytes.",
-		"numeric": "The {{attribute}} field must be between {{min}} and {{max}}.",
-		"string": "The {{attribute}} field must be between {{min}} and {{max}} characters."
+		"file": "Must be between {{min}} and {{max}} kilobytes.",
+		"numeric": "Must be between {{min}} and {{max}}.",
+		"string": "Must be between {{min}} and {{max}} characters."
 	},
-	"date" : "The {{attribute}} field must be a valid date.",
-	"digits": "The {{attribute}} field must be {{digits}} digits.",
-	"exists" : "The selected {{attribute}} is invalid.",
-	"integer" : "The {{attribute}} field must be an integer.",
+	"date" : "Must be a valid date.",
+	"digits": "Must be {{digits}} digits.",
+	"exists" : "Is invalid.",
+	"integer" : "Must be an integer.",
 	"min" : {
-		"file" : "The {{attribute}} field must be at least {{min}} kilobytes.",
-		"numeric" : "The {{attribute}} field must be at least {{min}}.",
-		"strings": "The {{attribute}} field must be at least {{min}} characters."
+		"file" : "Must be at least {{min}} kilobytes.",
+		"numeric" : "Must be at least {{min}}.",
+		"strings": "Must be at least {{min}} characters."
 	},
-	"not_in" : "The selected {{attribute}} is invalid.",
-	"numeric" : "The {{attribute}} field must be a number.",
-	"regex" : "The {{attribute}} field format is invalid.",
-	"required" : "The {{attribute}} field is required.",
+	"not_in" : "Is invalid.",
+	"numeric" : "Must be a number.",
+	"regex" : "Format is invalid.",
+	"required" : "Is required.",
 	"size" : {
-		"file": "The {{attribute}} field must be {{size}} kilobytes.",
-		"numeric": "The {{attribute}} field must be {{size}}.",
-		"string": "The {{attribute}} field must be {{size}} characters."
+		"file": "Must be {{size}} kilobytes.",
+		"numeric": "Must be {{size}}.",
+		"strings": "Must be {{size}} characters."
 	}
 }

@@ -1,25 +1,25 @@
 {
-	"between" : {
-		"file": "Le champ {{attribute}} doit être compris entre {{min}} et {{max}} kilo-octets.",
-		"numeric": "Le champ {{attribute}} doit être compris entre {{min}} et {{max}}.",
-		"string": "Le champ {{attribute}} doit contenir entre {{min}} et {{max}} caractères."
+	"between": {
+		"file": "La taille doit être comprise entre {{min}} et {{max}} Ko.",
+		"numeric": "La valeur doit être comprise entre {{min}} et {{max}}.",
+		"strings": "Doit contenir entre {{min}} et {{max}} caractères."
 	},
-	"date": "Le champ {{attribute}} doit être une date valide.",
-	"digits": "Le champ {{attribute}} doit contenir {{digits}} chiffres.",
-	"exists": "La valeur sélectionnée pour {{attribute}} est invalide.",
-	"integer": "Le champ {{attribute}} doit être un entier.",
+	"date": "Date invalide.",
+	"digits": "Doit contenir {{digits}} chiffres.",
+	"exists": "Valeur invalide.",
+	"integer": "Doit être un nombre entier.",
 	"min": {
-		"file": "Le champ {{attribute}} doit contenir au moins {{min}} kilo-octets.",
-		"numeric": "Le champ {{attribute}} doit être supérieur ou égal à {{min}}.",
-		"strings": "Le champ {{attribute}} doit contenir au moins {{min}} caractères."
+		"file": "La taille minimale est de {{min}} Ko.",
+		"numeric": "Doit être supérieur ou égal à {{min}}.",
+		"strings": "Doit contenir au moins {{min}} caractères."
 	},
-	"not_in": "La valeur sélectionnée pour {{attribute}} est invalide.",
-	"numeric": "Le champ {{attribute}} doit être un nombre.",
-	"regex": "Le format du champ {{attribute}} est invalide.",
-	"required": "Le champ {{attribute}} est obligatoire.",
+	"not_in": "Valeur invalide.",
+	"numeric": "Doit être un nombre.",
+	"regex": "Format invalide.",
+	"required": "Ce champ est obligatoire.",
 	"size": {
-		"file": "Le champ {{attribute}} doit contenir {{size}} kilo-octets.",
-		"numeric": "Le champ {{attribute}} doit être égal à {{size}}.",
-		"string": "Le champ {{attribute}} doit contenir {{size}} caractères."
+		"file": "La taille doit être de {{size}} Ko.",
+		"numeric": "Doit être égal à {{size}}.",
+		"strings": "Doit contenir {{size}} caractères."
 	}
 }

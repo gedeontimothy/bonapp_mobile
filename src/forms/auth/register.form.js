@@ -1,29 +1,33 @@
+import { useMemo } from "react";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 
 export const registerSchema = (t) => {
 	return z.object({
 
 		lastname: z
 			.string()
-			.min(2, t("validations:min.strings", {attribute: t("common:labels.lastname"), min: 2})),
+			.min(2, t("validations:min.strings", {min: 2})),
 
 		firstname: z
 			.string()
-			.min(2, t("validations:min.strings", {attribute: t("common:labels.firstname"), min: 2})),
+			.min(2, t("validations:min.strings", {min: 2})),
 
 		username: z
 			.string()
-			.min(3, t("validations:min.strings", {attribute: t("common:labels.username"), min: 3}))
+			.min(3, t("validations:min.strings", {min: 3}))
 			.regex(
 				/^[a-z][a-z0-9_.]+$/i,
-				t("validations:regex", {attribute: t("common:labels.username")})
+				t("validations:regex")
 			),
 
 		pin: z
 			.string()
 			.regex(
 				/^\d{6}$/,
-				t("validations:digits", {attribute: t("common:labels.pin"), digits: 6})
+				t("validations:digits", {digits: 6})
 			),
 	});
 }
