@@ -8,7 +8,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { themeColor as themeColorSelector} from "../../store/features/settings/settings.selector";
 
 import { scaledFontSize } from "../../theme/spacing";
-import useRegisterForm from "../../hooks/forms/register.form.hook";
+import useRegisterForm from "../../forms/auth/register.form";
 
 import AppTextBase from "../../components/AppText";
 import { Field, PinField } from "../../components/Field";
