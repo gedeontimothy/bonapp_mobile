@@ -1,0 +1,25 @@
+{
+	"between": {
+		"file": "La taille doit être comprise entre {{min}} et {{max}} Ko.",
+		"numeric": "La valeur doit être comprise entre {{min}} et {{max}}.",
+		"strings": "Doit contenir entre {{min}} et {{max}} caractères."
+	},
+	"date": "Date invalide.",
+	"digits": "Doit contenir {{digits}} chiffres.",
+	"exists": "Valeur invalide.",
+	"integer": "Doit être un nombre entier.",
+	"min": {
+		"file": "La taille minimale est de {{min}} Ko.",
+		"numeric": "Doit être supérieur ou égal à {{min}}.",
+		"strings": "Doit contenir au moins {{min}} caractères."
+	},
+	"not_in": "Valeur invalide.",
+	"numeric": "Doit être un nombre.",
+	"regex": "Format invalide.",
+	"required": "Ce champ est obligatoire.",
+	"size": {
+		"file": "La taille doit être de {{size}} Ko.",
+		"numeric": "Doit être égal à {{size}}.",
+		"strings": "Doit contenir {{size}} caractères."
+	}
+}
