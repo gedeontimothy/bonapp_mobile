@@ -29,6 +29,7 @@
     "react-native-device-info": "^10.14.0",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.16.2",
+    "react-native-get-random-values": "^1.11.0",
     "react-native-immersive": "^2.0.0",
     "react-native-localize": "^2.2.6",
     "react-native-multiple-select": "^0.5.12",
