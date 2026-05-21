@@ -1,11 +1,13 @@
 import { Appearance, useColorScheme } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
 import { activeTheme, availableThemes, currentTheme } from "../store/features/settings/settings.selector";
 import { initSettingTheme, setColorScheme } from "../store/features/settings/settings.slice";
 
-const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
+const Boot = ({children}) => {
+	
+	const [loading, setLoading] = useState(true)
 	
 	const dispatch = useDispatch();
 
@@ -32,7 +34,7 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 
 			await dispatch(initSettingTheme({colorScheme}));
 
-			stopLoading();
+			setLoading(false);
 
 		}
 
@@ -44,20 +46,16 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 
 	}, []);
 
-	if(providersCount >= positionProvider)
+	if(!loading)
 		return children;
 
-	return;
+	return null;
 	
 };
 
-export default function ThemeProvider({children, positionProvider, stopLoading, providersCount}){
+export default function ThemeProvider({children}){
 	return (
-		<Boot 
-			stopLoading={stopLoading}
-			positionProvider={positionProvider}
-			providersCount={providersCount}
-		>
+		<Boot>
 			{children}
 		</Boot>
 	);
