@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import { useTheme } from "../../hooks/theme"
+import { useTheme } from "../../hooks/theme.hook"
 import spacing, { pixelRatio as pixelRatioSpacing } from "../../theme/spacing";
 import color from "../../theme/color";
 

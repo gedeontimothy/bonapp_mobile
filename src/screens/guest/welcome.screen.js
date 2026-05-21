@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { themeColor as themeColorSelector } from '../../store/features/settings/settings.selector';
 
-import { useTheme } from '../../hooks/theme';
+import { useTheme } from '../../hooks/theme.hook';
 
 import color from '../../theme/color';
 import spacing, {pixelRatio as pixelRatioSpacing} from '../../theme/spacing';
