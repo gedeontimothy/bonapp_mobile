@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import spacing, { pixelRatio as pixelRatioSpacing } from "../../theme/spacing"
 
-import { useLanguage } from "../../hooks/lang";
+import { useLanguage } from "../../hooks/lang.hook";
 
 import { Dropdown } from "../../components/Dropdown"
 import color from "../../theme/color";
