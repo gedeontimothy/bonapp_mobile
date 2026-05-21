@@ -1,3 +1,38 @@
 {
-	"base": "Erreur"
+	"base": "Erreur",
+	
+	"error": {
+		"title": "Une erreur est survenue",
+		"generic": "Une erreur inattendue est survenue. Veuillez réessayer."
+	},
+
+	"warning": {
+		"title": "Attention"
+	},
+
+	"process": {
+		"wait": "Veuillez patienter.",
+		"alreadyInProgress": "Une opération est déjà en cours."
+	},
+
+	"people": {
+		"load": {
+			"failed": "Le chargement des personnes a échoué."
+		},
+
+		"create": {
+			"failed": "La création de la personne a échoué.",
+			"concurrent": "Veuillez patienter avant d’ajouter une autre personne."
+		},
+
+		"update": {
+			"failed": "La modification de la personne a échoué.",
+			"concurrent": "Veuillez patienter avant de modifier une autre personne."
+		},
+
+		"delete": {
+			"failed": "La suppression de la personne a échoué.",
+			"concurrent": "Veuillez patienter avant la suppression d'une autre personne."
+		}
+	}
 }

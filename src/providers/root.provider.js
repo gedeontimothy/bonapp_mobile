@@ -12,13 +12,16 @@ import { initLang } from '../store/features/lang/lang.slice';
 import { activeLang } from '../store/features/lang/lang.selector';
 
 import ThemeProvider from './theme.provider';
+import RealmProvider from './realm.provider';
 
-const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
+const Boot = ({children}) => {
+
+	const [initialized, setInitialized] = useState(false);
 
 	const dispatch = useDispatch();
 
-
 	useEffect(() => {
+
 		const call = async () => {
 			accessibilityEventListenerThunk(dispatch);
 
@@ -26,46 +29,52 @@ const Boot = ({children, positionProvider, stopLoading, providersCount}) => {
 
 			await initI18n(activeLang(store.getState()));
 
-			stopLoading();
+			setInitialized(true);
+			console.log("root.provider")
 		}
 
 		call();
 
 	}, []);
 
-	if(providersCount >= positionProvider)
+	if(initialized)
 		return children;
 	
 	return;
 
 };
 
-export default ({children}) => {
-	const [loading, setLoading] = useState(true);
-
-	const [providersCount, setProvidersCount] = useState(0); 
-
-	const stopLoadingOn = 2;
-
-	const incrementProvidersCount = () => setProvidersCount(providersCount + 1);
+const StopLoading = ({children, loading, stopLoading}) => {
 
 	useEffect(() => {
-		if(stopLoadingOn == providersCount) setTimeout(() => setLoading(false), 500);
-	}, [providersCount])
+		stopLoading();
+	}, []);
+
+	if(loading) return;
+
+	return children; 
+}
+
+export default ({children}) => {
+
+	const [loading, setLoading] = useState(true);
+
+	const stopLoading = () => {
+		setLoading(false);
+	}
 
 	return (
 		<Provider store={store}>
-			<Boot
-				positionProvider={1}
-				providersCount={providersCount}
-				stopLoading={incrementProvidersCount}
-			>
-				<ThemeProvider
-					positionProvider={2}
-					providersCount={providersCount}
-					stopLoading={incrementProvidersCount}
-				>
-					{children}
+			<Boot>
+				<ThemeProvider>
+					<RealmProvider>
+						<StopLoading
+							loading={loading}
+							stopLoading={stopLoading}
+						>
+							{children}
+						</StopLoading>
+					</RealmProvider>
 				</ThemeProvider>
 			</Boot>
 			{loading ? <BootLoadingScreen/> : null}

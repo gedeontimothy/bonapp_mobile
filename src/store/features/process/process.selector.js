@@ -74,3 +74,11 @@ export const buildProcessSelectors = processSliceName => ({
 	countPendingProcess: (state) => countPendingProcess(processSliceName)(state),
 	countPendingProcessByActionType: (actionType) => countPendingProcessByActionType({ processSliceName, actionType }),
 });
+
+export const {
+	getProcess: getPersonProcess,
+	getProcesses: getPersonProcesses,
+	getProcessesByActionType: getPersonProcessesByActionType,
+	countPendingProcess: countPersonPendingProcess,
+	countPendingProcessByActionType : countPendingPersonProcessByActionType,
+} = buildProcessSelectors("people")
