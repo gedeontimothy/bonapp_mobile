@@ -1,3 +1,38 @@
 {
-	"base": "Error"
+	"base": "Error",
+
+	"error": {
+		"title": "An error occurred",
+		"generic": "An unexpected error occurred. Please try again."
+	},
+
+	"warning": {
+		"title": "Warning"
+	},
+
+	"process": {
+		"wait": "Please wait.",
+		"alreadyInProgress": "An operation is already in progress."
+	},
+	
+	"people": {
+		"load": {
+			"failed": "Failed to load people."
+		},
+
+		"create": {
+			"failed": "Failed to create the person.",
+			"concurrent": "Please wait before adding another person."
+		},
+
+		"update": {
+			"failed": "Failed to update the person.",
+			"concurrent": "Please wait before editing another person."
+		},
+
+		"delete": {
+			"failed": "Failed to delete the person.",
+			"concurrent": "Please wait before deleting another person."
+		}
+	}
 }
