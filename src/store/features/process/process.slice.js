@@ -5,6 +5,7 @@ const initialState = {
 	processes : {
 		lang : {},
 		settings : {},
+		people: {},
 	},
 	countProcessesOnPending : {
 		lang : {
@@ -12,6 +13,10 @@ const initialState = {
 			action : {},
 		},
 		settings : {
+			global : 0,
+			action : {},
+		},
+		people : {
 			global : 0,
 			action : {},
 		},
@@ -280,14 +285,24 @@ const buildThunk = (actionCreator, defaults = {}) =>
  * @returns {object} thunks - Contains addProcess, setProcessState, removeProcess with prefilled processSliceName
  */
 export const builProcessThunks = processSliceName => ({
-	addProcess : buildThunk(addProcess, {processSliceName}),
-	setProcess : buildThunk(setProcess, {processSliceName}),
-	setProcessState : buildThunk(setProcessState, {processSliceName}),
-	removeProcess : buildThunk(removeProcess, {processSliceName}),
-	markPendingProcessState: buildThunk(markPendingProcessState, {processSliceName}),
-	markRejectedProcessState: buildThunk(markRejectedProcessState, {processSliceName}),
-	markFulfilledProcessState: buildThunk(markFulfilledProcessState, {processSliceName}),
+	addProcess : buildThunk(processSlice.actions.addProcess, {processSliceName}),
+	setProcess : buildThunk(processSlice.actions.setProcess, {processSliceName}),
+	setProcessState : buildThunk(processSlice.actions.setProcessState, {processSliceName}),
+	removeProcess : buildThunk(processSlice.actions.removeProcess, {processSliceName}),
+	markPendingProcessState: buildThunk(processSlice.actions.markPendingProcessState, {processSliceName}),
+	markRejectedProcessState: buildThunk(processSlice.actions.markRejectedProcessState, {processSliceName}),
+	markFulfilledProcessState: buildThunk(processSlice.actions.markFulfilledProcessState, {processSliceName}),
 })
+
+export const {
+	addProcess: addPersonProcess,
+	setProcess: setPersonProcess,
+	setProcessState: setPersonProcessState,
+	removeProcess: removePersonProcess,
+	markPendingProcessState: markPendingPersonProcessState,
+	markRejectedProcessState: markRejectedPersonProcessState,
+	markFulfilledProcessState: markFulfilledPersonProcessState,
+} = builProcessThunks("people");
 
 export const {
 	addProcess,
