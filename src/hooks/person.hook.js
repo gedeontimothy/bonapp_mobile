@@ -78,12 +78,13 @@ export function usePerson() {
 	 * Retrieve single person by identifier.
 	 *
 	 * @param {string|BSON.UUID} id
+	 * @param {boolean} withTrashed
 	 *
 	 * @returns {Person|null}
 	 */
 	const getPerson = useCallback(
-		(id) => {
-			return service.getPerson(id)
+		(id, withTrashed = false) => {
+			return service.getPerson(id, withTrashed)
 		},
 		[service]
 	)
@@ -135,7 +136,15 @@ export function usePersonActions() {
 			const code = processCode ?? uuid.v4();
 
 			return executeProcess(
-				() => service.createPerson(data),
+				() => {
+					let person = null;
+
+					service.repository.realm.write(() => {
+						person = service.createPerson(data);
+					})
+
+					return person;
+				},
 				{
 					store,
 					countProcess: countPersonPendingProcess,
@@ -164,11 +173,23 @@ export function usePersonActions() {
 	 * @returns {boolean}
 	 */
 	const deletePerson = useCallback(
-		(person) => {
+		(person, {
+			processCode = null,
+			autoState = true,
+			onConcurrent = null
+		} = {}) => {
 			const code = processCode ?? uuid.v4();
 
 			return executeProcess(
-				() => service.deletePerson(person),
+				() => {
+					let deleted = false;
+
+					service.realm.write(() => {
+						deleted = service.deletePerson(person)
+					});
+
+					return deleted
+				},
 				{
 					store,
 					countProcess: countPersonPendingProcess,
