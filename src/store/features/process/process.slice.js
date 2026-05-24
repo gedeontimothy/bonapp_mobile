@@ -6,6 +6,7 @@ const initialState = {
 		lang : {},
 		settings : {},
 		people: {},
+		users : {},
 	},
 	countProcessesOnPending : {
 		lang : {
@@ -17,6 +18,10 @@ const initialState = {
 			action : {},
 		},
 		people : {
+			global : 0,
+			action : {},
+		},
+		users : {
 			global : 0,
 			action : {},
 		},
