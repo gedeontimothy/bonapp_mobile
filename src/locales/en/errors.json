@@ -33,6 +33,39 @@
 		"delete": {
 			"failed": "Failed to delete the person.",
 			"concurrent": "Please wait before deleting another person."
+		},
+
+		"notExists": "Person doesn't exists."
+	},
+
+	"users": {
+		"load": {
+			"failed": "Failed to load users."
+		},
+
+		"create": {
+			"failed": "Failed to create user.",
+			"concurrent": "Please wait before adding another user."
+		},
+
+		"update": {
+			"failed": "Failed to update user.",
+			"concurrent": "Please wait before editing another user."
+		},
+
+		"delete": {
+			"failed": "Failed to delete user.",
+			"concurrent": "Please wait before deleting another user."
+		},
+
+		"notExists": "User doesn't exist.",
+		
+		"username": {
+			"alreadyExists": "The \"{{username}}\" username is already in use."
+		},
+
+		"email": {
+			"alreadyExists": "The \"{{email}}\" email is already in use."
 		}
 	}
 }
