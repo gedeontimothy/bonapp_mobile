@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from 'react'
 import {RealmProvider, useRealm} from '@realm/react';
 
 import { Person } from '../database/models/Person';
+import { User } from '../database/models/User';
+import { UserPersonSnapshot } from '../database/models/embedded/UserPersonSnapshot';
 
 const Boot = ({children}) => {
 	const realm = useRealm();
@@ -20,7 +22,11 @@ export default ({children}) => {
 		<RealmProvider
 			deleteRealmIfMigrationNeeded
 			closeOnUnmount={false}
-			schema={[Person]}
+			schema={[
+				Person,
+				UserPersonSnapshot,
+				User
+			]}
 		>
 			<Boot>
 				{children}

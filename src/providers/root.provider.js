@@ -30,7 +30,6 @@ const Boot = ({children}) => {
 			await initI18n(activeLang(store.getState()));
 
 			setInitialized(true);
-			console.log("root.provider")
 		}
 
 		call();
