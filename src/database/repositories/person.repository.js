@@ -26,9 +26,9 @@ export class PersonRepository {
 	 *
 	 * @returns {Realm.Results<Person>}
 	 */
-	getAll() {
-		return this.realm
-			.objects("Person")
+	getAll(withTrash = false) {
+		const personQuery = this.realm.objects("Person");
+		return withTrash ? personQuery : personQuery
 			.filtered("deletedAt == null")
 		;
 	}
@@ -41,6 +41,7 @@ export class PersonRepository {
 	 * @param {number} [options.limit=20] - Number of items per page.
 	 * @param {string} [options.sortBy="updatedAt"] - Field used for sorting.
 	 * @param {boolean} [options.descending=false] - Sort descending order.
+	 * @param {boolean} [options.withTrash=false] - With deleted people.
 	 *
 	 * @returns {{
 	 *   data: Realm.Results<Person>,
@@ -56,8 +57,9 @@ export class PersonRepository {
 		limit = 20,
 		sortBy = "updatedAt",
 		descending = false,
+		withTrash = false,
 	} = {}) {
-		const results = this.getAll().sorted(
+		const results = this.getAll(withTrash).sorted(
 			sortBy,
 			descending
 		);
@@ -79,13 +81,15 @@ export class PersonRepository {
 	 * Find person by primary key.
 	 *
 	 * @param {BSON.UUID|string} id - Person identifier.
+	 * @param {boolean} withTrashed - With trashed person.
 	 * @returns {Person|null}
 	 */
-	findById(id) {
-		return this.realm.objectForPrimaryKey(
+	findById(id, withTrashed = false) {
+		const person = this.realm.objectForPrimaryKey(
 			"Person",
-			id
+			new BSON.UUID(id)
 		);
+		return withTrashed || person?.deletedAt == null ? person : null;
 	}
 
 	/**
@@ -100,18 +104,12 @@ export class PersonRepository {
 	 * @returns {Person}
 	 */
 	create(data) {
-		let person = null;
-
-		this.realm.write(() => {
-			person = this.realm.create("Person", {
-				_id: new BSON.UUID(),
-				createdAt: new Date(),
-				updatedAt: new Date(),
-				...data,
-			});
+		return this.realm.create("Person", {
+			_id: new BSON.UUID(),
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			...data,
 		});
-
-		return person;
 	}
 
 	/**
@@ -123,11 +121,9 @@ export class PersonRepository {
 	 * @returns {Person}
 	 */
 	update(person, patch) {
-		this.realm.write(() => {
-			Object.assign(person, {
-				...patch,
-				updatedAt: new Date(),
-			});
+		Object.assign(person, {
+			...patch,
+			updatedAt: new Date(),
 		});
 
 		return person;
@@ -136,22 +132,15 @@ export class PersonRepository {
 	/**
 	 * Delete person.
 	 *
-	 * Performs soft delete if model contains
-	 * `deletedAt` field, otherwise performs
-	 * permanent deletion.
-	 *
 	 * @param {Person} person - Person instance.
 	 *
 	 * @returns {boolean}
 	 */
 	delete(person) {
-		if(!Object.keys(person).includes('deletedAt'))
-			return this.destroy(person)
-
-		this.realm.write(() => {
-			person.deletedAt = new Date();
-			person.updatedAt = new Date();
-		});
+		this.update(person, {
+			deletedAt: new Date(),
+			updatedAt: new Date(),
+		})
 
 		return true;
 	}
@@ -164,9 +153,7 @@ export class PersonRepository {
 	 * @returns {boolean}
 	 */
 	destroy(person) {
-		this.realm.write(() => {
-			this.realm.delete(person);
-		});
+		this.realm.delete(person);
 
 		return true;
 	}

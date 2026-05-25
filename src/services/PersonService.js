@@ -30,11 +30,12 @@ export class PersonService {
 	 * Retrieve person by identifier.
 	 *
 	 * @param {string|BSON.UUID} id - Person identifier.
+	 * @param {boolean} withTrashed - With trashed person.
 	 *
 	 * @returns {Person|null}
 	 */
-	getPerson(id) {
-		return this.repository.findById(id);
+	getPerson(id, withTrashed = false) {
+		return this.repository.findById(id, withTrashed);
 	}
 
 	/**

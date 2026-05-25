@@ -33,6 +33,39 @@
 		"delete": {
 			"failed": "La suppression de la personne a échoué.",
 			"concurrent": "Veuillez patienter avant la suppression d'une autre personne."
+		},
+
+		"notExists": "La personne n'existe pas."
+	},
+
+	"users": {
+		"load": {
+			"failed": "Le chargement des utilisateurs a échoué."
+		},
+
+		"create": {
+			"failed": "La création de l'utilisateur a échoué.",
+			"concurrent": "Veuillez patienter avant d’ajouter un autre utilisateur."
+		},
+
+		"update": {
+			"failed": "La modification de l'utilisateur a échoué.",
+			"concurrent": "Veuillez patienter avant de modifier un autre utilisateur."
+		},
+
+		"delete": {
+			"failed": "La suppression de l'utilisateur a échoué.",
+			"concurrent": "Veuillez patienter avant la suppression d'un autre utilisateur."
+		},
+
+		"notExists": "L'utilisateur n'existe pas.",
+		
+		"username": {
+			"alreadyExists": "Le nom d'utilisateur \"{{username}}\" est déjà utilisé."
+		},
+
+		"email": {
+			"alreadyExists": "L'e-mail \"{{email}}\" est déjà utilisé."
 		}
 	}
 }

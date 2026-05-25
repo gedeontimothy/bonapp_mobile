@@ -1,3 +1,4 @@
+import { SHA256 } from "crypto-js";
 import { is_async_function } from "./check";
 
 /**
@@ -114,4 +115,25 @@ export const executeProcess = (call, {
 	}
 
 	return null;
+}
+
+/**
+ * Check pin code.
+ *
+ * @param {string} pin - PIN code
+ * @param {string} hashPin - Hashed PIN code
+ * @returns {boolean}
+ */
+export const checkPinCode = (pin, hashPin) => {
+	return hashPin == hash(pin);
+}
+
+ /**
+  * Hash message.
+  *
+  * @param {string} message
+  * @returns {string}
+  */
+export const hash = (message) => {
+	return SHA256(message).toString();
 }
