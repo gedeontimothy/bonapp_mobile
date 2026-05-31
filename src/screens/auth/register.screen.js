@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, ToastAndroid, View } from "react-native";
 import { Controller } from "react-hook-form";
 import Octicons from 'react-native-vector-icons/Octicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import uuid from 'react-native-uuid'
 
 import { themeColor as themeColorSelector} from "../../store/features/settings/settings.selector";
 
@@ -15,19 +16,74 @@ import { Field, PinField } from "../../components/Field";
 import { Button } from "../../components/Button";
 
 import AuthLayout from "../../layouts/auth.layout";
+import { useAuth } from "../../hooks/auth.hook";
+import { useState } from "react";
+import { useUserActions } from "../../hooks/user.hook";
+import { getUserProcess, userOnProcessing as userOnProcessingSelector } from "../../store/features/users/users.selector";
 
-export default function RegisterScreen({children}) {
+export default function RegisterScreen({children, navigation}) {
 
 	const { t } = useTranslation();
 
+	const store = useStore();
+
 	const themeColor = useSelector(themeColorSelector)
+
+	const userOnProcessing = useSelector(userOnProcessingSelector);
+
+	const [loading, setLoading] = useState(false);
 
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
 
 	const form = useRegisterForm();
 
+	const { createUser } = useUserActions();
+
+	const {authOnProcessing, authenticate} = useAuth();
+
+	const _createUser = (data) => {
+		const processCode = uuid.v4();
+
+		const user = createUser({
+			userData: {
+				username: data.username,
+				pin: data.pin,
+			},
+			personData: {
+				firstname: data.firstname,
+				lastname: data.lastname,
+			}
+		}, {processCode});
+
+		let process = getUserProcess(processCode)(store.getState());
+
+		if(process.error == null)
+			return user;
+
+		Alert.alert(t('errors:base'), process.error);
+
+		return null;
+
+	}
+
 	const onSubmit = async (data) => {
-		console.log(data);
+		if(!authOnProcessing && !userOnProcessing && !loading){
+
+			setLoading(true);
+
+			const user = _createUser(data);
+
+			if(user){
+				const results = await authenticate(user.username, data.pin);
+
+				if(results !== true)
+					Alert.alert(t('errors:base'), results);
+			}
+
+			setLoading(false);
+
+		}
+		else ToastAndroid.show("common:alreadyOnProcessing", ToastAndroid.LONG)
 	};
 
 	return (
@@ -125,6 +181,7 @@ export default function RegisterScreen({children}) {
 					</View>
 				</View>
 				<Button
+					disabled={loading || authOnProcessing || userOnProcessing}
 					style={{marginTop: 28}}
 					onPress={form.handleSubmit(onSubmit)}
 					backgroundColor={themeColor['primary-container']}
