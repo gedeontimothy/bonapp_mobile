@@ -1,32 +1,18 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect } from "react";
+import { useAuth } from "../hooks/auth.hook";
+import GuestStack from "./guest.stack";
+import { Text, View } from "react-native";
+import { Button } from "../components/Button";
+import AppText from "../components/AppText";
 
-import screens from './screens';
-
-const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
-	return (
-		<Stack.Navigator
-			initialRouteName="guest.welcome"
-			screenOptions={{ headerShown: true }}
-		>
+	const { isAuth, logout, authOnProcessing } = useAuth();
 
-			{/* ----- Auth ----- */}
-			<Stack.Screen
-				name="auth.register"
-				component={screens.auth.RegisterScreen}
-				options={{ headerShown: false }}
-			/>
-
-			{/* ----- Guest ----- */}
-			<Stack.Group>
-				<Stack.Screen
-					name="guest.welcome"
-					component={screens.guest.WelcomeScreen}
-					options={{ headerShown: false }}
-				/>
-			</Stack.Group>
-
-		</Stack.Navigator>
-	);
+	return isAuth ? (
+		<View>
+			<AppText>Is Authentified</AppText>
+			<Button disabled={authOnProcessing} onPress={logout}>Logout</Button>
+		</View>
+	) : <GuestStack/>;
 }
