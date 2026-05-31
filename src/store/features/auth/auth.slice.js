@@ -172,7 +172,7 @@ export const {
 } = builProcessThunks("auth");
 
 /**
- * Initialize setting theme.
+ * Initialize auth theme.
  *
  * @returns {Function}
  */

@@ -13,6 +13,7 @@ import { activeLang } from '../store/features/lang/lang.selector';
 
 import ThemeProvider from './theme.provider';
 import RealmProvider from './realm.provider';
+import AuthProvider from './auth.provider';
 
 const Boot = ({children}) => {
 
@@ -67,12 +68,14 @@ export default ({children}) => {
 			<Boot>
 				<ThemeProvider>
 					<RealmProvider>
-						<StopLoading
-							loading={loading}
-							stopLoading={stopLoading}
-						>
-							{children}
-						</StopLoading>
+						<AuthProvider>
+							<StopLoading
+								loading={loading}
+								stopLoading={stopLoading}
+							>
+								{children}
+							</StopLoading>
+						</AuthProvider>
 					</RealmProvider>
 				</ThemeProvider>
 			</Boot>
