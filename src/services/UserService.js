@@ -25,21 +25,16 @@ export class UserService {
 	 * Create new user.
 	 *
 	 * @param {Object} data
-	 * @param {Object} data.user
-	 * @param {string} data.user.personId
-	 * @param {string} data.user.username
-	 * @param {string} data.user.pin
-	 * @param {string} data.user.email
-	 * @param {Date} data.user.email_verified_at
-	 * @param {Object} data.person
-	 * @param {string} data.person.firstname
-	 * @param {string} data.person.lastname
-	 * @param {string|null} [data.person.middlename]
-	 * @param {string} data.person.gender
-	 * @param {string} person.displayName
-	 * @param {string} person.firstname
-	 * @param {string} person.lastname
-	 * @param {string} person.gender
+	 * @param {Object} data.userData
+	 * @param {string} data.userData.username
+	 * @param {string} data.userData.pin
+	 * @param {string} data.userData.email
+	 * @param {Date} data.userData.email_verified_at
+	 * @param {Object} data.personData
+	 * @param {string} data.personData.firstname
+	 * @param {string} data.personData.lastname
+	 * @param {string} [data.personData.middlename]
+	 * @param {string} data.personData.gender
 	 *
 	 * @returns {User}
 	 * 
@@ -47,8 +42,8 @@ export class UserService {
 	 * @throws {EmailAlreadyExistsError}
 	 */
 	createUser(data) {
-		if(is_string(data?.userData?.username) && this.repository.findByUsername(data.userData.username, true))
-			throw new UsernameAlreadyExistsError(data.user.username);
+		if(this.repository.findByUsername(data.userData.username, true))
+			throw new UsernameAlreadyExistsError(data.userData.username);
 
 		if(is_string(data?.userData?.email) && this.repository.findByEmail(data.userData.email, true))
 			throw new EmailAlreadyExistsError(data.userData.email);
@@ -62,7 +57,7 @@ export class UserService {
 				displayName: `${person.firstname} ${person.lastname}`,
 				firstname: person.firstname,
 				lastname: person.lastname,
-				gender: person.gender,
+				gender: person?.gender,
 			},
 			personId: person._id,
 		});
@@ -76,7 +71,7 @@ export class UserService {
 	 * @returns {User|null}
 	 */
 	authenticate(username, pin) {
-		const user = this.repository.findByUsername(username);
+		const user = this.getUserByUsername(username);
 
 		if(user == null)
 			throw new Error("Username not found.");
@@ -101,6 +96,17 @@ export class UserService {
 	}
 
 	/**
+	 * Get user by username.
+	 *
+	 * @param {string} username
+	 * @param {boolean} withTrashed - With trashed user.
+	 * @returns {User|null}
+	 */
+	getUserByUsername(username, withTrashed = false) {
+		return this.repository.findByUsername(username, withTrashed);
+	}
+
+	/**
 	 * Retrieve paginated users list.
 	 *
 	 * @param {Object} options
@@ -120,6 +126,16 @@ export class UserService {
 	 */
 	getUsers(options) {
 		return this.repository.getAllPaginate(options);
+	}
+
+	/**
+	 * Retrieve users list.
+	 * 
+	 * @param {boolean} withTrash 
+	 * @returns {Array<Object>}
+	 */
+	getAllUser(withTrash = false) {
+		return this.repository.getAll(withTrash);
 	}
 
 	/**
