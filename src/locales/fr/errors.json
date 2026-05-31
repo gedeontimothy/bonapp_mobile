@@ -67,5 +67,9 @@
 		"email": {
 			"alreadyExists": "L'e-mail \"{{email}}\" est déjà utilisé."
 		}
+	},
+
+	"auth": {
+		"failed" : "Nom d'utilisateur ou mot de passe incorrect."
 	}
 }

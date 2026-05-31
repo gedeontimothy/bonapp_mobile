@@ -6,6 +6,8 @@
 	},
 	"copyright": "© 2024 BONAPP ATELIER",
 
+	"alreadyOnProcessing" : "Processus déjà en cours...",
+
 	"labels" : {
 		"username" : "Nom d'utilisateur",
 		"lastname" : "Nom",
