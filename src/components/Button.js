@@ -19,7 +19,7 @@ import { pixelRatio } from "../theme/spacing";
  *
  * @returns {JSX.Element}
  */
-export const Button = ({children, leftContent = null, rightContent = null, textProps = {}, backgroundColor = null, borderRadius = 8, style = {}, ...props}) => {
+export const Button = ({children, leftContent = null, rightContent = null, textProps = {}, backgroundColor = null, borderRadius = 8, style = {}, disabled = false, ...props}) => {
 	return (
 		<Pressable
 			style={[
@@ -30,9 +30,11 @@ export const Button = ({children, leftContent = null, rightContent = null, textP
 						? baseColor["primary-light-500"]
 						: (baseColor[backgroundColor] ?? backgroundColor)
 					,
+					opacity: disabled ? .3 : 1,
 				},
 				style,
 			]}
+			disabled={disabled}
 			{...props}
 		>
 			{leftContent}

@@ -9,3 +9,15 @@ export const {
 	countPendingProcess: countUserPendingProcess,
 	countPendingProcessByActionType : countPendingUserProcessByActionType,
 } = buildProcessSelectors("users")
+
+/**
+ * Check if user process is on processing.
+ * 
+ * @returns {boolean}
+ */
+export const userOnProcessing = createSelector(
+	[countUserPendingProcess],
+	(countProcess) => {
+		return countProcess > 0;
+	}
+);

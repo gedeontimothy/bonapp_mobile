@@ -5,6 +5,7 @@ const initialState = {
 	processes : {
 		lang : {},
 		settings : {},
+		auth : {},
 		people: {},
 		users : {},
 	},
@@ -14,6 +15,10 @@ const initialState = {
 			action : {},
 		},
 		settings : {
+			global : 0,
+			action : {},
+		},
+		auth : {
 			global : 0,
 			action : {},
 		},

@@ -9,7 +9,7 @@ export class Person extends Model {
 			firstname: 'string',
 			lastname: 'string',
 			middlename: 'string?',
-			gender: 'string',
+			gender: 'string?',
 			createdAt: 'date',
 			updatedAt: 'date',
 			deletedAt: 'date?',

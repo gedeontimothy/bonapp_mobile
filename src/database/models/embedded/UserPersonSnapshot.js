@@ -10,7 +10,7 @@ export class UserPersonSnapshot extends Realm.Object {
 			displayName: "string",
 			firstname: "string",
 			lastname: "string",
-			gender: "string",
+			gender: "string?",
 		}
 	}
 }
