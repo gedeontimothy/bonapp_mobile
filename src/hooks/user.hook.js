@@ -42,7 +42,9 @@ export function useUserService() {
  *
  * @returns {{
  *   getUsers: Function,
- *   getUser: Function
+ *   getAllUser: Function,
+ *   getUser: Function,
+ *   getUserByUsername: Function,
  * }}
  */
 export function useUser() {
@@ -74,6 +76,18 @@ export function useUser() {
 	)
 
 	/**
+	 * Retrieve user list.
+	 * 
+	 * @returns {Array<Object>}
+	 */
+	const getAllUser = useCallback(
+		(withTrashed = true) => {
+			return service.getAllUser(withTrashed)
+		},
+		[service]
+	)
+
+	/**
 	 * Retrieve single user by identifier.
 	 *
 	 * @param {string|BSON.UUID} id
@@ -88,9 +102,26 @@ export function useUser() {
 		[service]
 	)
 
+	/**
+	 * Retrieve single user by username.
+	 * 
+	 * @param {string} username
+	 * @param {boolean} withTrashed
+	 * 
+	 * @returns {User|null}
+	 */
+	const getUserByUsername = useCallback(
+		(username, withTrashed = false) => {
+			return service.getUserByUsername(username, withTrashed)
+		},
+		[service]
+	)
+
 	return {
 		getUsers,
+		getAllUser,
 		getUser,
+		getUserByUsername,
 	};
 }
 
@@ -119,6 +150,16 @@ export function useUserActions() {
 	 * Create a new user.
 	 *
 	 * @param {Object} data - User payload.
+	 * @param {Object} data.userData
+	 * @param {string} data.userData.username
+	 * @param {string} data.userData.pin
+	 * @param {?string} data.userData.email
+	 * @param {?Date} data.userData.email_verified_at
+	 * @param {Object} data.personData
+	 * @param {string} data.personData.firstname
+	 * @param {string} data.personData.lastname
+	 * @param {?string} data.personData.middlename
+	 * @param {string} data.personData.gender
 	 * @param {Object} [options={}] - Creation options.
 	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
 	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
