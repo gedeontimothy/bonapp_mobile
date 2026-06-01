@@ -6,15 +6,14 @@ import { useTranslation } from "react-i18next";
 import { themeColor as themeColorSelector } from "../../store/features/settings/settings.selector";
 
 import { hexToRgba } from "../../utils/helpers";
+
 import { Button } from "../../components/Button";
-import AppTextBase from "../../components/AppText";
 import { ProfileCard } from "../../components/UserCard";
 
 export const RecentProfiles = ({
 	onProfileChange,
 	disabled = false,
 	style = null,
-	profiles = [],
 	setProfileValue,
 	profileValue,
 }) => {
@@ -26,11 +25,14 @@ export const RecentProfiles = ({
 	
 	const [hiddenProfiles, setHiddenProfiles] = useState(true);
 
-	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
-
 	const setProfileSelected = (profil) => {
 		setProfileValue(profil);
 	}
+
+	const mockProfiles = [
+		{"_id" : "xx", "username": "johndoe", "person" : {"displayName": "John Doe"}, avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGhuAJ4Ha6SdyN6CeKzq6o4x1KI22vW3vuRFFRrt3O8YuiB-gSQdfiugTXyN8JoMj0YsOfH_D5y0eUaO-h0gMS1XX_SoT2iqwtuijuYrmRaGSSa0kldjtvEKi7wvuiDA6_O22msWeUnBSt9Sr7CUPK8rUfLNCXjQrRNns_uRauH2s6z004aLnx7LHNFa2NY9FCBuPlewShqR-SOCbJyU2-63LZlzRoA4km5ynhJXRh7hZgBwAGBaGZD7IHAX54txb5Rd8KWp_B0gc",},
+		{"_id" : "xy", "username": "sandracelia", "person" : {"displayName": "Sandra Celia"}, avatar: null,},
+	];
 
 	return (
 		<View style={style}>
@@ -66,7 +68,7 @@ export const RecentProfiles = ({
 			{!hiddenProfiles && (
 				<View>
 					<View>
-						{profiles.map((data, index) => <ProfileCard
+						{mockProfiles.map((data, index) => <ProfileCard
 							key={index}
 							style={{
 								marginTop: 16,

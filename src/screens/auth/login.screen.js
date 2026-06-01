@@ -37,22 +37,13 @@ export default function LoginScreen({children, navigation}) {
 
 	const form = useLoginForm();
 
-	const { getAllUser } = useUser();
-
-	const users = getAllUser();
-
 	const onSubmit = async (data) => {
-		console.log(data, users)
+		console.log(data)
 	};
 
 	const goToRegister = () => {
 		navigation.navigate("auth.register");
 	}
-
-	const mockProfiles = [
-		{"_id" : "xx", "username": "johndoe", "person" : {"displayName": "John Doe"}, avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGhuAJ4Ha6SdyN6CeKzq6o4x1KI22vW3vuRFFRrt3O8YuiB-gSQdfiugTXyN8JoMj0YsOfH_D5y0eUaO-h0gMS1XX_SoT2iqwtuijuYrmRaGSSa0kldjtvEKi7wvuiDA6_O22msWeUnBSt9Sr7CUPK8rUfLNCXjQrRNns_uRauH2s6z004aLnx7LHNFa2NY9FCBuPlewShqR-SOCbJyU2-63LZlzRoA4km5ynhJXRh7hZgBwAGBaGZD7IHAX54txb5Rd8KWp_B0gc",},
-		{"_id" : "xy", "username": "sandracelia", "person" : {"displayName": "Sandra Celia"}, avatar: null,},
-	];
 
 	useEffect(() => {
 
@@ -91,7 +82,6 @@ export default function LoginScreen({children, navigation}) {
 					setProfileValue={setCurrentProfileSelected}
 					profileValue={currentProfileSelected}
 					style={styles.recentProfilesContainer}
-					profiles={mockProfiles}
 				/>
 			)}
 			<View>
