@@ -8,10 +8,19 @@
 
 	"alreadyOnProcessing" : "Already on processing...",
 
+	"buttons": {
+		"createAccount": "Create an account",
+		"logIn": "Log in",
+		"viewProfiles" : "View recents profiles"
+	},
+
 	"labels" : {
 		"username" : "Username",
 		"lastname" : "Lastname",
 		"firstname" : "Firstname",
 		"pin": "Sécurity code (PIN)"
+	},
+	"actions": {
+		"pinInfo": "Enter your {{max_number}}-digit code."
 	}
 }

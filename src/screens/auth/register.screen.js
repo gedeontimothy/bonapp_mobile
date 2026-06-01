@@ -1,6 +1,6 @@
 import { useSelector, useStore } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, ToastAndroid, View } from "react-native";
+import { Alert, Pressable, StyleSheet, ToastAndroid, View } from "react-native";
 import { Controller } from "react-hook-form";
 import Octicons from 'react-native-vector-icons/Octicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -85,6 +85,10 @@ export default function RegisterScreen({children, navigation}) {
 		}
 		else ToastAndroid.show("common:alreadyOnProcessing", ToastAndroid.LONG)
 	};
+
+	const goToLogin = () => {
+		navigation.navigate('auth.login')
+	}
 
 	return (
 		<AuthLayout
@@ -198,7 +202,13 @@ export default function RegisterScreen({children, navigation}) {
 							color="white"
 						/>
 					}
-				>{t("auth.register.button")}</Button>
+				>{t("common:buttons.createAccount")}</Button>
+				<View style={styles.goToLoginContainer}>
+					<AppText color="on-surface-variant">{t("auth.register.questionAlready")} </AppText>
+					<Pressable onPress={goToLogin}>
+						<AppText font="semibold" color="on-surface-variant">{t("common:buttons.logIn")}</AppText>
+					</Pressable>
+				</View>
 			</View>
 		</AuthLayout>
 	);
@@ -207,6 +217,13 @@ export default function RegisterScreen({children, navigation}) {
 const styles = StyleSheet.create({
 	container: {
 		padding: 24,
+	},
+	goToLoginContainer:{
+		flexDirection: "row",
+		alignItems:
+		"center",
+		justifyContent: "center",
+		marginTop: 16
 	},
 	formContainer: {
 		padding: 28,

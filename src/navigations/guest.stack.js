@@ -17,6 +17,11 @@ export default function GuestStack() {
 				component={screens.auth.RegisterScreen}
 				options={{ headerShown: false }}
 			/>
+			<Stack.Screen
+				name="auth.login"
+				component={screens.auth.LoginScreen}
+				options={{ headerShown: false }}
+			/>
 
 			<Stack.Group>
 				<Stack.Screen
