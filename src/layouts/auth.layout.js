@@ -23,7 +23,8 @@ import BarLayout from "./bar.layout";
  * @param {Object|Array} [props.style] - Custom styles applied to the content container.
  * @param {string} props.captionTitle - Main title displayed in the header section.
  * @param {string} props.captionDescription - Description text displayed below the title.
- *
+ * @param {React.ReactNode} footer - Footer screen content rendered inside the layout.
+ * 
  * @returns {JSX.Element}
  */
 export default function AuthLayout({
@@ -31,6 +32,7 @@ export default function AuthLayout({
 	style,
 	captionTitle,
 	captionDescription,
+	footer = null,
 }){
 
 	const { t } = useTranslation();
@@ -69,24 +71,28 @@ export default function AuthLayout({
 					<ThemeToggle iconColor={themeColor["on-surface-variant"]}/>
 				</View>
 
-				<View style={styles.captionContainer}>
-					<AppText
-						style={[styles.captionTitle, {lineHeight: (4 + spacing.fontSize["4xl"]) * pixelRatio}]}
-						font='semibold'
-						color="on-background"
-						size="4xl"
-					>{captionTitle}</AppText>
-					<AppText
-						style={styles.captionDescription}
-						font='light'
-						color="on-surface-variant"
-						size="lg"
-					>{captionDescription}</AppText>
+				<View style={{flexGrow: 1}}>
+					<View style={styles.captionContainer}>
+						<AppText
+							style={[styles.captionTitle, {lineHeight: (4 + spacing.fontSize["4xl"]) * pixelRatio}]}
+							font='semibold'
+							color="on-background"
+							size="4xl"
+						>{captionTitle}</AppText>
+						<AppText
+							style={styles.captionDescription}
+							font='light'
+							color="on-surface-variant"
+							size="lg"
+						>{captionDescription}</AppText>
+					</View>
+
+					<View style={style}>
+						{children}
+					</View>
 				</View>
 
-				<View style={style}>
-					{children}
-				</View>
+				{footer}
 
 			</ScrollView>
 		</SafeAreaView>
