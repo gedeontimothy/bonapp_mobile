@@ -3,6 +3,7 @@ import {
 	StyleSheet,
 	SafeAreaView,
 	ScrollView,
+	Pressable,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
@@ -36,6 +37,10 @@ export default function WelcomeScreen({navigation}) {
 	const handleStartButton = (e) => {
 		navigation.navigate('auth.register');
 	};
+
+	const goToLogin = () => {
+		navigation.navigate('auth.login')
+	}
 
 	return (
 		<SafeAreaView style={[
@@ -103,6 +108,12 @@ export default function WelcomeScreen({navigation}) {
 							<Icon name="arrow-right-circle" size={spacing.fontSize["xl"] * pixelRatio} color="white"/>
 						}
 					>{t("guest.welcome.startButton")}</Button>
+					<View style={styles.goToLoginContainer}>
+						<AppTextScaled size="lg" color="on-surface-variant">{t("guest.welcome.alreadyAccount")} - </AppTextScaled>
+						<Pressable onPress={goToLogin}>
+							<AppTextScaled size="lg" font="semibold" color="on-surface-variant">{t("common:buttons.logIn")}</AppTextScaled>
+						</Pressable>
+					</View>
 				</View>
 
 
@@ -188,6 +199,13 @@ const styles = StyleSheet.create({
 		},
 		button: {
 			marginTop: 48,
+		},
+		goToLoginContainer:{
+			flexDirection: "row",
+			alignItems:
+			"center",
+			justifyContent: "center",
+			marginTop: 16
 		},
 
 
