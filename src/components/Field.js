@@ -106,6 +106,7 @@ export function Field({
  * @param {boolean} [props.disabled=false] - Disables input editing when true.
  * @param {React.ReactNode} [props.labelRightContent] - Element displayed on the right side of the label.
  * @param {Object} [props.labelProps={}] - Additional props passed to the label AppText component.
+ * @param {boolean} [props.hidden=false] - Hidden value.
  * @param {...Object} props - Additional props passed to the hidden TextInput.
  *
  * @returns {JSX.Element}
@@ -120,6 +121,7 @@ export function PinField({
 	disabled = false,
 	labelRightContent,
 	labelProps={},
+	hidden = false,
 	...props
 }) {
 	const themeColor = useSelector(themeColorSelector);
@@ -134,10 +136,12 @@ export function PinField({
 		);
 	}, [value, maxLength]);
 
-	const renderPin = (char, index) => {
+	const renderPin = (char, index, ) => {
 		const pointer = focused && index === value.length;
 		if(inputRef.current?.blur && char && (index + 1) == maxLength)
 			inputRef.current.blur();
+
+		const isCharAndHidden = char && hidden;
 
 		return (
 			<View key={index} style={styles.pinContainer}>
@@ -146,19 +150,29 @@ export function PinField({
 					size="2xl"
 					font="semibold"
 					style={{
-						...(!char
+						...(isCharAndHidden || !char
 							? {
 								borderRadius: 100,
 								width: pointer ? "50%" : "35%",
 								height: pointer ? "50%" : "35%",
-								backgroundColor: pointer
+								backgroundColor: pointer || isCharAndHidden
 									? themeColor["outline-variant"]
 									: hexToRgba(themeColor["outline-variant"], 0.3),
 							}
 							: {position: "relative", bottom: 3,}
+						),
+						...(isCharAndHidden
+							? {
+								backgroundColor: themeColor["outline-variant"],
+								borderColor: themeColor["on-background"],
+								borderWidth: 3,
+								width: "65%",
+								height: "65%",
+							}
+							: {}
 						)
 					}}
-				>{char}</AppText>
+				>{hidden ? "" : char}</AppText>
 			</View>
 		)
 	};
