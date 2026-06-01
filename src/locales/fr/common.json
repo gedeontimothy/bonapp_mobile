@@ -8,10 +8,19 @@
 
 	"alreadyOnProcessing" : "Processus déjà en cours...",
 
+	"buttons": {
+		"createAccount": "Créer un compte",
+		"logIn": "Se connecter",
+		"viewProfiles" : "Voir les profiles récents"
+	},
+
 	"labels" : {
 		"username" : "Nom d'utilisateur",
 		"lastname" : "Nom",
 		"firstname" : "Prénom",
 		"pin": "Code de sécurité (PIN)"
+	},
+	"actions": {
+		"pinInfo": "Entrez votre code à {{max_number}} chiffres."
 	}
 }

@@ -4,7 +4,8 @@
 			"captionSlogan": "Financial Excellence",
 			"captionTitle": "Welcome to the Financial Workshop.",
 			"captionDescription": "Manage your cash receipts with absolute precision. A solution dedicated to rigorous monitoring of your money flows and withdrawals.",
-			"startButton": "Start the adventure"
+			"startButton": "Start the adventure",
+			"alreadyAccount" : "I already have an account"
 		}
 	},
 	"auth": {
@@ -13,7 +14,13 @@
 			"captionDescription": "Join the BonApp Financial Workshop. Manage your withdrawals with editorial precision.",
 			"pinInfo": "Use a {{max_number}}-digit code to secure your withdrawals. This code will be required for every critical transaction.",
 
-			"button": "Create an account"
+			"questionAlready": "Already member?"
+		},
+		"login" : {
+			"captionTitle": "Log in to your account",
+			"captionDescription": "Glad to see you again at BonApp.",
+
+			"questionNew": "New here?"
 		}
 	}
 }

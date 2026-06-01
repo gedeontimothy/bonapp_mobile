@@ -4,7 +4,8 @@
 			"captionSlogan": "L'Excellence Financière",
 			"captionTitle": "Bienvenue dans l'Atelier Financier.",
 			"captionDescription": "Gérez vos bons de sortie de caisse avec une précision absolue. Une solution dédiée au suivi rigoureux de vos flux et retraits d'argent.",
-			"startButton": "Commencer l'aventure"
+			"startButton": "Commencer l'aventure",
+			"alreadyAccount" : "J'ai déjà un compte"
 		}
 	},
 	"auth" : {
@@ -13,7 +14,13 @@
 			"captionDescription": "Rejoignez l'Atelier Financier de BonApp. Gérez vos retraits avec une précision éditoriale.",
 			"pinInfo": "Utilisez un code à {{max_number}} chiffres pour sécuriser vos retraits. Ce code vous sera demandé à chaque transaction critique.",
 
-			"button": "Créer un compte"
+			"questionAlready": "Déjà membre ?"
+		},
+		"login" : {
+			"captionTitle": "Se connecter sur votre compte",
+			"captionDescription": "Ravi de vous revoir chez BonApp.",
+
+			"questionNew": "Nouveau ici ?"
 		}
 	}
 }
