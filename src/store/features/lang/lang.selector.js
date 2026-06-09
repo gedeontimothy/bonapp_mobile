@@ -6,7 +6,7 @@ import { buildProcessSelectors, getProcess, getProcesses, getProcessesByActionTy
 /**
  * Retrieves the current language select
  *
- * @param {object} state - The Redux state
+ * @param {Object} state - The Redux state
  * @returns {string}
  */
 export const currentLanguage = (state) => state.lang.currentLanguage;
@@ -14,15 +14,15 @@ export const currentLanguage = (state) => state.lang.currentLanguage;
 /**
  * Returns the list of available languages
  *
- * @param {object} state - The Redux state
- * @returns {string[]}
+ * @param {Object} state - The Redux state
+ * @returns {Array<string>}
  */
 export const availableLanguages = (state) => state.lang.availableLanguages;
 
 /**
  * Retrieves the active language
  *
- * @param {object} state - The Redux state
+ * @param {Object} state - The Redux state
  * @returns {string}
  */
 export const activeLang = createSelector(
@@ -38,7 +38,7 @@ export const activeLang = createSelector(
 /**
  * Returns the list of available languages excluding the current language
  *
- * @var {string[]}
+ * @var {Array<string>}
  */
 export const otherAvailableLanguages = createSelector(
 	[availableLanguages, currentLanguage],
@@ -48,7 +48,8 @@ export const otherAvailableLanguages = createSelector(
 /**
  * Check if any language is current laguage.
  *
- * @var {boolean}
+ * @param {string} language
+ * @returns {(state: Object) => boolean}
  */
 export const isCurrentLanguage = (language) => createSelector(
 	[currentLanguage],

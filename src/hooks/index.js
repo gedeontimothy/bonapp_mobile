@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, AsyncThunk, GetThunkAPI, AsyncThunkConfig } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { is_object } from '../utils/check';
 
@@ -6,11 +6,11 @@ import { is_object } from '../utils/check';
  * Creates an asynchronous thunk to retrieve data from AsyncStorage.
  *
  * @param {string} typePrefix - Prefix for the thunk type (ex: 'lang/initLang')
- * @param {Array} itemKeys - The data keys in AsyncStorage
- * @param {function} callback - Callback to process the recovered data(ex: `async (action: object, parsedData: string | null, thunkAPI: object, error: boolean | object, ...args) => parsedData`)
+ * @param {Array<string>} itemKeys - The data keys in AsyncStorage
+ * @param {(payload: any, parsedData: any, thunkAPI: GetThunkAPI<AsyncThunkConfig>, error: boolean | Object, ...extra_args) => any} callback - Callback to process the recovered data(ex: `async (payload: Object, parsedData: any, thunkAPI: object, error: boolean | object, ...args) => parsedData`)
  * @param {boolean} auto_reject - If true, the error will be rejected automatically
  * 
- * @returns {function}
+ * @returns {AsyncThunk<any, void, AsyncThunkConfig>}
  */
 export function createStorageAsyncThunk(typePrefix, itemKeys, callback, auto_reject = true, ...args) {
 	return createAsyncThunk(
