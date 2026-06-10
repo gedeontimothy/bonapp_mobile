@@ -17,3 +17,7 @@ export const is_async_function = (arg) => {
 export const is_object = (arg) => {
 	return arg instanceof Object && !is_array(arg) && !is_function(arg);
 };
+
+export const is_array = (arg) => {
+	return Array.isArray(arg);
+};

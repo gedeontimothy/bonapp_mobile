@@ -71,7 +71,13 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} code
 	 * 
-	 * @returns {(state: Object) => Object | null}
+	 * @returns {(state: Object) => ({
+	 *   actionType: string,
+	 *   processState: "rejected" | "fulfilled" | "pending",
+	 *   progress: ?number,
+	 *   error: ?string,
+	 *   requestId: ?string
+	 * } | null)}
 	 */
 	getProcess : (code) => getProcess({processSliceName, code}),
 
@@ -79,7 +85,15 @@ export const buildProcessSelectors = processSliceName => ({
 	 * Get all processes.
 	 * 
 	 * @param {Object} state 
-	 * @returns {Object}
+	 * @returns {{
+	 *   [code: string]: {
+	 *     actionType: string,
+	 *     processState: "rejected" | "fulfilled" | "pending",
+	 *     progress: ?number,
+	 *     error: ?string,
+	 *     requestId: ?string
+	 *   }
+	 * }}
 	 */
 	getProcesses : (state) => getProcesses(processSliceName)(state),
 
@@ -88,7 +102,15 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} actionType
 	 * 
-	 * @returns {(state: Object) => Object | null}
+	 * @returns {(state: Object) => {
+	 *   [code: string]: {
+	 *     actionType: string,
+	 *     processState: "rejected" | "fulfilled" | "pending",
+	 *     progress: ?number,
+	 *     error: ?string,
+	 *     requestId: ?string
+	 *   }
+	 * } | null}
 	 */
 	getProcessesByActionType : (actionType) => getProcessesByActionType({ processSliceName, actionType }),
 
@@ -105,7 +127,7 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} actionType 
 	 * 
-	 * @returns {(state: Object) => Object | null}
+	 * @returns {(state: Object) => number}
 	 */
 	countPendingProcessByActionType: (actionType) => countPendingProcessByActionType({ processSliceName, actionType }),
 });

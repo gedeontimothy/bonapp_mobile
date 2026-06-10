@@ -41,10 +41,22 @@ export function useUserService() {
  * retrieval/query methods.
  *
  * @returns {{
- *   getUsers: Function,
- *   getAllUser: Function,
- *   getUser: Function,
- *   getUserByUsername: Function,
+ *   getUsers: (options: {
+ *     page: number,
+ *     limit: number,
+ *     sortBy: string,
+ *     descending: boolean,
+ *   }) => ({
+ *     data: Realm.Results<User>,
+ *     total: number,
+ *     page: number,
+ *     limit: number,
+ *     hasNextPage: boolean,
+ *     hasPrevPage: boolean
+ *   } | null),
+ *   getAllUser: (withTrashed: boolean) => (Array<Object> | null),
+ *   getUser: (id: string | BSON.UUID, withTrashed: boolean) => (Object | null),
+ *   getUserByUsername: (username: string, withTrashed: boolean) => (Object | null),
  * }}
  */
 export function useUser() {
@@ -135,8 +147,22 @@ export function useUser() {
  * mutation/action methods.
  *
  * @returns {{
- *   createUser: Function,
- *   deleteUser: Function
+ *   createUser: (
+ *     data: {
+ *       userData: Object,
+ *       personData: Object,
+ *     },
+ *     options: {
+ *       processCode: string,
+ *       autoState: boolean,
+ *       onConcurrent: ((number_of_process: number) => void) | null,
+ *     }
+ *   ) => Promise<Object|null>,
+ *   deleteUser: (user: Object, options: {
+ *     processCode: string,
+ *     autoState: boolean,
+ *     onConcurrent: ((number_of_process: number) => void) | null,
+ *   }) => Promise<boolean|null>
  * }}
  */
 export function useUserActions() {
@@ -163,18 +189,18 @@ export function useUserActions() {
 	 * @param {Object} [options={}] - Creation options.
 	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
 	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
-	 * @param {?Function} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
+	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
 	 *
-	 * @returns {User}
+	 * @returns {Promise<User|null>}
 	 */
 	const createUser = useCallback(
-		(data, {
+		async function(data, {
 			processCode = null,
 			autoState = true,
 			onConcurrent = null
-		} = {}) => {
+		} = {}){
 			const code = processCode ?? uuid.v4();
-			const results = executeProcess(() => {
+			const results = await executeProcess(() => {
 					try {
 						let user = null;
 
@@ -220,18 +246,22 @@ export function useUserActions() {
 	 * otherwise performs permanent deletion.
 	 *
 	 * @param {User} user
+	 * @param {Object} [options={}] - Options.
+	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
+	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
+	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
 	 *
-	 * @returns {boolean}
+	 * @returns {Promise<boolean|null>}
 	 */
 	const deleteUser = useCallback(
-		(user, {
+		async function(user, {
 			processCode = null,
 			autoState = true,
 			onConcurrent = null
-		} = {}) => {
+		} = {}) {
 			const code = processCode ?? uuid.v4();
 
-			return executeProcess(() => {
+			return await executeProcess(() => {
 					try {
 						let deleted = false;
 

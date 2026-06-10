@@ -42,8 +42,20 @@ export function usePersonService() {
  * retrieval/query methods.
  *
  * @returns {{
- *   getPeople: Function,
- *   getPerson: Function
+ *   getPeople: (options: {
+ *     page: number,
+ *     limit: number,
+ *     sortBy: string,
+ *     descending: boolean,
+ *   }) => ({
+ *     data: Realm.Results<User>,
+ *     total: number,
+ *     page: number,
+ *     limit: number,
+ *     hasNextPage: boolean,
+ *     hasPrevPage: boolean
+ *   } | null),
+ *   getPerson: (id: string | BSON.UUID, withTrashed: boolean) => (Object | null)
  * }}
  */
 export function usePerson() {
@@ -105,8 +117,15 @@ export function usePerson() {
  * mutation/action methods.
  *
  * @returns {{
- *   createPerson: Function,
- *   deletePerson: Function
+ *   createPerson: (
+ *     data: Object,
+ *     options: {
+ *       processCode: string,
+ *       autoState: boolean,
+ *       onConcurrent: ((number_of_process: number) => void) | null,
+ *     }
+ *   ) => Object | null,
+ *   deletePerson: (person : Object) => (boolean | null)
  * }}
  */
 export function usePersonActions() {
@@ -123,19 +142,19 @@ export function usePersonActions() {
 	 * @param {Object} [options={}] - Creation options.
 	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
 	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
-	 * @param {?Function} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
+	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
 	 *
-	 * @returns {Person}
+	 * @returns {Promise<Person>}
 	 */
 	const createPerson = useCallback(
-		(data, {
+		async function(data, {
 			processCode = null,
 			autoState = true,
 			onConcurrent = null
-		} = {}) => {
+		} = {}) {
 			const code = processCode ?? uuid.v4();
 
-			return executeProcess(
+			return await executeProcess(
 				() => {
 					let person = null;
 
@@ -169,18 +188,22 @@ export function usePersonActions() {
 	 * otherwise performs permanent deletion.
 	 *
 	 * @param {Person} person
+	 * @param {Object} [options={}] - Options.
+	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
+	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
+	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
 	 *
-	 * @returns {boolean}
+	 * @returns {Promise<boolean>}
 	 */
 	const deletePerson = useCallback(
-		(person, {
+		async function(person, {
 			processCode = null,
 			autoState = true,
 			onConcurrent = null
-		} = {}) => {
+		} = {}) {
 			const code = processCode ?? uuid.v4();
 
-			return executeProcess(
+			return await executeProcess(
 				() => {
 					let deleted = false;
 
