@@ -1,5 +1,5 @@
 import { SHA256 } from "crypto-js";
-import { is_async_function, is_string } from "./check";
+import { is_async_function, is_function, is_object, is_string } from "./check";
 
 /**
  * Executes a callback after a delay.
@@ -51,7 +51,11 @@ export const hexToRgba = (hex, alpha = 1) => {
  *
  * @async
  *
- * @param {Function} call - Async or synchronous function to execute.
+ * @param {(options: {
+ *   code: string,
+ *   countPendingProcess: number,
+ *   errorProcess: (message: string | Object) => void
+ * }) => any} call - Async or synchronous function to execute.
  * @param {Object} options - Execution options.
  * @param {Object} options.store - Redux store.
  * @param {(state: Object) => number} options.countProcess - Returns the number of pending processes.
@@ -114,17 +118,54 @@ export const executeProcess = async function(call, {
 		}));
 
 	try {
-		const results = await call();
+		let error_process = {current: false};
 
-		if(code && autoState)
-			store.dispatch(setProcess({
-				code,
-				processState: "fulfilled",
-			}))
-		
-		if(safeReturn) return {error: false, isConcurrent: false, data : results};
+		const results = await call({
+			code,
+			countPendingProcess: count_pending_process,
+			errorProcess(message){
+				if(code){
+					store.dispatch(setProcess({
+						...(autoState
+							? {processState: "rejected"}
+							: {}
+						),
+						...(is_object(message)
+							? message
+							: {error: message}
+						),
+						code,
+					}));
+				}
+				error_process.current = true;
+			}
+		});
 
-		return results;
+		if(!error_process.current){
+
+			if(code && autoState)
+				store.dispatch(setProcess({
+					code,
+					processState: "fulfilled",
+				}))
+			
+			if(safeReturn) return {
+				error: false,
+				isConcurrent: false,
+				data : results
+			};
+	
+			return results;
+
+		}
+
+		if(safeReturn && !is_function(results)) return {
+			error: true,
+			isConcurrent: false,
+			message : results,
+		};
+
+		return is_function(results) ? results() : results;
 
 	} catch (error) {
 		if(code){
