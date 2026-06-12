@@ -207,3 +207,32 @@ export const checkPinCode = (pin, hashPin) => {
 export const hash = (message) => {
 	return SHA256(message).toString();
 }
+
+ /**
+  * Remove array values.
+  *
+  * @param {any} value
+  * @param {Array} tab
+  * 
+  * @returns {Array}
+  */
+export const removeArrayValues = (value, tab) => {
+	return tab.filter(v => v !== value)
+}
+
+/**
+ * Filter an associative array.
+ * 
+ * @param {Object} obj
+ * @param {(value, key: string) => boolean} call
+ * 
+ * @returns {Object}
+ */
+export const filterObject = (obj, call) => {
+	return Object
+		.fromEntries(Object
+			.entries(obj)
+			.filter(value => call(value[1], value[0]))
+		)
+	;
+}

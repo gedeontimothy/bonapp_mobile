@@ -1,4 +1,5 @@
 import { is_number } from "../../../utils/check";
+import { filterObject } from "../../../utils/helpers";
 
 /**
  * Selector to get a specific process.
@@ -22,10 +23,7 @@ export const getProcesses = (processSliceName) => (state) => state.process.proce
  * @param {{processSliceName: string, actionType: string}} args
  * @returns {(state: Object) => Object}
  */
-export const getProcessesByActionType = ({ processSliceName, actionType }) => (state) => Object.fromEntries(Object
-	.entries(getProcesses(processSliceName)(state))
-	.filter(([k, p]) => p.actionType === actionType)
-);
+export const getProcessesByActionType = ({ processSliceName, actionType }) => (state) => filterObject(getProcesses(processSliceName)(state), value => value.actionType === actionType);
 
 /**
  * Counts the total number of pending processes across all categories.
