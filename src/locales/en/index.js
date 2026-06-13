@@ -1,4 +1,5 @@
 import common from './common.json'
+import feedback from './feedback.json'
 import errors from './errors.json'
 import validations from './validations.json'
 
@@ -9,6 +10,7 @@ import theme from './theme.json'
 
 export default{
 	common,
+	feedback,
 	errors,
 	validations,
 

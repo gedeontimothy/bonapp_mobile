@@ -1,26 +1,42 @@
 {
 	"welcome": "Bienvenue !",
 	"terms": {
-		"condition" : "Conditions",
-		"confidentiality" : "Confidentialité"
+		"condition": "Conditions",
+		"confidentiality": "Confidentialité"
 	},
 	"copyright": "© 2024 BONAPP ATELIER",
-
-	"alreadyOnProcessing" : "Processus déjà en cours...",
 
 	"buttons": {
 		"createAccount": "Créer un compte",
 		"logIn": "Se connecter",
-		"viewProfiles" : "Voir les profiles récents"
+		"viewProfiles": "Voir les profils récents",
+		"currentProfiles": "Profils récents",
+		"delete": "Supprimer",
+		"cancel": "Annuler",
+		"confirm": "Confirmer"
 	},
 
-	"labels" : {
-		"username" : "Nom d'utilisateur",
-		"lastname" : "Nom",
-		"firstname" : "Prénom",
+	"labels": {
+		"username": "Nom d'utilisateur",
+		"lastname": "Nom",
+		"firstname": "Prénom",
 		"pin": "Code de sécurité (PIN)"
 	},
 	"actions": {
 		"pinInfo": "Entrez votre code à {{max_number}} chiffres."
+	},
+
+	"messages": {
+		"irreversibleAction": "Cette action est irréversible.",
+		"permanentDeletionWarning": "Toutes les données associées seront définitivement supprimées."
+	},
+
+	"confirmations": {
+		"profiles": {
+			"delete": {
+				"title": "Supprimer le profil « {{name}} » ?",
+				"message": "Cette action est irréversible. \nToutes les données associées à ce profil seront définitivement supprimées."
+			}
+		}
 	}
 }

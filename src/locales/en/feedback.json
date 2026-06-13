@@ -1,0 +1,45 @@
+{
+	"processing": {
+		"pleaseWait": "Please wait...",
+		"alreadyInProgress": "Your request is already being processed.",
+		"starting": "Starting...",
+		"loading": "Loading...",
+		"saving": "Saving changes...",
+		"creating": "Creating...",
+		"updating": "Updating...",
+		"deleting": "Deleting...",
+		"syncing": "Synchronizing data...",
+		"verifying": "Verifying information...",
+		"finalizing": "Finalizing...",
+		"almostDone": "Almost done..."
+	},
+
+	"operation": {
+		"success": "Operation completed successfully.",
+		"failed": "Operation failed.",
+		"cancelled": "Operation cancelled.",
+		"aborted": "Operation aborted.",
+		"pending": "Operation in progress.",
+		"completed": "Operation completed.",
+		"alreadyInProgress": "An operation is already in progress.",
+		"notAllowed": "This operation is not allowed.",
+		"forbidden": "You do not have permission to perform this operation.",
+		"timeout": "The operation timed out.",
+		"unavailable": "This operation is currently unavailable.",
+		"noChanges": "No changes were detected.",
+		"invalidState": "This operation cannot be performed at the moment.",
+		"conflict": "The operation could not be completed due to a conflict.",
+		"retry": "Please try again.",
+		"unexpected": "An unexpected error occurred."
+	},
+
+	"users": {
+		"created": "The account \"{{name}}\" has been created successfully.",
+		"updated": "The account \"{{name}}\" has been updated successfully.",
+		"deleted": "The account \"{{name}}\" has been deleted successfully."
+	},
+
+	"profiles": {
+		"deleted": "The profile \"{{name}}\" has been deleted successfully."
+	}
+}
