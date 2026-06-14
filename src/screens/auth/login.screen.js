@@ -1,4 +1,5 @@
 import { useSelector, useStore } from "react-redux";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StyleSheet, ToastAndroid, View } from "react-native";
 import { Controller } from "react-hook-form";
@@ -15,9 +16,9 @@ import { Field, PinField } from "../../components/Field";
 import { Button } from "../../components/Button";
 
 import AuthLayout from "../../layouts/auth.layout";
-import { useEffect, useState } from "react";
-import { useUser } from "../../hooks/user.hook";
+import { useAuth } from "../../hooks/auth.hook";
 import { RecentProfiles } from "../../partials/users/RecentProfiles";
+import { countProfiles as countProfilesSelector } from "../../store/features/auth/auth.selector";
 
 export default function LoginScreen({children, navigation}) {
 
@@ -27,18 +28,40 @@ export default function LoginScreen({children, navigation}) {
 
 	const themeColor = useSelector(themeColorSelector);
 	
-	const persistentUserExists = useSelector(state => state.auth.persistentUserExists);
+	const countProfiles = useSelector(countProfilesSelector);
 
 	const [currentProfileSelected, setCurrentProfileSelected] = useState(null);
 
 	const [hiddenPin, setHiddenPin] = useState(true);
 
+	const [loading, setLoading] = useState(false);
+
+	const pinFieldRef = useRef(null);
+
+	const {authOnProcessing, authenticate} = useAuth();
+
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
 
 	const form = useLoginForm();
 
-	const onSubmit = async (data) => {
-		console.log(data)
+	const onSubmit = (data) => {
+		if(!authOnProcessing && !loading){
+
+			setLoading(true);
+
+			requestAnimationFrame(async () => {
+
+				const results = await authenticate(data.username, data.pin);
+	
+				if(results !== true)
+					Alert.alert(t('errors:base'), results);
+	
+				setLoading(false);
+
+			})
+
+		}
+		else ToastAndroid.show(t("feedback:operation.alreadyInProgress"), ToastAndroid.LONG)
 	};
 
 	const goToRegister = () => {
@@ -46,12 +69,11 @@ export default function LoginScreen({children, navigation}) {
 	}
 
 	useEffect(() => {
-
-		if(currentProfileSelected)
-			form.setValue('username', currentProfileSelected.username);
-		else if(currentProfileSelected?.username == form.getValues().username)
-			form.setValue("username", "");
-
+		if(currentProfileSelected && currentProfileSelected?.user?.username){
+			form.setValue('username', currentProfileSelected.user.username);
+			if(pinFieldRef.current.focus && currentProfileSelected?.preferences?.loginWithoutPin)
+				pinFieldRef.current.focus();
+		}
 	}, [currentProfileSelected])
 
 	return (
@@ -77,10 +99,10 @@ export default function LoginScreen({children, navigation}) {
 				</View>
 			}
 		>
-			{persistentUserExists && (
+			{countProfiles > 0 && (
 				<RecentProfiles
+					disabled={loading}
 					setProfileValue={setCurrentProfileSelected}
-					profileValue={currentProfileSelected}
 					style={styles.recentProfilesContainer}
 				/>
 			)}
@@ -108,6 +130,7 @@ export default function LoginScreen({children, navigation}) {
 						name={"pin"}
 						render={({ field, fieldState }) => (
 							<PinField
+								pinInputRef={pinFieldRef}
 								label={t("common:labels.pin")}
 								hidden={hiddenPin}
 								value={field.value}
@@ -141,6 +164,7 @@ export default function LoginScreen({children, navigation}) {
 					</View>
 				</View>
 				<Button
+					disabled={authOnProcessing || loading}
 					style={{marginTop: 28}}
 					onPress={form.handleSubmit(onSubmit)}
 					backgroundColor={themeColor['primary-container']}
