@@ -1,26 +1,42 @@
 {
 	"welcome": "Welcome !",
 	"terms": {
-		"condition" : "Conditions",
-		"confidentiality" : "Confidentiality"
+		"condition": "Conditions",
+		"confidentiality": "Confidentiality"
 	},
 	"copyright": "© 2024 BONAPP WORKSHOP",
-
-	"alreadyOnProcessing" : "Already on processing...",
 
 	"buttons": {
 		"createAccount": "Create an account",
 		"logIn": "Log in",
-		"viewProfiles" : "View recents profiles"
+		"viewProfiles": "View recent profiles",
+		"currentProfiles": "Recent profiles",
+		"delete": "Delete",
+		"cancel": "Cancel",
+		"confirm": "Confirm"
 	},
 
-	"labels" : {
-		"username" : "Username",
-		"lastname" : "Lastname",
-		"firstname" : "Firstname",
-		"pin": "Sécurity code (PIN)"
+	"labels": {
+		"username": "Username",
+		"lastname": "Lastname",
+		"firstname": "Firstname",
+		"pin": "Security code (PIN)"
 	},
 	"actions": {
 		"pinInfo": "Enter your {{max_number}}-digit code."
+	},
+
+	"messages": {
+		"irreversibleAction": "This action is irreversible.",
+		"permanentDeletionWarning": "All associated data will be permanently deleted."
+	},
+
+	"confirmations": {
+		"profiles": {
+			"delete": {
+				"title": "Delete profile \"{{name}}\"?",
+				"message": "This action is irreversible. All associated data will be permanently deleted."
+			}
+		}
 	}
 }

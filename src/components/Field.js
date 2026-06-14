@@ -122,13 +122,14 @@ export function PinField({
 	labelRightContent,
 	labelProps={},
 	hidden = false,
+	pinInputRef=null,
 	...props
 }) {
 	const themeColor = useSelector(themeColorSelector);
 
 	const [focused, setFocused] = useState(false);
 
-	const inputRef = useRef(null)
+	const inputRef = pinInputRef ?? useRef(null)
 
 	const pinArray = useMemo(() => {
 		return Array.from({ length: maxLength }, (_, i) =>

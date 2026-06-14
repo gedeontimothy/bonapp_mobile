@@ -61,15 +61,31 @@
 		"notExists": "L'utilisateur n'existe pas.",
 		
 		"username": {
-			"alreadyExists": "Le nom d'utilisateur \"{{username}}\" est déjà utilisé."
+			"alreadyExists": "Le nom d'utilisateur « {{username}} » est déjà utilisé."
 		},
 
 		"email": {
-			"alreadyExists": "L'e-mail \"{{email}}\" est déjà utilisé."
+			"alreadyExists": "L'e-mail « {{email}} » est déjà utilisé."
+		},
+
+		"account": {
+			"notExists": "Le compte utilisateur n'existe pas."
 		}
 	},
 
 	"auth": {
-		"failed" : "Nom d'utilisateur ou mot de passe incorrect."
+		"failed": "Nom d'utilisateur ou mot de passe incorrect.",
+		"alreadyAuthenticated": "Cet utilisateur est déjà authentifié.",
+		"notAuthenticated": "Aucun utilisateur authentifié n'a été trouvé.",
+		"invalidPassword": "Le mot de passe est incorrect."
+	},
+
+	"profiles": {
+		"notExists": "Le profil n'existe pas.",
+		"alreadyExistsForUser": "Un profil existe déjà pour l'utilisateur « {{username}} ».",
+
+		"delete": {
+			"currentUserProfile": "Vous ne pouvez pas supprimer le profil de l'utilisateur actuellement connecté."
+		}
 	}
 }

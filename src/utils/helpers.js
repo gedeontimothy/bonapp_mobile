@@ -1,5 +1,5 @@
 import { SHA256 } from "crypto-js";
-import { is_async_function } from "./check";
+import { is_async_function, is_function, is_object, is_string } from "./check";
 
 /**
  * Executes a callback after a delay.
@@ -43,75 +43,145 @@ export const hexToRgba = (hex, alpha = 1) => {
 };
 
 /**
- * Executes a managed process with concurrency control, state tracking, and optional error handling.
+ * Executes a process with concurrency control and optional state management.
  *
- * This function acts as a generic orchestration layer around asynchronous operations.
- * It prevents concurrent execution of the same type of process, dispatches process state updates,
- * and handles success/failure state transitions when enabled.
+ * If a process limit is reached, execution is blocked and a concurrency
+ * handler or message is triggered. When a process `code` is provided,
+ * the process can be automatically tracked and updated in the store.
  *
- * @param {Function} call - The async operation to execute (e.g. API call, service function).
- * @param {Object} options - Configuration object for process execution.
- * @param {Object} options.store - Redux store used to dispatch process actions.
- * @param {Function} options.countProcess - Selector function that returns the number of pending processes.
- * @param {string} options.code - Unique identifier for the process instance.
- * @param {boolean} [options.autoState=true] - If true, automatically manages process state (pending/fulfilled/rejected).
- * @param {?Function} [options.onConcurrent=null] - Callback triggered when a concurrent process is already running.
- * @param {Function} options.addProcess - Action creator to register a new process in pending state.
- * @param {Function} options.setProcess - Action creator to update process state (fulfilled/rejected).
- * @param {string} options.actionType - Identifier describing the type of operation being executed.
- * @param {string} options.concurrentMessage - i18n key used when a concurrent operation blocks execution.
- * @param {Function} options.t - Translation function used to resolve i18n messages.
+ * @async
  *
- * @returns {*} Result of the executed `call` function, or `null` if execution is blocked or fails.
+ * @param {(options: {
+ *   code: string,
+ *   countPendingProcess: number,
+ *   errorProcess: (message: string | Object) => void
+ * }) => any} call - Async or synchronous function to execute.
+ * @param {Object} options - Execution options.
+ * @param {Object} options.store - Redux store.
+ * @param {(state: Object) => number} options.countProcess - Returns the number of pending processes.
+ * @param {number} [options.minProcesses=0] - Maximum allowed pending processes before blocking execution.
+ * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent] - Called when execution is blocked by concurrency rules.
+ * @param {string|null} [options.code=null] - Unique process identifier.
+ * @param {string} [options.processState="pending"] - Initial process state.
+ * @param {Function} options.addProcess - Action creator used to register a process.
+ * @param {Function} options.setProcess - Action creator used to update a process.
+ * @param {string} options.actionType - Process action type.
+ * @param {boolean} options.autoState - Automatically sets fulfilled/rejected states.
+ * @param {string|[key: string, options: Object]} options.concurrentMessage - Message shown when execution is blocked.
+ * @param {boolean} [options.safeReturn=false] - Returns a structured result instead of `null`.
+ * @param {(key: string, options: Object) => string} options.t - Translation function.
+ *
+ * @returns {Promise<any|Object|null>}
  */
-export const executeProcess = (call, {
+export const executeProcess = async function(call, {
 	store,
 	countProcess,
+	minProcesses=0,
 	onConcurrent,
-	code,
+	code=null,
+	processState="pending",
 	addProcess,
 	actionType,
 	autoState,
 	setProcess,
 	concurrentMessage,
+	safeReturn=false,
 	t,
-}) => {
+}) {
 	const count_pending_process = countProcess(store.getState());
 
-	if(count_pending_process > 0){
+	if(count_pending_process > minProcesses){
+
+		const concurrent_message = t(...(is_string(concurrentMessage)
+			? [concurrentMessage]
+			: concurrentMessage)
+		);
+
 		if(onConcurrent)
 			onConcurrent(count_pending_process)
 		else
-			ToastAndroid.show(t(concurrentMessage), ToastAndroid.LONG);
+			ToastAndroid.show(
+				concurrent_message,
+				ToastAndroid.LONG
+			);
+
+		if(safeReturn) return {error: true, isConcurrent: true, message: concurrent_message}
+
 		return null;
 	}
 
-	store.dispatch(addProcess({
-		code,
-		actionType,
-		processState: "pending",
-	}));
+	if(code)
+		store.dispatch(addProcess({
+			code,
+			actionType,
+			processState,
+		}));
 
 	try {
-		const results = call();
+		let error_process = {current: false};
 
-		if(autoState)
-			store.dispatch(setProcess({
-				code,
-				processState: "fulfilled",
-			}))
+		const results = await call({
+			code,
+			countPendingProcess: count_pending_process,
+			errorProcess(message){
+				if(code){
+					store.dispatch(setProcess({
+						...(autoState
+							? {processState: "rejected"}
+							: {}
+						),
+						...(is_object(message)
+							? message
+							: {error: message}
+						),
+						code,
+					}));
+				}
+				error_process.current = true;
+			}
+		});
 
-		return results;
+		if(!error_process.current){
+
+			if(code && autoState)
+				store.dispatch(setProcess({
+					code,
+					processState: "fulfilled",
+				}))
+			
+			if(safeReturn) return {
+				error: false,
+				isConcurrent: false,
+				data : results
+			};
+	
+			return results;
+
+		}
+
+		if(safeReturn && !is_function(results)) return {
+			error: true,
+			isConcurrent: false,
+			message : results,
+		};
+
+		return is_function(results) ? results() : results;
 
 	} catch (error) {
-		store.dispatch(setProcess({
-			code,
-			error: error.message,
-			...(autoState
-				? {processState: "rejected"}
-				: {}
-			),
-		}));
+		if(code){
+			store.dispatch(setProcess({
+				code,
+				error: error.message,
+				...(autoState
+					? {processState: "rejected"}
+					: {}
+				),
+			}));
+		}
+
+		console.warn(actionType, error);
+
+		if(safeReturn) return {error, isConcurrent: false, message: error.message};
 	}
 
 	return null;
@@ -136,4 +206,33 @@ export const checkPinCode = (pin, hashPin) => {
   */
 export const hash = (message) => {
 	return SHA256(message).toString();
+}
+
+ /**
+  * Remove array values.
+  *
+  * @param {any} value
+  * @param {Array} tab
+  * 
+  * @returns {Array}
+  */
+export const removeArrayValues = (value, tab) => {
+	return tab.filter(v => v !== value)
+}
+
+/**
+ * Filter an associative array.
+ * 
+ * @param {Object} obj
+ * @param {(value, key: string) => boolean} call
+ * 
+ * @returns {Object}
+ */
+export const filterObject = (obj, call) => {
+	return Object
+		.fromEntries(Object
+			.entries(obj)
+			.filter(value => call(value[1], value[0]))
+		)
+	;
 }

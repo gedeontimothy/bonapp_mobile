@@ -43,8 +43,8 @@ export const processSlice = createSlice({
 		/**
 		 * Adds a process to the slice.
 		 *
-		 * @param {object} state - Slice state
-		 * @param {object} action - Redux action
+		 * @param state - Slice state
+		 * @param {Object} action - Redux action
 		 * @param {string} action.payload.code - Unique process identifier
 		 * @param {string} action.payload.actionType - Type of action
 		 * @param {string} action.payload.processSliceName - Category of the process (e.g., "lang")
@@ -80,8 +80,10 @@ export const processSlice = createSlice({
 		/**
 		 * Updates an existing process and adjusts the pending counter.
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param state
+		 * @param {Object} action
+		 * @param {string} action.processSliceName
+		 * @param {string} action.code
 		 */
 		setProcess(state, action){
 			const {processSliceName, code} = action.payload;
@@ -112,8 +114,8 @@ export const processSlice = createSlice({
 		/**
 		 * Updates the state of an existing process and adjusts the pending counter.
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName - Process category
 		 * @param {string} action.payload.code - Process identifier
 		 * @param {string} action.payload.processState - New state ("pending", "fulfilled", "rejected")
@@ -154,8 +156,8 @@ export const processSlice = createSlice({
 		/**
 		 * Forces a process state to "pending".
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 * @param {string} action.payload.code
 		 */
@@ -173,8 +175,8 @@ export const processSlice = createSlice({
 		/**
 		 * Forces a process state to "rejected".
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 * @param {string} action.payload.code
 		 * @param {string} action.payload.error
@@ -194,8 +196,8 @@ export const processSlice = createSlice({
 		/**
 		 * Forces a process state to "fulfilled".
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 * @param {string} action.payload.code
 		 */
@@ -213,8 +215,8 @@ export const processSlice = createSlice({
 		/**
 		 * Increments the pending process counter for a category.
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 */
 		increaseCountProcessPending(state, action){
@@ -231,8 +233,8 @@ export const processSlice = createSlice({
 		/**
 		 * Decrements the pending process counter for a category.
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 */
 		decreaseCountProcessPending(state, action){
@@ -249,8 +251,8 @@ export const processSlice = createSlice({
 		/**
 		 * Removes a process and adjusts the pending counter if necessary.
 		 *
-		 * @param {object} state
-		 * @param {object} action
+		 * @param {Object} state
+		 * @param {Object} action
 		 * @param {string} action.payload.processSliceName
 		 * @param {string} action.payload.code
 		 */
@@ -279,9 +281,9 @@ export const processSlice = createSlice({
 /**
  * Creates a simple thunk that adds extra data to the payload before dispatching.
  *
- * @param {Function} actionCreator - Action to call
- * @param {object} defaults - Default payload to merge
- * @returns {Function}
+ * @param {(payload) => void} actionCreator - Action to call
+ * @param {Object} [defaults={}] - Default payload to merge
+ * @returns {(payload: any) => Function<void>}
  */
 const buildThunk = (actionCreator, defaults = {}) =>
 	payload =>
@@ -292,7 +294,23 @@ const buildThunk = (actionCreator, defaults = {}) =>
  * Builds thunks for a specific process category.
  *
  * @param {string} processSliceName
- * @returns {object} thunks - Contains addProcess, setProcessState, removeProcess with prefilled processSliceName
+ * 
+ * @returns {{
+ *   addProcess: (options: {
+ *     code: string,
+ *     actionType: string,
+ *     processState: ?string,
+ *     progress: ?number,
+ *     error: ?string,
+ *     requestId: ?string,
+ *   }) => void,
+ *   setProcess: (options: {code: string}) => void,
+ *   setProcessState: (options: {code: string, processState: string}) => void,
+ *   removeProcess: (options: {code: string}) => void,
+ *   markPendingProcessState: (options: {code: string}) => void,
+ *   markRejectedProcessState: (options: {code: string, error: string}) => void,
+ *   markFulfilledProcessState: (options: {code: string}) => void,
+ * }}
  */
 export const builProcessThunks = processSliceName => ({
 	addProcess : buildThunk(processSlice.actions.addProcess, {processSliceName}),

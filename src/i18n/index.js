@@ -25,6 +25,7 @@ export async function initI18n(language) {
 			defaultNS: 'screens',
 			ns: [
 				'common',
+				'feedback',
 				'errors',
 				'validations',
 

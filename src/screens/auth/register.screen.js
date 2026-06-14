@@ -41,10 +41,10 @@ export default function RegisterScreen({children, navigation}) {
 
 	const {authOnProcessing, authenticate} = useAuth();
 
-	const _createUser = (data) => {
+	const _createUser = async (data) => {
 		const processCode = uuid.v4();
 
-		const user = createUser({
+		const user = await createUser({
 			userData: {
 				username: data.username,
 				pin: data.pin,
@@ -66,24 +66,26 @@ export default function RegisterScreen({children, navigation}) {
 
 	}
 
-	const onSubmit = async (data) => {
-		if(!authOnProcessing && !userOnProcessing && !loading){
+	const onSubmit = (data) => {
+		setLoading(true);
 
-			setLoading(true);
+		requestAnimationFrame(async () => {
+			if(!authOnProcessing && !userOnProcessing && !loading){
 
-			const user = _createUser(data);
-
-			if(user){
-				const results = await authenticate(user.username, data.pin);
-
-				if(results !== true)
-					Alert.alert(t('errors:base'), results);
+				const user = await _createUser(data);
+	
+				if(user){
+					const results = await authenticate(user.username, data.pin);
+	
+					if(results !== true)
+						Alert.alert(t('errors:base'), results);
+				}
+	
+				setLoading(false);
+	
 			}
-
-			setLoading(false);
-
-		}
-		else ToastAndroid.show("common:alreadyOnProcessing", ToastAndroid.LONG)
+			else ToastAndroid.show(t("feedback:operation.alreadyInProgress"), ToastAndroid.LONG)
+		})
 	};
 
 	const goToLogin = () => {

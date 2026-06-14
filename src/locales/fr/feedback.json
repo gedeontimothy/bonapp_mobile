@@ -1,0 +1,45 @@
+{
+	"processing": {
+		"pleaseWait": "Veuillez patienter...",
+		"alreadyInProgress": "Votre demande est déjà en cours de traitement.",
+		"starting": "Démarrage...",
+		"loading": "Chargement...",
+		"saving": "Enregistrement des modifications...",
+		"creating": "Création en cours...",
+		"updating": "Mise à jour en cours...",
+		"deleting": "Suppression en cours...",
+		"syncing": "Synchronisation des données...",
+		"verifying": "Vérification des informations...",
+		"finalizing": "Finalisation...",
+		"almostDone": "Presque terminé..."
+	},
+
+	"operation": {
+		"success": "Opération effectuée avec succès.",
+		"failed": "L'opération a échoué.",
+		"cancelled": "L'opération a été annulée.",
+		"aborted": "L'opération a été interrompue.",
+		"pending": "Opération en cours.",
+		"completed": "Opération terminée.",
+		"alreadyInProgress": "Une opération est déjà en cours.",
+		"notAllowed": "Cette opération n'est pas autorisée.",
+		"forbidden": "Vous n'êtes pas autorisé à effectuer cette opération.",
+		"timeout": "Le délai d'exécution de l'opération a été dépassé.",
+		"unavailable": "Cette opération est actuellement indisponible.",
+		"noChanges": "Aucune modification détectée.",
+		"invalidState": "Cette opération ne peut pas être effectuée dans l'état actuel.",
+		"conflict": "L'opération n'a pas pu être effectuée en raison d'un conflit.",
+		"retry": "Veuillez réessayer.",
+		"unexpected": "Une erreur inattendue est survenue."
+	},
+
+	"users": {
+		"created": "Le compte « {{name}} » a été créé avec succès.",
+		"updated": "Le compte « {{name}} » a été mis à jour avec succès.",
+		"deleted": "Le compte « {{name}} » a bien été supprimé."
+	},
+
+	"profiles": {
+		"deleted": "Le profil « {{name}} » a bien été supprimé."
+	}
+}

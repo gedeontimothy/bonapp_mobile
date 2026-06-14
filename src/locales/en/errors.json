@@ -66,10 +66,26 @@
 
 		"email": {
 			"alreadyExists": "The \"{{email}}\" email is already in use."
+		},
+
+		"account": {
+			"notExists": "User account does not exist."
 		}
 	},
 
 	"auth": {
-		"failed" : "Incorrect username or password."
+		"failed": "Incorrect username or password.",
+		"alreadyAuthenticated": "This user is already authenticated.",
+		"notAuthenticated": "No authenticated user found.",
+		"invalidPassword": "The password is incorrect."
+	},
+
+	"profiles": {
+		"notExists": "Profile does not exist.",
+		"alreadyExistsForUser": "A profile already exists for user \"{{username}}\".",
+
+		"delete": {
+			"currentUserProfile": "You cannot delete the profile of the currently signed-in user."
+		}
 	}
 }
