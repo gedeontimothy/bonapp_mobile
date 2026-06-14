@@ -7,6 +7,10 @@ import { Button } from './Button';
 import spacing, {pixelRatio as pixelRatioSpacing} from '../theme/spacing';
 import { is_function } from '../utils/check';
 
+/**
+ * @param {TComponentDropdownProps} props 
+ * @returns {import('react').JSX.Element}
+ */
 export const Dropdown = ({
 	children,
 
@@ -44,6 +48,7 @@ export const Dropdown = ({
 		pickerRef.current.focus();
 	}
 
+	/** @type {number} */
 	const pixelRatioLocal = pixelRatio || pixelRatioSpacing()
 
 	const [label, setLabel] = useState(currentValue)

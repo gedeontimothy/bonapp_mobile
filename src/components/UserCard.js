@@ -14,16 +14,8 @@ import { Button } from "./Button";
  * Displays a user profile card with an avatar, name, username,
  * and an optional delete button.
  *
- * @param {Object} props
- * @param {string} props.name - Displayed name.
- * @param {string} props.username - Displayed username.
- * @param {string|null} [props.avatar=null] - Avatar image URL.
- * @param {Object|Array|null} [props.style=null] - Additional styles.
- * @param {number|null} [props.pixelRatio=null] - Custom scaling ratio.
- * @param {boolean} [props.disabled=false] - Disables interactions.
- * @param {Function|null} [props.onPressDelete=null] - Delete button callback.
- * @param {Function|null} [props.onPress=null] - Card press callback.
- * @param {boolean} [props.hiddenDeleteButton=false] - Hides the delete button.
+ * @param {TComponentProfileCardProps} props
+ * 
  * @returns {JSX.Element}
  */
 export const ProfileCard = ({
@@ -39,10 +31,14 @@ export const ProfileCard = ({
 	hiddenDeleteButton = false,
 }) => {
 
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector);
 
 	const pixelRatioLocal = pixelRatio || pixelRatioSpacing()
 
+	/**
+	 * @param {TComponentAppTextProps} props
+	 */
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled {...props}/>
 
 	const iconSize = spacing.fontSize["xl"] * pixelRatioLocal;
