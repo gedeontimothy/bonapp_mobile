@@ -17,7 +17,7 @@ import { Button } from "../../components/Button";
 
 import AuthLayout from "../../layouts/auth.layout";
 import { useAuth } from "../../hooks/auth.hook";
-import { RecentProfiles } from "../../partials/users/RecentProfiles";
+import { RecentProfiles } from "../../partials/auth/RecentProfiles";
 import { countProfiles as countProfilesSelector } from "../../store/features/auth/auth.selector";
 
 export default function LoginScreen({children, navigation}) {
