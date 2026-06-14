@@ -26,7 +26,7 @@ export const RecentProfiles = ({
 
 	const store = useStore();
 
-
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector);
 
 	const activeTheme = useSelector(activeThemeSelector);

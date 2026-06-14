@@ -63,7 +63,7 @@ export const authSlice = createSlice({
 		 *     user: Object,
 		 *     preferences: {
 		 *       loginWithoutPin: boolean,
-		 *       theme: string,
+		 *       theme: TThemeKey,
 		 *       lang: string,
 		 *     }
 		 *   }
@@ -720,7 +720,7 @@ export const {
 } = builProcessThunks("auth");
 
 /**
- * Initialize auth theme.
+ * Initialize auth.
  *
  * @returns {Function}
  */

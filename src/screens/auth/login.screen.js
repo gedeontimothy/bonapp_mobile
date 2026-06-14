@@ -26,6 +26,7 @@ export default function LoginScreen({children, navigation}) {
 
 	const store = useStore();
 
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector);
 	
 	const countProfiles = useSelector(countProfilesSelector);
@@ -40,6 +41,7 @@ export default function LoginScreen({children, navigation}) {
 
 	const {authOnProcessing, authenticate} = useAuth();
 
+	/** @type {TComponentAppTextProps} */
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
 
 	const form = useLoginForm();

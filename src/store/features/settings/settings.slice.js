@@ -25,9 +25,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set animation.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {Object} action.payload - animate value
 		 */
 		setAnimate(state, action){
 			state.animate = action.payload;
@@ -36,9 +36,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set current theme.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {Object} action.payload - animate value
 		 */
 		setCurrentTheme(state, action){
 			state.theme.current = action.payload;
@@ -47,9 +47,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set color scheme.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {Object} action.payload - animate value
 		 */
 		setColorScheme(state, action){
 			state.theme.colorScheme = action.payload;
@@ -81,7 +81,7 @@ export const settingsSlice = createSlice({
 /**
  * Initialize setting theme.
  *
- * @returns {object}
+ * @type {(payload: {colorScheme: TSchemeTheme}) => string | {colorScheme: TSchemeTheme, current: TThemeKey}}
  */
 export const initSettingTheme = createStorageAsyncThunk(
 	'settings/initSettingTheme',
@@ -106,8 +106,7 @@ export const initSettingTheme = createStorageAsyncThunk(
 
 /**
  * Change current Theme.
- *
- * @returns {object}
+ * @type {(payload: {theme: TThemeKey, process: Object}) => Object | TThemeKey}
  */
 export const changeTheme = createAsyncThunk(
 	'settings/changeTheme',
