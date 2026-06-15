@@ -14,7 +14,7 @@ export class User extends Model {
 			pin: "string",
 			email: "string?",
 
-			email_verified_at: "date?",
+			emailVerifiedAt: "date?",
 			createdAt: "date",
 			updatedAt: "date",
 			deletedAt: "date?",
