@@ -23,9 +23,7 @@ export const colorScheme = (state) => state.settings.theme.colorScheme;
 /**
  * Retrieves the active theme
  *
- * @param {TSettingsSelectorState} state - The Redux state
- * 
- * @returns {TThemeActive}
+ * @type {(state: TSettingsSelectorState) => TThemeActive}
  */
 export const activeTheme = createSelector(
 	[currentTheme, colorScheme],
@@ -37,9 +35,7 @@ export const activeTheme = createSelector(
 /**
  * Returns color theme selected
  * 
- * @param {TSettingsSelectorState} state
- * 
- * @returns {TThemeBaseColor}
+ * @type {(state: TSettingsSelectorState) => TThemeBaseColor}
  */
 export const themeColor = createSelector(
 	[activeTheme],
@@ -58,9 +54,7 @@ export const availableThemes = (state) => state.settings.theme.availableThemes;
 /**
  * Returns the list of available themes excluding the current theme
  *
- * @param {TSettingsSelectorState} state
- * 
- * @returns {Array<TTheme>}
+ * @type {(state: TSettingsSelectorState) => Array<TTheme>}
  */
 export const otherAvailableThemes = createSelector(
 	[availableThemes, currentTheme],

@@ -14,13 +14,9 @@ export class PersonService {
 	/**
 	 * Create new person.
 	 *
-	 * @param {Object} data
-	 * @param {string} data.firstname
-	 * @param {string} data.lastname
-	 * @param {string|null} [data.middlename]
-	 * @param {string} data.gender
+	 * @param {PersonModelFormData} data
 	 *
-	 * @returns {Person}
+	 * @returns {PersonModelNonSerializable}
 	 */
 	createPerson(data) {
 		return this.repository.create(data);
@@ -32,7 +28,7 @@ export class PersonService {
 	 * @param {string|BSON.UUID} id - Person identifier.
 	 * @param {boolean} withTrashed - With trashed person.
 	 *
-	 * @returns {Person|null}
+	 * @returns {?PersonModelNonSerializable}
 	 */
 	getPerson(id, withTrashed = false) {
 		return this.repository.findById(id, withTrashed);
@@ -48,7 +44,7 @@ export class PersonService {
 	 * @param {boolean} [options.descending=false]
 	 *
 	 * @returns {{
-	 *   data: Realm.Results<Person>,
+	 *   data: Realm.Results<PersonModelNonSerializable>,
 	 *   total: number,
 	 *   page: number,
 	 *   limit: number,
@@ -64,7 +60,7 @@ export class PersonService {
 	 * Soft delete person if supported,
 	 * otherwise permanently deletes it.
 	 *
-	 * @param {Person} person
+	 * @param {PersonModelNonSerializable} person
 	 *
 	 * @returns {boolean}
 	 */
@@ -75,7 +71,7 @@ export class PersonService {
 	/**
 	 * Permanently delete person.
 	 *
-	 * @param {Person} person
+	 * @param {PersonModelNonSerializable} person
 	 *
 	 * @returns {boolean}
 	 */

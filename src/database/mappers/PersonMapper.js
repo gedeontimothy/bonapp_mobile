@@ -1,4 +1,8 @@
 export default class PersonMapper {
+	/**
+	 * @param {PersonModelNonSerializable} person 
+	 * @returns {PersonModel}
+	 */
 	static toDTO(person) {
 		if(!person) return null;
 
@@ -15,6 +19,10 @@ export default class PersonMapper {
 		};
 	}
 
+	/**
+	 * @param {Array<PersonModelNonSerializable>} people 
+	 * @returns {Array<PersonModel>}
+	 */
 	static toDTOList(people){
 		return Array.from(people).map(PersonMapper.toDTO);
 	}

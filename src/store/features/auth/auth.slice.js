@@ -10,6 +10,21 @@ import { currentUserPreferences, isAuth, profile as profileSelector, profileExis
 import { filterObject } from '../../../utils/helpers';
 import i18next from 'i18next';
 
+
+/**
+ * @typedef {Object} TAuthSetUserProfileAsyncThunkFulfilledReturn
+ * 
+ * @property {boolean} error
+ * @property {boolean} profile_exists
+ * @property {TAuthUserProfile} data
+ */
+
+/**
+ * @typedef {Object} TAuthSetUserProfileAsyncThunkRejectedReturn
+ * @property {Error | boolean} error
+ * @property {string} message
+ */
+
 const initialState = {
 	user: null,
 	persistentUserExists: false,
@@ -27,8 +42,9 @@ export const authSlice = createSlice({
 		/**
 		 * Set user state.
 		 * 
-		 * @param {Object} state 
-		 * @param {Object} action 
+		 * @param {TAuthState} state
+		 * @param {Object} action
+		 * @param {UserModel} action.payload 
 		 */
 		setUser(state, action){
 			state.user = action.payload;
@@ -37,7 +53,7 @@ export const authSlice = createSlice({
 		/**
 		 * Set state of persistent user exists.
 		 * 
-		 * @param {Object} state 
+		 * @param {TAuthState} state
 		 * @param {Object} action 
 		 */
 		setPersistentUserExists(state, action){
@@ -47,8 +63,9 @@ export const authSlice = createSlice({
 		/**
 		 * Set all stored user profiles.
 		 * 
-		 * @param state 
-		 * @param action 
+		 * @param {TAuthState} state
+		 * @param {Object} action
+		 * @param {TAuthUserProfiles} action.payload
 		 */
 		setUserProfiles(state, action){
 			state.userProfiles = action.payload;
@@ -57,17 +74,8 @@ export const authSlice = createSlice({
 		/**
 		 * Add or set a user profile to the profiles collection.
 		 * 
-		 * @param state 
-		 * @param {{
-		 *   payload: {
-		 *     user: Object,
-		 *     preferences: {
-		 *       loginWithoutPin: boolean,
-		 *       theme: TThemeKey,
-		 *       lang: string,
-		 *     }
-		 *   }
-		 * }} action 
+		 * @param {TAuthState} state
+		 * @param {{payload: TAuthUserProfile}} action
 		 * 
 		 * @returns {void}
 		 */
@@ -78,14 +86,11 @@ export const authSlice = createSlice({
 		/**
 		 * Merge new data into an existing user profile.
 		 * 
-		 * @param state 
-		 * @param {{
+		 * @param {TAuthState} state
+		 * @param {{payload: {
 		 *   userId: string,
-		 *   data: {
-		 *     user: Object,
-		 *     preferences: Object
-		 *   }
-		 * }} action
+		 *   data: TAuthUserProfile
+		 * }}} action
 		 * 
 		 * @returns {void}
 		 */
@@ -103,7 +108,7 @@ export const authSlice = createSlice({
 		 * - `true`: profiles are considered synchronized with persistent storage.
 		 * - `false`: profiles contain local changes that still need to be persisted.
 		 * 
-		 * @param state 
+		 * @param {TAuthState} state
 		 * @param {{payload: boolean}} action 
 		 */
 		setUserProfilesIsUpdated(state, action){
@@ -113,9 +118,9 @@ export const authSlice = createSlice({
 		/**
 		 * Delete user profile.
 		 * 
-		 * @param state
+		 * @param {TAuthState} state
 		 * @param {Object} action 
-		 * @param {string} [action.payload]
+		 * @param {string} action.payload
 		 */
 		deleteProfile(state, action){
 			if(state.userProfiles?.[action.payload])
@@ -197,17 +202,14 @@ export const authSlice = createSlice({
 /**
  * Synchronize user profiles with persistent storage.
  * 
- * @param {Object} [payload={}]
- * 
- * @param {?Object} [payload.data=null] - Profile collection to persist. When omitted, the current profiles stored in the auth state are used.
- * @param {boolean} [payload.force=null] - Forces synchronization even if profiles are already marked as synchronized.
- * @param {{
- *   processCode: string,
- *   processState: string,
- *   autoState: boolean
- * }} [payload.process={}]
- * 
- * @returns {Promise<{error: boolean | Object, message: string} | boolean>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   boolean,
+ *   {data: ?TAuthUserProfiles, force: boolean, process: TProcessDestructParam},
+ *   {rejectedValue: ({
+ *     error: Error | boolean,
+ *     message: string,
+ *   })}
+ * >}
  */
 export const syncUserProfiles = createAsyncThunk(
 	'auth/syncUserProfiles',
@@ -228,6 +230,9 @@ export const syncUserProfiles = createAsyncThunk(
 			requestId,
 		}));
 
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		try {
@@ -276,15 +281,14 @@ export const syncUserProfiles = createAsyncThunk(
 /**
  * Delete user profile.
  * 
- * @param {Object} options
- * @param {string} [options.userId]
- * @param {{
- *   processCode: string,
- *   processState: string | undefined,
- *   autoState: boolean | undefined
- * }} [options.process={}]
- * 
- * @returns {AsyncThunk}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {error: boolean, userId: string},
+ *   {userId: string, process: TProcessDestructParam},
+ *   {rejectedValue: ({
+ *     error: Error | boolean,
+ *     message: string,
+ *   })}
+ * >}
  */
 export const deleteProfile = createAsyncThunk(
 	'auth/deleteProfile',
@@ -304,6 +308,9 @@ export const deleteProfile = createAsyncThunk(
 			processState,
 		}));
 
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		if(profileExists(userId)(state)){
@@ -347,16 +354,15 @@ export const deleteProfile = createAsyncThunk(
 	}
 );
 
+
 /**
  * Create or update a user profile.
  * 
- * @param {{
- *   preferences: Object,
- *   user: Object,
- *   sync: boolean
- * }} payload
- * 
- * @returns {Promise<Object>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   TAuthSetUserProfileAsyncThunkFulfilledReturn,
+ *   TAuthUserProfile & {sync: boolean},
+ *   {rejectedValue: TAuthSetUserProfileAsyncThunkRejectedReturn},
+ * >}
  */
 export const setUserProfile = createAsyncThunk(
 	'auth/setUserProfile',
@@ -368,6 +374,9 @@ export const setUserProfile = createAsyncThunk(
 		},
 		{getState, rejectWithValue, dispatch}
 	){
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		const auth_user = user ?? (isAuth(state) ? state.auth.user : null);
@@ -412,11 +421,14 @@ export const setUserProfile = createAsyncThunk(
 /**
  * Synchronize a profile's preferences with the current application preferences.
  * 
- * @param {{
- *   userId: ?string
- * }} [options={}]
- * 
- * @returns {Promise<Object>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   TAuthSetUserProfileAsyncThunkFulfilledReturn,
+ *   {userId: ?string},
+ *   {rejectedValue: TAuthSetUserProfileAsyncThunkRejectedReturn & ({
+ *     error: Error | boolean,
+ *     message: string,
+ *   })},
+ * >}
  */
 export const syncUserProfilePreferences = createAsyncThunk(
 	'auth/syncUserProfilePreferences',
@@ -427,6 +439,9 @@ export const syncUserProfilePreferences = createAsyncThunk(
 		{dispatch, rejectWithValue, getState},
 	){
 
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		const profile = userId ? (profileSelector(userId)(state) ?? null) : authProfile(state)
@@ -465,12 +480,14 @@ export const syncUserProfilePreferences = createAsyncThunk(
 /**
  * Update a user profile using its identifier.
  * 
- * @param {{
- *   preferences: Object,
- *   userId: string, 
- * }}
- * 
- * @returns {Promise<Object>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   TAuthSetUserProfileAsyncThunkFulfilledReturn,
+ *   {preferences: TAuthUserProfilePreferences, userId: string},
+ *   {rejectedValue: TAuthSetUserProfileAsyncThunkRejectedReturn & ({
+ *     error: Error | boolean,
+ *     message: string,
+ *   })},
+ * >}
  */
 export const setUserProfileByUserId = createAsyncThunk(
 	'auth/setUserProfile',
@@ -479,6 +496,9 @@ export const setUserProfileByUserId = createAsyncThunk(
 		userId,
 	}, {getState, dispatch, rejectWithValue}){
 
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		const profile = state.auth.userProfiles?.[userId] ?? null; 
@@ -506,11 +526,14 @@ export const setUserProfileByUserId = createAsyncThunk(
 /**
  * Initialize a profile for a user.
  * 
- * @param {Object} options
- * @param {Object} options.user - User for which the profile should be created.
- * @param {boolean} [options.loginWithoutPin=true] - Initial value of the loginWithoutPin preference.
- * 
- * @returns {Promise<Object>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   TAuthSetUserProfileAsyncThunkFulfilledReturn,
+ *   {user: UserModel, loginWithoutPin: boolean},
+ *   {rejectedValue: TAuthSetUserProfileAsyncThunkRejectedReturn & ({
+ *     error: Error | boolean,
+ *     message: string,
+ *   })},
+ * >}
  */
 export const initUserProfile = createAsyncThunk(
 	'auth/initUserProfile',
@@ -518,6 +541,9 @@ export const initUserProfile = createAsyncThunk(
 		{user, loginWithoutPin=true},
 		{dispatch, getState, rejectWithValue}
 	){
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		const profile_exists = profileExists(user._id)(state);
@@ -550,13 +576,19 @@ export const initUserProfile = createAsyncThunk(
 /**
  * Load a user profile from the Redux store.
  * 
- * @param {Object} options
- * @param {?Object} [options.user=null] - User whose profile should be loaded.
- * @param {{
- *   processCode: string,
- *   processState: string,
- *   autoState: boolean,
- * }} [options.process={}]
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {
+ *     profile: TAuthUserProfile,
+ *     code: string,
+ *     autoState: boolean,
+ *     error: boolean
+ *   },
+ *   {user: ?UserModel, process: TProcessDestructParam},
+ *   {rejectedValue: {
+ *     error: boolean,
+ *     message: string
+ *   }}
+ * >}
  */
 export const loadUserProfile = createAsyncThunk(
 	'auth/loadUserProfile',
@@ -578,6 +610,9 @@ export const loadUserProfile = createAsyncThunk(
 			}))
 		}
 
+		/**
+		 * @type {TAuthSelectorState}
+		 */
 		const state = getState();
 
 		const auth_user = user ?? (isAuth(state) ? state.auth.user : null);
@@ -612,12 +647,11 @@ export const loadUserProfile = createAsyncThunk(
 /**
  * Authenticate user.
  * 
- * @param {Object} options
- * @param {Object} [options.user]
- * @param {?string} [options.processCode=null]
- * @param {boolean} [options.autoState=true]
- * 
- * @returns {Promise<AsyncThunk>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {error: boolean, data: UserModel},
+ *   {user: UserModel, loginWithoutPin: boolean, processCode: ?string, autoState: boolean},
+ *   {rejectedValue: {error: Error, message: string}}
+ * >}
  */
 export const authenticate = createAsyncThunk(
 	"auth/authenticate",
@@ -633,6 +667,9 @@ export const authenticate = createAsyncThunk(
 		try {
 			await AsyncStorage.setItem('store.auth.username', JSON.stringify(user.username));
 
+			/**
+			 * @type {TAuthSelectorState}
+			 */
 			const state = getState();
 
 			if(!profileExists(user._id)(state)){
@@ -668,12 +705,11 @@ export const authenticate = createAsyncThunk(
 /**
  * Logout.
  * 
- * @param {Object} options
- * @param {Object} [options.user]
- * @param {?string} [options.processCode=null]
- * @param {boolean} [options.autoState=true]
- * 
- * @returns {Promise<AsyncThunk>}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {error: boolean, data: boolean},
+ *   {processCode: ?string, autoState: boolean},
+ *   {rejectedValue: {error: Error, message: string}}
+ * >}
  */
 export const logout = createAsyncThunk(
 	"auth/logout",
@@ -722,7 +758,19 @@ export const {
 /**
  * Initialize auth.
  *
- * @returns {Function}
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {
+ *     error: boolean,
+ *     currentUser: UserModel,
+ *     profiles: TAuthUserProfiles,
+ *     persistentUserExists: boolean
+ *   },
+ *   {users: Array<UserModel>, processCode: ?string, autoState: boolean},
+ *   {rejectedValue: {
+ *     error: Error,
+ *     message: string,
+ *   }}
+ * >}
  */
 export const initAuth = createStorageAsyncThunk(
 	'auth/initAuth',
@@ -730,8 +778,14 @@ export const initAuth = createStorageAsyncThunk(
 	async ({users, processCode = null, autoState = true}, data, {rejectWithValue, requestId, dispatch}, error) => {
 		const code = processCode ?? uuid.v4();
 
+		/**
+		 * @type {?string}
+		 */
 		const username = data?.['store.auth.username'];
 
+		/**
+		 * @type {?TAuthUserProfiles}
+		 */
 		const profiles = data?.['store.auth.user.profiles'];
 
 		let user = null;

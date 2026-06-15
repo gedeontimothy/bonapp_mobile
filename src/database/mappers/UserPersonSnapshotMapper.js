@@ -1,4 +1,8 @@
 export default class UserPersonSnapshotMapper {
+	/**
+	 * @param {UserPersonSnapshot} person 
+	 * @returns {?UserPersonSnapshot}
+	 */
 	static toDTO(person) {
 		if (!person) return null;
 

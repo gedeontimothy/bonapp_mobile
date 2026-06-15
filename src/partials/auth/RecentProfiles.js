@@ -65,6 +65,10 @@ export const RecentProfiles = ({
 		;
 	}, [profiles, profileSelected])
 
+	/**
+	 * @param {TAuthUserProfile} profile 
+	 * @param {boolean} switch_user 
+	 */
 	const _setProfileSelected = (profile, switch_user=true) => {
 		setProfileSelected(profile);
 		if(setProfileValue) setProfileValue(profile);
@@ -81,6 +85,9 @@ export const RecentProfiles = ({
 		}
 	}
 
+	/**
+	 * @param {TAuthUserProfile} profile
+	 */
 	const authenticateProfile = async (profile) => {
 		const results = await authenticate(profile.user.username, null, {withProfile: true});
 
@@ -90,6 +97,9 @@ export const RecentProfiles = ({
 		setLoading(false);
 	}
 
+	/**
+	 * @param {TAuthUserProfile} profile
+	 */
 	const switchProfile = async (profile) => {
 
 		const results = await switchUser({userId: profile.user._id});
@@ -99,7 +109,10 @@ export const RecentProfiles = ({
 
 		setLoading(false);
 	}
-	
+
+	/**
+	 * @param {TAuthUserProfile} profile
+	 */
 	const handleDeleteProfile = (profile) => {
 		Alert.alert(
 			t("common:confirmations.profiles.delete.title", {name: profile?.user?.person.displayName}),

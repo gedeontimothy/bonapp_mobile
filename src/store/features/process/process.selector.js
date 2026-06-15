@@ -5,7 +5,7 @@ import { filterObject } from "../../../utils/helpers";
  * Selector to get a specific process.
  *
  * @param {{processSliceName: string, code: string}} args
- * @returns {(state: Object) => Object | null}
+ * @returns {(state: TProcessSelectorState) => TProcess | null}
  */
 export const getProcess = ({processSliceName, code}) => (state) => state.process.processes[processSliceName]?.[code] ?? null;
 
@@ -13,7 +13,7 @@ export const getProcess = ({processSliceName, code}) => (state) => state.process
  * Selector to get all processes of a category.
  *
  * @param {string} processSliceName
- * @returns {(state: Object) => Object}
+ * @returns {(state: TProcessSelectorState) => {[code: string]: TProcess}}
  */
 export const getProcesses = (processSliceName) => (state) => state.process.processes[processSliceName] || {};
 
@@ -21,14 +21,14 @@ export const getProcesses = (processSliceName) => (state) => state.process.proce
  * Selector to get processes filtered by action type.
  *
  * @param {{processSliceName: string, actionType: string}} args
- * @returns {(state: Object) => Object}
+ * @returns {(state: TProcessSelectorState) => TProcess}
  */
 export const getProcessesByActionType = ({ processSliceName, actionType }) => (state) => filterObject(getProcesses(processSliceName)(state), value => value.actionType === actionType);
 
 /**
  * Counts the total number of pending processes across all categories.
  *
- * @param {Object} state
+ * @param {TProcessSelectorState} state
  * @returns {number}
  */
 export const countPendingProcesses = (state) => Object
@@ -40,7 +40,7 @@ export const countPendingProcesses = (state) => Object
  * Counts the number of pending processes for a specific category.
  *
  * @param {string} processSliceName
- * @returns {(state: Object) => number}
+ * @returns {(state: TProcessSelectorState) => number}
  */
 export const countPendingProcess = (processSliceName) => 
 	(state) => is_number(state.process.countProcessesOnPending?.[processSliceName].global)
@@ -51,7 +51,7 @@ export const countPendingProcess = (processSliceName) =>
  * Counts the number of pending processes for a specific category by action type.
  *
  * @param {{processSliceName: string, code: string}} args
- * @returns {(state: Object) => number}
+ * @returns {(state: TProcessSelectorState) => number}
  */
 export const countPendingProcessByActionType = ({processSliceName, actionType}) => 
 	(state) => is_number(state.process.countProcessesOnPending?.[processSliceName].action?.[actionType])
@@ -69,28 +69,16 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} code
 	 * 
-	 * @returns {(state: Object) => ({
-	 *   actionType: string,
-	 *   processState: "rejected" | "fulfilled" | "pending",
-	 *   progress: ?number,
-	 *   error: ?string,
-	 *   requestId: ?string
-	 * } | null)}
+	 * @returns {(state: TProcessSelectorState) => (TProcess | null)}
 	 */
 	getProcess : (code) => getProcess({processSliceName, code}),
 
 	/**
 	 * Get all processes.
 	 * 
-	 * @param {Object} state 
+	 * @param {TProcessSelectorState} state 
 	 * @returns {{
-	 *   [code: string]: {
-	 *     actionType: string,
-	 *     processState: "rejected" | "fulfilled" | "pending",
-	 *     progress: ?number,
-	 *     error: ?string,
-	 *     requestId: ?string
-	 *   }
+	 *   [code: string]: TProcess
 	 * }}
 	 */
 	getProcesses : (state) => getProcesses(processSliceName)(state),
@@ -100,14 +88,8 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} actionType
 	 * 
-	 * @returns {(state: Object) => {
-	 *   [code: string]: {
-	 *     actionType: string,
-	 *     processState: "rejected" | "fulfilled" | "pending",
-	 *     progress: ?number,
-	 *     error: ?string,
-	 *     requestId: ?string
-	 *   }
+	 * @returns {(state: TProcessSelectorState) => {
+	 *   [code: string]: TProcess
 	 * } | null}
 	 */
 	getProcessesByActionType : (actionType) => getProcessesByActionType({ processSliceName, actionType }),
@@ -115,7 +97,7 @@ export const buildProcessSelectors = processSliceName => ({
 	/**
 	 * Counts the number of pending processes.
 	 * 
-	 * @param {Object} state 
+	 * @param {TProcessSelectorState} state 
 	 * @returns {number}
 	 */
 	countPendingProcess: (state) => countPendingProcess(processSliceName)(state),
@@ -125,7 +107,7 @@ export const buildProcessSelectors = processSliceName => ({
 	 * 
 	 * @param {string} actionType 
 	 * 
-	 * @returns {(state: Object) => number}
+	 * @returns {(state: TProcessSelectorState) => number}
 	 */
 	countPendingProcessByActionType: (actionType) => countPendingProcessByActionType({ processSliceName, actionType }),
 });

@@ -121,7 +121,7 @@ export const initSettingTheme = createStorageAsyncThunk(
  * 
  * @type {import('@reduxjs/toolkit').AsyncThunk<
  *   TTheme,
- *   {theme: TTheme, process: Object},
+ *   {theme: TTheme, process: TProcessDestructParam},
  *   {rejectedValue: ({
  *     error: Error | boolean,
  *     message: string,

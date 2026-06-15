@@ -24,19 +24,9 @@ export class UserService {
 	/**
 	 * Create new user.
 	 *
-	 * @param {Object} data
-	 * @param {Object} data.userData
-	 * @param {string} data.userData.username
-	 * @param {string} data.userData.pin
-	 * @param {string} data.userData.email
-	 * @param {Date} data.userData.email_verified_at
-	 * @param {Object} data.personData
-	 * @param {string} data.personData.firstname
-	 * @param {string} data.personData.lastname
-	 * @param {string} [data.personData.middlename]
-	 * @param {string} data.personData.gender
+	 * @param {TFormCreateUser} data
 	 *
-	 * @returns {User}
+	 * @returns {UserModelNonSerializable}
 	 * 
 	 * @throws {UsernameAlreadyExistsError}
 	 * @throws {EmailAlreadyExistsError}
@@ -68,7 +58,7 @@ export class UserService {
 	 * 
 	 * @param {string} username 
 	 * @param {string} pin 
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	authenticate(username, pin) {
 		const user = this.getUserByUsername(username);
@@ -89,7 +79,7 @@ export class UserService {
 	 * @param {string|BSON.UUID} id - User identifier.
 	 * @param {boolean} withTrashed - With trashed user.
 	 *
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	getUser(id, withTrashed = false) {
 		return this.repository.findById(id, withTrashed);
@@ -100,7 +90,7 @@ export class UserService {
 	 *
 	 * @param {string} username
 	 * @param {boolean} withTrashed - With trashed user.
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	getUserByUsername(username, withTrashed = false) {
 		return this.repository.findByUsername(username, withTrashed);
@@ -116,7 +106,7 @@ export class UserService {
 	 * @param {boolean} [options.descending=false]
 	 *
 	 * @returns {{
-	 *   data: Realm.Results<User>,
+	 *   data: Realm.Results<UserModelNonSerializable>,
 	 *   total: number,
 	 *   page: number,
 	 *   limit: number,
@@ -132,7 +122,7 @@ export class UserService {
 	 * Retrieve users list.
 	 * 
 	 * @param {boolean} withTrash 
-	 * @returns {Array<Object>}
+	 * @returns {Array<UserModelNonSerializable>}
 	 */
 	getAllUser(withTrash = false) {
 		return this.repository.getAll(withTrash);
@@ -142,7 +132,7 @@ export class UserService {
 	 * Soft delete user if supported,
 	 * otherwise permanently deletes it.
 	 *
-	 * @param {User} user
+	 * @param {UserModelNonSerializable} user
 	 *
 	 * @returns {boolean}
 	 */
@@ -156,7 +146,7 @@ export class UserService {
 	/**
 	 * Permanently delete user.
 	 *
-	 * @param {User} user
+	 * @param {UserModelNonSerializable} user
 	 *
 	 * @returns {boolean}
 	 */

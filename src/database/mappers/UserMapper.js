@@ -1,6 +1,10 @@
 import UserPersonSnapshotMapper from "./UserPersonSnapshotMapper";
 
 export default class UserMapper {
+	/**
+	 * @param {UserModelNonSerializable} user 
+	 * @returns {?UserModel}
+	 */
 	static toDTO(user) {
 		if(!user) return null;
 
@@ -21,6 +25,10 @@ export default class UserMapper {
 		}
 	}
 
+	/**
+	 * @param {Array<UserModelNonSerializable>} users 
+	 * @returns {Array<UserModel>}
+	 */
 	static toDTOList(users){
 		return Array.from(users).map(UserMapper.toDTO);
 	}

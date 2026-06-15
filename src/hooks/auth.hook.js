@@ -30,31 +30,28 @@ export const useAuth = () => {
 	/**
 	 * Authentication is pending.
 	 *
-	 * @var {boolean}
+	 * @type {boolean}
 	 */
 	const authOnProcessing = useSelector(authOnProcessingSelector);
 
 	/**
 	 * Authenticated user.
 	 * 
-	 * @var {Object}
+	 * @type {UserModel}
 	 */
 	const authUser = useSelector(authUserSelector);
 
 	/**
 	 * Retrieves profile of authenticated user.
 	 * 
-	 * @var {{
-	 *   user: Object,
-	 *   preferences: Object
-	 * } | null}
+	 * @type {TAuthUserProfile | null}
 	 */
 	const authProfile = useSelector(authProfileSelector);
 
 	/**
 	 * Check if user is authenticate.
 	 *
-	 * @var {boolean}
+	 * @type {boolean}
 	 */
 	const isAuth = useSelector(isAuthSelector);
 
@@ -64,6 +61,7 @@ export const useAuth = () => {
 	 * @param {string} username
 	 * @param {string} pin
 	 * @param {Object} [options={}]
+	 * @param {boolean} [options.withProfile=true]
 	 * @param {string} [options.processCode=null]
 	 * @param {boolean} [options.autoState=true]
 	 * 
@@ -146,11 +144,7 @@ export const useAuth = () => {
 	 * @param {Object} arg 
 	 * @param {string} arg.userId 
 	 * @param {?string} [arg.pin=null]
-	 * @param {{
-	 *   processCode: string,
-	 *   processState: string,
-	 *   autoState: boolean,
-	 * }} [options={}] 
+	 * @param {TProcessDestructParam} [options={}] 
 	 * @returns {Promise<string | boolean>}
 	 */
 	const switchUser = async function(
@@ -237,13 +231,9 @@ export const useAuth = () => {
 	 * @param {string} [arg.userId]
 	 * @param {?string} [arg.pin=null]
 	 * @param {boolean} [arg.force=false]
-	 * @param {{
-	 *   processCode: string,
-	 *   processState: string,
-	 *   autoState: boolean,
-	 * }} options
+	 * @param {TProcessDestructParam} options
 	 * 
-	 * @returns {Promise<{error: Object | boolean, message: string} | boolean>}
+	 * @returns {Promise<{error: boolean, message: string} | boolean>}
 	 */
 	const deleteProfile = async function(
 		{
@@ -340,12 +330,8 @@ export const useAuth = () => {
 	 * @param {string} arg.userId
 	 * @param {string} arg.pin
 	 * @param {boolean} [arg.forceDeleteProfile=false]
-	 * @param {{
-	 *   processCode: string,
-	 *   processState: string,
-	 *   autoState: boolean,
-	 * }} options
-	 * @returns {Promise<{error: boolean | Object, isConcurrent: boolean, message: string, data: any}>}
+	 * @param {TProcessDestructParam} options
+	 * @returns {Promise<{error: boolean | Error, isConcurrent: boolean, message: string, data: any}>}
 	 */
 	const deleteAccount = async function(
 		{
@@ -425,14 +411,10 @@ export const useAuth = () => {
 	 * Delete authenticated account.
 	 * 
 	 * @param {string} pin 
-	 * @param {{
-	 *   processCode: string,
-	 *   processState: string,
-	 *   autoState: boolean,
-	 * }} [options={}]
+	 * @param {TProcessDestructParam} [options={}]
 	 * @returns {Promise<
 	 *   {error: boolean, message: string} |
-	 *   {error: boolean | Object, isConcurrent: boolean, message: string, data: any}
+	 *   {error: boolean | Error, isConcurrent: boolean, message: string, data: any}
 	 * >}
 	 */
 	const deleteAuthAccount = async (pin, options={}) => {
