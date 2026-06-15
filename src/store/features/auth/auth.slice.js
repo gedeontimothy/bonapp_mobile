@@ -696,7 +696,7 @@ export const logout = createAsyncThunk(
 			}));
 
 			console.error('store/auth/logout', error);
-			return rejectWithValue(error.message);
+			return rejectWithValue({error, message: error.message});
 		}
 		
 		if(autoState)
@@ -705,7 +705,7 @@ export const logout = createAsyncThunk(
 				processState: "fulfilled",
 			}));
 
-		return true;
+		return {error: false, data: true};
 	}
 )
 
@@ -727,7 +727,7 @@ export const {
 export const initAuth = createStorageAsyncThunk(
 	'auth/initAuth',
 	['store.auth.username', 'store.auth.user.profiles'],
-	async ({users, processCode = null, autoState = true}, data, {rejectWithValue, getState, requestId, dispatch}, error) => {
+	async ({users, processCode = null, autoState = true}, data, {rejectWithValue, requestId, dispatch}, error) => {
 		const code = processCode ?? uuid.v4();
 
 		const username = data?.['store.auth.username'];
@@ -753,7 +753,7 @@ export const initAuth = createStorageAsyncThunk(
 			}));
 
 			console.warn("auth/initAuth", error);
-			return rejectWithValue(error.message)
+			return rejectWithValue({error, message: error.message})
 		}
 
 		
@@ -770,7 +770,8 @@ export const initAuth = createStorageAsyncThunk(
 			}));
 
 		return {
-			currentUser : UserMapper.toDTO(user),
+			error: false,
+			currentUser : user,
 			profiles,
 			persistentUserExists: users.length > 0
 		};

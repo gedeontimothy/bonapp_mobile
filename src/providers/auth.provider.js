@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { initAuth } from "../store/features/auth/auth.slice";
 import { useUser } from "../hooks/user.hook";
+import UserMapper from "../database/mappers/UserMapper";
 
 const Boot = ({children}) => {
 	
@@ -18,7 +19,7 @@ const Boot = ({children}) => {
 		const call = async () => {
 			const users = getAllUser();
 
-			await dispatch(initAuth({users}));
+			await dispatch(initAuth({users: UserMapper.toDTOList(users)}));
 
 			setLoading(false);
 
