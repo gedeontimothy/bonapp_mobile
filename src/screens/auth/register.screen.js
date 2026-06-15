@@ -27,12 +27,15 @@ export default function RegisterScreen({children, navigation}) {
 
 	const store = useStore();
 
-	const themeColor = useSelector(themeColorSelector)
+	/** @type {TThemeBaseColor} */
+	const themeColor = useSelector(themeColorSelector);
 
+	/** @type {boolean} */
 	const userOnProcessing = useSelector(userOnProcessingSelector);
 
 	const [loading, setLoading] = useState(false);
 
+	/** @type {TComponentAppTextProps} */
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
 
 	const form = useRegisterForm();

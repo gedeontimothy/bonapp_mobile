@@ -9,13 +9,13 @@ import { changeLanguage as changeLanguageAction } from "../store/features/lang/l
 import { availableLanguages, currentLanguage as currentLanguageSelector, getLangProcess } from "../store/features/lang/lang.selector";
 
 /**
- * Custom hook for theme management.
+ * Custom hook for language management.
  *
- * Provides the current theme, available themes,
- * loading state, and a function to change the theme.
+ * Provides the current language, available languages,
+ * loading state, and a function to change the language.
  *
  * @returns {{
- *   changeLanguage: (theme: string) => Promise<void>,
+ *   changeLanguage: (lang: string) => Promise<void>,
  *   changeLanguageLoading: boolean,
  *   activeLanguage: string,
  *   currentLanguage: string,
@@ -39,7 +39,7 @@ export const useLanguage = () => {
 	/**
 	 * Change language.
 	 *
-	 * @param {string} theme
+	 * @param {string} lang
 	 * @return {Promise<void>}
 	 */
 	const changeLanguage = async (lang) => {

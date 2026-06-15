@@ -25,9 +25,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set animation.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {boolean} action.payload - animate value
 		 */
 		setAnimate(state, action){
 			state.animate = action.payload;
@@ -36,9 +36,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set current theme.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {TTheme} action.payload - animate value
 		 */
 		setCurrentTheme(state, action){
 			state.theme.current = action.payload;
@@ -47,9 +47,9 @@ export const settingsSlice = createSlice({
 		/**
 		 * Set color scheme.
 		 *
-		 * @param {object} state
-		 * @param {object} action
-		 * @param {object} action.payload - animate value
+		 * @param state
+		 * @param {Object} action
+		 * @param {TThemeScheme} action.payload - animate value
 		 */
 		setColorScheme(state, action){
 			state.theme.colorScheme = action.payload;
@@ -80,8 +80,20 @@ export const settingsSlice = createSlice({
 
 /**
  * Initialize setting theme.
- *
- * @returns {object}
+ * 
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   {
+ *     colorScheme: TThemeScheme,
+ *     currentTheme: TTheme
+ *   },
+ *   {colorScheme: TThemeScheme},
+ *   {rejectedValue: ({
+ *     error: Object | boolean,
+ *     message: string,
+ *     code: string,
+ *     theme: TTheme,
+ *   })}
+ * >}
  */
 export const initSettingTheme = createStorageAsyncThunk(
 	'settings/initSettingTheme',
@@ -106,8 +118,17 @@ export const initSettingTheme = createStorageAsyncThunk(
 
 /**
  * Change current Theme.
- *
- * @returns {object}
+ * 
+ * @type {import('@reduxjs/toolkit').AsyncThunk<
+ *   TTheme,
+ *   {theme: TTheme, process: TProcessDestructParam},
+ *   {rejectedValue: ({
+ *     error: Error | boolean,
+ *     message: string,
+ *     code: string,
+ *     theme: TTheme,
+ *   })}
+ * >}
  */
 export const changeTheme = createAsyncThunk(
 	'settings/changeTheme',
@@ -149,7 +170,12 @@ export const changeTheme = createAsyncThunk(
 					),
 				}));
 
-				return rejectWithValue({code, message: error});
+				return rejectWithValue({
+					error: true,
+					message: error,
+					code,
+					theme,
+				});
 
 			}
 
@@ -166,14 +192,23 @@ export const changeTheme = createAsyncThunk(
 			return theme;
 
 			
-		} catch (e) {
-			const error = e.message;
+		} catch (error) {
+			const message = error.message;
 
 			console.error(e);
 
-			if(code) dispatch(setLangProcess({code, error, ...(!autoState ? {} : {processState: "rejected"}),}));
+			if(code) dispatch(setLangProcess({
+				code,
+				error: message,
+				...(!autoState ? {} : {processState: "rejected"}),
+			}));
 
-			return rejectWithValue({language, code, error});
+			return rejectWithValue({
+				error,
+				message,
+				code,
+				theme,
+			});
 			
 		}
 	}

@@ -28,8 +28,10 @@ export default function WelcomeScreen({navigation}) {
 
 	const pixelRatio = pixelRatioSpacing()
 
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector)
 
+	/** @type {TComponentAppTextProps} */
 	const AppTextScaled = ({...props}) => <AppText themeColors={themeColor} scaled={true} {...props}/>
 
 	const {activeTheme} = useTheme();

@@ -296,16 +296,9 @@ const buildThunk = (actionCreator, defaults = {}) =>
  * @param {string} processSliceName
  * 
  * @returns {{
- *   addProcess: (options: {
- *     code: string,
- *     actionType: string,
- *     processState: ?string,
- *     progress: ?number,
- *     error: ?string,
- *     requestId: ?string,
- *   }) => void,
- *   setProcess: (options: {code: string}) => void,
- *   setProcessState: (options: {code: string, processState: string}) => void,
+ *   addProcess: (options: ({code: string} & TProcess)) => void,
+ *   setProcess: (options: ({code: string} & TProcess)) => void,
+ *   setProcessState: (options: {code: string, processState: TProcessProcessState}) => void,
  *   removeProcess: (options: {code: string}) => void,
  *   markPendingProcessState: (options: {code: string}) => void,
  *   markRejectedProcessState: (options: {code: string, error: string}) => void,

@@ -5,24 +5,25 @@ import color from "../../../theme/color";
 /**
  * Retrieves the current theme select
  *
- * @param {Object} state - The Redux state
- * @returns {string}
+ * @param {TSettingsSelectorState} state - The Redux state
+ * 
+ * @returns {TTheme}
  */
 export const currentTheme = (state) => state.settings.theme.current;
 
 /**
  * Retrieves color scheme
  *
- * @param {Object} state - The Redux state
- * @returns {string}
+ * @param {TSettingsSelectorState} state - The Redux state
+ * 
+ * @returns {TThemeScheme}
  */
 export const colorScheme = (state) => state.settings.theme.colorScheme;
 
 /**
  * Retrieves the active theme
  *
- * @param {Object} state - The Redux state
- * @returns {string}
+ * @type {(state: TSettingsSelectorState) => TThemeActive}
  */
 export const activeTheme = createSelector(
 	[currentTheme, colorScheme],
@@ -33,8 +34,8 @@ export const activeTheme = createSelector(
 
 /**
  * Returns color theme selected
- *
- * @var {Object}
+ * 
+ * @type {(state: TSettingsSelectorState) => TThemeBaseColor}
  */
 export const themeColor = createSelector(
 	[activeTheme],
@@ -44,15 +45,16 @@ export const themeColor = createSelector(
 /**
  * Returns the list of available themes
  *
- * @param {Object} state - The Redux state
- * @returns {Array<string>}
+ * @param {TSettingsSelectorState} state - The Redux state
+ * 
+ * @returns {TTheme}
  */
 export const availableThemes = (state) => state.settings.theme.availableThemes;
 
 /**
  * Returns the list of available themes excluding the current theme
  *
- * @var {Array<string>}
+ * @type {(state: TSettingsSelectorState) => Array<TTheme>}
  */
 export const otherAvailableThemes = createSelector(
 	[availableThemes, currentTheme],
@@ -62,8 +64,9 @@ export const otherAvailableThemes = createSelector(
 /**
  * Check if any theme is current theme.
  *
- * @param {string} theme
- * @returns {(state: Object) => boolean}
+ * @param {TTheme} theme
+ * 
+ * @returns {(state: TSettingsSelectorState) => boolean}
  */
 export const isCurrentTheme = (theme) => createSelector(
 	[currentTheme],

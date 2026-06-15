@@ -9,6 +9,7 @@ export default function BarLayout({children, barColor = null}){
 	
 	const activeTheme = useSelector(activeThemeSelector);
 
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector)
 
 	useEffect(() => {

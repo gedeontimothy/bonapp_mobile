@@ -40,23 +40,6 @@ export function usePersonService() {
  *
  * This hook should only expose
  * retrieval/query methods.
- *
- * @returns {{
- *   getPeople: (options: {
- *     page: number,
- *     limit: number,
- *     sortBy: string,
- *     descending: boolean,
- *   }) => ({
- *     data: Realm.Results<User>,
- *     total: number,
- *     page: number,
- *     limit: number,
- *     hasNextPage: boolean,
- *     hasPrevPage: boolean
- *   } | null),
- *   getPerson: (id: string | BSON.UUID, withTrashed: boolean) => (Object | null)
- * }}
  */
 export function usePerson() {
 	const service = usePersonService();
@@ -64,14 +47,13 @@ export function usePerson() {
 	/**
 	 * Retrieve paginated people list.
 	 *
-	 * @param {Object} options
-	 * @param {number} [options.page=1]
-	 * @param {number} [options.limit=20]
-	 * @param {string} [options.sortBy="updatedAt"]
-	 * @param {boolean} [options.descending=false]
-	 *
-	 * @returns {{
-	 *   data: Realm.Results<Person>,
+	 * @type {(options: {
+	 *   page: number,
+	 *   limit: number,
+	 *   sortBy: string,
+	 *   descending: boolean,
+	 * }) => {
+	 *   data: Realm.Results<PersonModelNonSerializable>,
 	 *   total: number,
 	 *   page: number,
 	 *   limit: number,
@@ -89,10 +71,7 @@ export function usePerson() {
 	/**
 	 * Retrieve single person by identifier.
 	 *
-	 * @param {string|BSON.UUID} id
-	 * @param {boolean} withTrashed
-	 *
-	 * @returns {Person|null}
+	 * @type {(id: string|BSON.UUID, withTrashed: boolean) => ?UserModelNonSerializable}
 	 */
 	const getPerson = useCallback(
 		(id, withTrashed = false) => {
@@ -115,18 +94,6 @@ export function usePerson() {
  *
  * This hook should only expose
  * mutation/action methods.
- *
- * @returns {{
- *   createPerson: (
- *     data: Object,
- *     options: {
- *       processCode: string,
- *       autoState: boolean,
- *       onConcurrent: ((number_of_process: number) => void) | null,
- *     }
- *   ) => Object | null,
- *   deletePerson: (person : Object) => (boolean | null)
- * }}
  */
 export function usePersonActions() {
 	const service = usePersonService();
@@ -137,14 +104,12 @@ export function usePersonActions() {
 
 	/**
 	 * Create a new person.
-	 *
-	 * @param {Object} data - Person payload.
-	 * @param {Object} [options={}] - Creation options.
-	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
-	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
-	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
-	 *
-	 * @returns {Promise<Person>}
+	 * 
+	 * @type {(data: PersonModelFormData, options: {
+	 *   processCode: ?string,
+	 *   autoState: boolean,
+	 *   onConcurrent: ((number_of_pending_processes: number) => void) | null,
+	 * }) => Promise<PersonModelNonSerializable>}
 	 */
 	const createPerson = useCallback(
 		async function(data, {
@@ -186,14 +151,12 @@ export function usePersonActions() {
 	 *
 	 * Performs soft delete if supported,
 	 * otherwise performs permanent deletion.
-	 *
-	 * @param {Person} person
-	 * @param {Object} [options={}] - Options.
-	 * @param {?string} [options.processCode=null] - Optional process identifier used to track the operation.
-	 * @param {boolean} [options.autoState=true] - Automatically manages loading and process states.
-	 * @param {((number_of_pending_processes: number) => void) | null} [options.onConcurrent=null] - Callback invoked when another creation process is already in progress.
-	 *
-	 * @returns {Promise<boolean>}
+	 * 
+	 * @type {(person: PersonModelNonSerializable, options: {
+	 *   processCode: ?string,
+	 *   autoState: boolean,
+	 *   onConcurrent: ((number_of_pending_processes: number) => void) | null,
+	 * }) => Promise<boolean>}
 	 */
 	const deletePerson = useCallback(
 		async function(person, {

@@ -37,10 +37,12 @@ export default function AuthLayout({
 
 	const { t } = useTranslation();
 	
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector);
 
 	const pixelRatio = pixelRatioSpacing();
 
+	/** @param {TComponentAppTextProps} props */
 	const AppText = ({...props}) => <AppTextBase themeColors={themeColor} scaled={true} {...props}/>
 
 	return (

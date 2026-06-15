@@ -14,7 +14,9 @@ export class PersonRepository {
 	 * Create repository instance.
 	 *
 	 * @static
+	 * 
 	 * @param {Realm} realm - Realm database instance.
+	 * 
 	 * @returns {PersonRepository}
 	 */
 	static instance(realm){
@@ -24,7 +26,7 @@ export class PersonRepository {
 	/**
 	 * Retrieve all non-deleted persons.
 	 *
-	 * @returns {Realm.Results<Person>}
+	 * @returns {Realm.Results<PersonModelNonSerializable>}
 	 */
 	getAll(withTrash = false) {
 		const personQuery = this.realm.objects("Person");
@@ -44,7 +46,7 @@ export class PersonRepository {
 	 * @param {boolean} [options.withTrash=false] - With deleted people.
 	 *
 	 * @returns {{
-	 *   data: Realm.Results<Person>,
+	 *   data: Realm.Results<PersonModelNonSerializable>,
 	 *   total: number,
 	 *   page: number,
 	 *   limit: number,
@@ -82,7 +84,8 @@ export class PersonRepository {
 	 *
 	 * @param {BSON.UUID|string} id - Person identifier.
 	 * @param {boolean} withTrashed - With trashed person.
-	 * @returns {Person|null}
+	 * 
+	 * @returns {?PersonModelNonSerializable}
 	 */
 	findById(id, withTrashed = false) {
 		const person = this.realm.objectForPrimaryKey(
@@ -95,13 +98,9 @@ export class PersonRepository {
 	/**
 	 * Create new person.
 	 *
-	 * @param {Object} data
-	 * @param {string} data.firstname
-	 * @param {string} data.lastname
-	 * @param {string|null} [data.middlename]
-	 * @param {string} data.gender
+	 * @param {PersonModelFormData} data
 	 *
-	 * @returns {Person}
+	 * @returns {PersonModelNonSerializable}
 	 */
 	create(data) {
 		return this.realm.create("Person", {
@@ -115,10 +114,10 @@ export class PersonRepository {
 	/**
 	 * Update existing person.
 	 *
-	 * @param {Person} person - Person instance to update.
-	 * @param {Object} patch - Partial data to update.
+	 * @param {PersonModelNonSerializable} person - Person instance to update.
+	 * @param {PersonModelFormData} patch - Partial data to update.
 	 *
-	 * @returns {Person}
+	 * @returns {PersonModelNonSerializable}
 	 */
 	update(person, patch) {
 		Object.assign(person, {
@@ -132,7 +131,7 @@ export class PersonRepository {
 	/**
 	 * Delete person.
 	 *
-	 * @param {Person} person - Person instance.
+	 * @param {PersonModelNonSerializable} person - Person instance.
 	 *
 	 * @returns {boolean}
 	 */
@@ -148,7 +147,7 @@ export class PersonRepository {
 	/**
 	 * Permanently delete person from database.
 	 *
-	 * @param {Person} person - Person instance.
+	 * @param {PersonModelNonSerializable} person - Person instance.
 	 *
 	 * @returns {boolean}
 	 */

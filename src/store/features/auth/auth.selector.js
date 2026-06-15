@@ -4,18 +4,16 @@ import { buildProcessSelectors } from "../process/process.selector";
 /**
  * Get the authenticated user.
  * 
- * @param {Object} state
+ * @param {TAuthSelectorState} state
  *
- * @returns {?Object}
+ * @returns {?UserModel}
  */
 export const authUser = (state) => state.auth.user;
 
 /**
  * Check if user is authenticate.
- *
- * @param {Object} state
  * 
- * @returns {boolean}
+ * @type {(state: TAuthSelectorState) => boolean}
  */
 export const isAuth = createSelector(
 	[authUser],
@@ -25,13 +23,9 @@ export const isAuth = createSelector(
 /**
  * Get all user profiles.
  *
- * @param {Object} state
- * @returns {{
- *   [userId: string] : {
- *     user: Object,
- *     preferences: Object
- *   }
- * } | null}
+ * @param {TAuthSelectorState} state
+ * 
+ * @returns {TAuthUserProfiles}
  */
 export const profiles = (state) => state.auth.userProfiles;
 
@@ -40,10 +34,7 @@ export const profiles = (state) => state.auth.userProfiles;
  * 
  * @param {string} userId
  * 
- * @returns {(state: Object) => {
- *   user: Object,
- *   preferences: Object
- * } | undefined}
+ * @returns {(state: TAuthSelectorState) => TAuthUserProfile | undefined}
  */
 export const profile = userId => state => state.auth.userProfiles?.[userId];
 
@@ -52,19 +43,14 @@ export const profile = userId => state => state.auth.userProfiles?.[userId];
  * 
  * @param {string} userId 
  * 
- * @returns {(state: Object) => boolean}
+ * @returns {(state: TAuthSelectorState) => boolean}
  */
 export const profileExists = userId => state => state.auth?.userProfiles?.[userId] ? true : false;
 
 /**
  * Retrieves profile of authenticated user.
  * 
- * @param {Object} state
- * 
- * @returns {{
- *   user: Object,
- *   preferences: Object
- * } | null}
+ * @type {(state: TAuthSelectorState) => ?TAuthUserProfile}
  */
 export const authProfile = createSelector(
 	[authUser, profiles],
@@ -76,7 +62,7 @@ export const authProfile = createSelector(
 /**
  * Retrieves all current preferences for profile.
  * 
- * @param {Object} state
+ * @param {TAuthSelectorState & TSettingsSelectorState} state
  */
 export const currentUserPreferences = state => ({
 	lang: state.lang.currentLanguage,
@@ -86,9 +72,7 @@ export const currentUserPreferences = state => ({
 /**
  * Count number of profiles.
  * 
- * @param {Object} state
- * 
- * @returns {number}
+ * @type {(state: TAuthSelectorState) => number}
  */
 export const countProfiles = createSelector(
 	[profiles],
@@ -106,7 +90,7 @@ export const {
 /**
  * Check if auth process is on processing.
  * 
- * @returns {boolean}
+ * @type {(state: TAuthSelectorState) => boolean}
  */
 export const authOnProcessing = createSelector(
 	[countAuthPendingProcess],

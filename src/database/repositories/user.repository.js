@@ -25,7 +25,7 @@ export class UserRepository {
 	/**
 	 * Retrieve all non-deleted users.
 	 *
-	 * @returns {Realm.Results<User>}
+	 * @returns {Realm.Results<UserModelNonSerializable>}
 	 */
 	getAll(withTrash = false) {
 		const userQuery = this.realm.objects("User");
@@ -45,7 +45,7 @@ export class UserRepository {
 	 * @param {boolean} [options.withTrash=false] - With deleted users.
 	 *
 	 * @returns {{
-	 *   data: Realm.Results<User>,
+	 *   data: Realm.Results<UserModelNonSerializable>,
 	 *   total: number,
 	 *   page: number,
 	 *   limit: number,
@@ -83,7 +83,7 @@ export class UserRepository {
 	 *
 	 * @param {BSON.UUID|string} id - User identifier.
 	 * @param {boolean} withTrashed - With trashed user.
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	findById(id, withTrashed = false) {
 		const user = this.realm.objectForPrimaryKey(
@@ -98,7 +98,7 @@ export class UserRepository {
 	 *
 	 * @param {string} email
 	 * @param {boolean} withTrashed - With trashed user.
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	findByEmail(email, withTrashed = false) {
 		return this.realm
@@ -118,7 +118,7 @@ export class UserRepository {
 	 *
 	 * @param {string} username
 	 * @param {boolean} withTrashed - With trashed user.
-	 * @returns {User|null}
+	 * @returns {?UserModelNonSerializable}
 	 */
 	findByUsername(username, withTrashed = false) {
 		return this.realm
@@ -136,19 +136,9 @@ export class UserRepository {
 	/**
 	 * Create new user.
 	 *
-	 * @param {Object} data
-	 * @param {string} data.personId
-	 * @param {Object} data.person
-	 * @param {string} data.person.displayName
-	 * @param {string} data.person.firstname
-	 * @param {string} data.person.lastname
-	 * @param {string} data.person.gender
-	 * @param {string} data.username
-	 * @param {string} data.pin
-	 * @param {string} data.email
-	 * @param {Date} data.email_verified_at
+	 * @param {UserModelFormData} data
 	 *
-	 * @returns {User}
+	 * @returns {UserModelNonSerializable}
 	 */
 	create(data) {
 		return this.realm.create("User", {
@@ -162,10 +152,10 @@ export class UserRepository {
 	/**
 	 * Update existing user.
 	 *
-	 * @param {User} user - User instance to update.
-	 * @param {Object} patch - Partial data to update.
+	 * @param {UserModelNonSerializable} user - User instance to update.
+	 * @param {UserModelFormData} patch - Partial data to update.
 	 *
-	 * @returns {User}
+	 * @returns {UserModelNonSerializable}
 	 */
 	update(user, patch) {
 		Object.assign(user, {
@@ -179,7 +169,7 @@ export class UserRepository {
 	/**
 	 * Delete user.
 	 *
-	 * @param {User} user - User instance.
+	 * @param {UserModelNonSerializable} user - User instance.
 	 *
 	 * @returns {boolean}
 	 */
@@ -195,7 +185,7 @@ export class UserRepository {
 	/**
 	 * Permanently delete user from database.
 	 *
-	 * @param {User} user - User instance.
+	 * @param {UserModelNonSerializable} user - User instance.
 	 *
 	 * @returns {boolean}
 	 */

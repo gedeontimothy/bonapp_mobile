@@ -14,16 +14,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
  * Custom input field component based on TextInput.
  *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} [props.children] - Child content displayed below the field.
- * @param {string} props.label - Field label.
- * @param {string} [props.holder] - Placeholder text.
- * @param {Object|Array} [props.style] - Custom container styles.
- * @param {string} [props.value] - Current field value.
- * @param {Object} [props.error] - Error object that may contain a message.
- * @param {boolean} [props.disabled=false] - Disables input editing when true.
- * @param {React.ReactNode} [props.labelRightContent=null] - Element displayed on the right side of the label.
- * @param {...Object} props - Additional props passed to the TextInput.
+ * @param {TComponentFieldProps} props
  *
  * @returns {JSX.Element}
  */
@@ -96,18 +87,7 @@ export function Field({
  * Custom PIN input field with visual digit rendering.
  *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} [props.children] - Child content displayed below the field.
- * @param {string} props.label - Field label.
- * @param {string} [props.value=""] - Current PIN value.
- * @param {Object} [props.error] - Error object that may contain a message.
- * @param {Object|Array} [props.style] - Custom container styles.
- * @param {number} [props.maxLength=6] - Maximum number of allowed digits.
- * @param {boolean} [props.disabled=false] - Disables input editing when true.
- * @param {React.ReactNode} [props.labelRightContent] - Element displayed on the right side of the label.
- * @param {Object} [props.labelProps={}] - Additional props passed to the label AppText component.
- * @param {boolean} [props.hidden=false] - Hidden value.
- * @param {...Object} props - Additional props passed to the hidden TextInput.
+ * @param {TComponentPinFieldProps} props
  *
  * @returns {JSX.Element}
  */
@@ -125,6 +105,7 @@ export function PinField({
 	pinInputRef=null,
 	...props
 }) {
+	/** @type {TThemeBaseColor} */
 	const themeColor = useSelector(themeColorSelector);
 
 	const [focused, setFocused] = useState(false);

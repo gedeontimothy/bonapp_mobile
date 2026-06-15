@@ -14,12 +14,12 @@ import { changeTheme as changeThemeAction } from "../store/features/settings/set
  * loading state, and a function to change the theme.
  *
  * @returns {{
- *   changeTheme: (theme: string) => Promise<void>,
+ *   changeTheme: (theme: TTheme) => Promise<void>,
  *   changeThemeLoading: boolean,
- *   activeTheme: string,
- *   currentTheme: string,
- *   themes: Array<any>,
- *   colorScheme: string
+ *   activeTheme: TThemeActive,
+ *   currentTheme: TTheme,
+ *   themes: TThemes,
+ *   colorScheme: TThemeScheme
  * }}
  */
 export const useTheme = () => {
@@ -38,7 +38,9 @@ export const useTheme = () => {
 	/**
 	 * Change theme.
 	 *
-	 * @param {string} theme
+	 * @param {TTheme} theme
+	 * @param {?string} processCode
+	 * 
 	 * @return {Promise<void>}
 	 */
 	const changeTheme = async (theme, processCode) => {
