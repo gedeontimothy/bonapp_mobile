@@ -5,27 +5,27 @@ import color from "../../../theme/color";
 /**
  * Retrieves the current theme select
  *
- * @param {TThemeSelectorState} state - The Redux state
+ * @param {TSettingsSelectorState} state - The Redux state
  * 
- * @returns {TThemeKey}
+ * @returns {TTheme}
  */
 export const currentTheme = (state) => state.settings.theme.current;
 
 /**
  * Retrieves color scheme
  *
- * @param {TThemeSelectorState} state - The Redux state
+ * @param {TSettingsSelectorState} state - The Redux state
  * 
- * @returns {TSchemeTheme}
+ * @returns {TThemeScheme}
  */
 export const colorScheme = (state) => state.settings.theme.colorScheme;
 
 /**
  * Retrieves the active theme
  *
- * @param {TThemeSelectorState} state - The Redux state
+ * @param {TSettingsSelectorState} state - The Redux state
  * 
- * @returns {TActiveTheme}
+ * @returns {TThemeActive}
  */
 export const activeTheme = createSelector(
 	[currentTheme, colorScheme],
@@ -37,7 +37,7 @@ export const activeTheme = createSelector(
 /**
  * Returns color theme selected
  * 
- * @param {TThemeSelectorState} state
+ * @param {TSettingsSelectorState} state
  * 
  * @returns {TThemeBaseColor}
  */
@@ -49,7 +49,7 @@ export const themeColor = createSelector(
 /**
  * Returns the list of available themes
  *
- * @param {TThemeSelectorState} state - The Redux state
+ * @param {TSettingsSelectorState} state - The Redux state
  * 
  * @returns {TTheme}
  */
@@ -58,9 +58,9 @@ export const availableThemes = (state) => state.settings.theme.availableThemes;
 /**
  * Returns the list of available themes excluding the current theme
  *
- * @param {TThemeSelectorState} state
+ * @param {TSettingsSelectorState} state
  * 
- * @returns {Array<TThemeKey>}
+ * @returns {Array<TTheme>}
  */
 export const otherAvailableThemes = createSelector(
 	[availableThemes, currentTheme],
@@ -70,9 +70,9 @@ export const otherAvailableThemes = createSelector(
 /**
  * Check if any theme is current theme.
  *
- * @param {TThemeKey} theme
+ * @param {TTheme} theme
  * 
- * @returns {(state: TThemeSelectorState) => boolean}
+ * @returns {(state: TSettingsSelectorState) => boolean}
  */
 export const isCurrentTheme = (theme) => createSelector(
 	[currentTheme],

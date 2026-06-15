@@ -107,19 +107,19 @@
  */
 
 /**
- * @typedef {["light", "dark", "system"]} TTheme
+ * @typedef {["light", "dark", "system"]} TThemes
  */
 
 /**
- * @typedef {"light" | "dark" | "system"} TThemeKey
+ * @typedef {"light" | "dark" | "system"} TTheme
  */
 
 /**
- * @typedef {"light" | "dark"} TActiveTheme
+ * @typedef {"light" | "dark"} TThemeActive
  */
 
 /**
- * @typedef {TActiveTheme} TSchemeTheme
+ * @typedef {TThemeActive} TThemeScheme
  */
 
 /**
