@@ -125,7 +125,7 @@
 /**
  * @typedef {Object} TThemeState
  * 
- * @property {TThemeKey} [current]
+ * @property {TTheme} [current]
  * @property {TSchemeTheme} [colorScheme]
  * @property {TTheme} [availableThemes]
  */
