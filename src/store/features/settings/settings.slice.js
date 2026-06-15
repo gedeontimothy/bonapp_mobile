@@ -148,7 +148,12 @@ export const changeTheme = createAsyncThunk(
 					),
 				}));
 
-				return rejectWithValue({code, message: error});
+				return rejectWithValue({
+					error: true,
+					message: error,
+					code,
+					theme,
+				});
 
 			}
 
@@ -165,14 +170,23 @@ export const changeTheme = createAsyncThunk(
 			return theme;
 
 			
-		} catch (e) {
-			const error = e.message;
+		} catch (error) {
+			const message = error.message;
 
 			console.error(e);
 
-			if(code) dispatch(setLangProcess({code, error, ...(!autoState ? {} : {processState: "rejected"}),}));
+			if(code) dispatch(setLangProcess({
+				code,
+				error: message,
+				...(!autoState ? {} : {processState: "rejected"}),
+			}));
 
-			return rejectWithValue({language, code, error});
+			return rejectWithValue({
+				error,
+				message,
+				code,
+				theme,
+			});
 			
 		}
 	}
